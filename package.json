@@ -1,0 +1,20 @@
+{
+  "name": "commonform-word-output",
+  "version": "0.1.1-alpha-1",
+  "description": "output contracts in Word format",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "author": {
+    "name": "Kyle Mitchell",
+    "email": "kyle@devcounsel.com"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "coffee-script": "^1.8.0",
+    "faker": "^2.0.1",
+    "mocha": "^1.21.5",
+    "should": "^4.0.4"
+  }
+}
