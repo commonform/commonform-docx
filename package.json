@@ -16,5 +16,8 @@
     "faker": "^2.0.1",
     "mocha": "^1.21.5",
     "should": "^4.0.4"
+  },
+  "dependencies": {
+    "jszip": "^2.4.0"
   }
 }

@@ -6,6 +6,9 @@ isArray = Array.isArray || (o) ->
 isFunction = (o) ->
   typeof o == 'function' || false
 
+isString = (o) ->
+  typeof o == 'string' || false
+
 HEADING_STYLES = [
   null
   'Heading1'
@@ -43,15 +46,19 @@ surroundedBySpace = (string) ->
 
 preserve = 'xml:space="preserve"'
 
-text = e.text = (input) ->
-  if isArray(input)
-    (text(t) for t in input).join('')
-  else if typeof input == 'string'
-    t = input
-  else
-    t = input.text
-    style = intput.style
 
+e.content = (input) ->
+  if isArray(input)
+    (e.content c for c in input).join('')
+  else
+    if isString(input)
+      text(input, null)
+    else if input.hasOwnProperty('reference')
+      reference(input.reference, input.text)
+    else
+      text(input.text, input.style)
+
+text = e.text = (t, style) ->
   t = xmlescape(t)
   space = surroundedBySpace(t)
 
@@ -71,18 +78,18 @@ text = e.text = (input) ->
     </w:r>
     """
 
-paragraphStyle = (style) ->
+e.paragraphStyle = (style) ->
   """
   <w:pPr>
     <w:pStyle w:val="#{style}"/>
   </w:pPr>
   """
 
-paragraph = (content, style) ->
+e.paragraph = (c, style) ->
   """
   <w:p>
-    #{paragraphStyle style if style}
-    #{text content}
+    #{e.paragraphStyle(style) if style}
+    #{e.content(c)}
   </w:p>
   """
 
@@ -102,7 +109,7 @@ bookmark = (name, inside) ->
   <w:bookmarkEnd w:id="#{name}"/>
   """
 
-reference = (name) ->
+reference = (name, text) ->
   name = xmlescape(name)
   """
   <w:r>
@@ -132,7 +139,7 @@ reference = (name) ->
     <w:rPr>
       <w:rStyle w:val="Cross-Reference"/>
     </w:rPr>
-    <w:t>Section ?</w:t>
+    #{e.text(text)}
   </w:r>
   <w:r>
     <w:rPr>
@@ -147,10 +154,10 @@ sectionParagraph = (headingContent, bodyContent, style) ->
   <w:p>
     #{paragraphStyle style if style}
     #{vanish}
-    #{bookmark headingContent, -> text headingContent}
+    #{bookmark headingContent, -> e.content headingContent}
   </w:p>
   <w:p>
-    #{(text bodyContent).join('')}
+    #{(e.content bodyContent).join('')}
   </w:p>
   """
 
@@ -176,7 +183,7 @@ e.document = (title, paragraphs) ->
   """
   <w:document #{DOCUMENT_XMLNS}>
     <w:body>
-      #{paragraph [title], 'Title'}
+      #{e.paragraph [title], 'Title'}
     </w:body>
   </w:document>
   """
@@ -192,13 +199,13 @@ entitySignatureBlock = (entity, name, title) ->
     </w:p>
     <w:p>
       #{paragraphStyle 'SignatureBlock'}
-      #{text 'By: '}
+      #{text('By: ')}
       #{tab}
       #{lineBreak}
-      #{text 'Name: '}
+      #{text('Name: ')}
       #{if name then text name else tab}
       #{lineBreak}
-      #{text 'Title: '}
+      #{text('Title: ')}
       #{if title then text title else tab}
     </w:p>
   """
@@ -209,7 +216,7 @@ individualSignatureBlock = (name) ->
       #{paragraphStyle 'SignatureBlock'}
       #{tab}
       #{lineBreak}
-      #{text name}
+      #{e.text(name)}
     </w:p>
   """
 
