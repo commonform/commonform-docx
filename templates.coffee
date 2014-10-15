@@ -1,13 +1,6 @@
-e =  module.exports
+{surroundedBySpace, isArray, isFunction, isString} = require './util'
 
-isArray = Array.isArray || (o) ->
-  toString.call(o) == '[object Array]'
-
-isFunction = (o) ->
-  typeof o == 'function' || false
-
-isString = (o) ->
-  typeof o == 'string' || false
+module.exports = templates = {}
 
 HEADING_STYLES = [
   null
@@ -34,31 +27,14 @@ XML_SPECIAL_CHARS =
   '&gt;': />/g
   '&amp;': /&/g
 
-xmlescape = e.xmlescape = (string) ->
+xmlescape = templates.xmlescape = (string) ->
   for escaped, re of XML_SPECIAL_CHARS
     string = string.replace(re, escaped)
   string
 
-surroundedBySpace = (string) ->
-  first = string[0]
-  last = string[string.length - 1]
-  first == ' ' || last == ' '
+templates.preserve = 'xml:space="preserve"'
 
-preserve = 'xml:space="preserve"'
-
-
-e.content = (input) ->
-  if isArray(input)
-    (e.content c for c in input).join('')
-  else
-    if isString(input)
-      text(input, null)
-    else if input.hasOwnProperty('reference')
-      reference(input.reference, input.text)
-    else
-      text(input.text, input.style)
-
-text = e.text = (t, style) ->
+templates.text = (t, style) ->
   t = xmlescape(t)
   space = surroundedBySpace(t)
 
@@ -68,32 +44,43 @@ text = e.text = (t, style) ->
       <w:rPr>
         <w:rStyle w:val="#{style}"/>
       </w:rPr>
-      <w:t#{if space then ' ' + preserve else ''}>#{t}</w:t>
+      <w:t#{if space then ' ' + templates.preserve else ''}>#{t}</w:t>
     </w:r>
     """
   else
     """
     <w:r>
-      <w:t#{if space then ' ' + preserve else ''}>#{t}</w:t>
+      <w:t#{if space then ' ' + templates.preserve else ''}>#{t}</w:t>
     </w:r>
     """
 
-e.paragraphStyle = (style) ->
+templates.content = (input) ->
+  if isArray(input)
+    (templates.content c for c in input).join('')
+  else
+    if isString(input)
+      templates.text(input, null)
+    else if input.hasOwnProperty('reference')
+      templates.reference(input.reference, input.text)
+    else
+      templates.text(input.text, input.style)
+
+templates.paragraphStyle = (style) ->
   """
   <w:pPr>
     <w:pStyle w:val="#{style}"/>
   </w:pPr>
   """
 
-e.paragraph = (c, style) ->
+templates.paragraph = (c, style) ->
   """
   <w:p>
-    #{e.paragraphStyle(style) if style}
-    #{e.content(c)}
+    #{templates.paragraphStyle(style) if style}
+    #{templates.content(c)}
   </w:p>
   """
 
-vanish =
+templates.vanish =
   """
   <w:rPr>
     <w:vanish/>
@@ -139,7 +126,7 @@ reference = (name, text) ->
     <w:rPr>
       <w:rStyle w:val="Cross-Reference"/>
     </w:rPr>
-    #{e.text(text)}
+    #{templates.text(text)}
   </w:r>
   <w:r>
     <w:rPr>
@@ -152,12 +139,12 @@ reference = (name, text) ->
 sectionParagraph = (headingContent, bodyContent, style) ->
   """
   <w:p>
-    #{paragraphStyle style if style}
-    #{vanish}
-    #{bookmark headingContent, -> e.content headingContent}
+    #{templates.paragraphStyle style if style}
+    #{templates.vanish}
+    #{templates.bookmark headingContent, -> templates.content headingContent}
   </w:p>
   <w:p>
-    #{(e.content bodyContent).join('')}
+    #{(templates.content bodyContent).join('')}
   </w:p>
   """
 
@@ -179,48 +166,49 @@ xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk"
 xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml"
 xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"
 """
-e.document = (title, paragraphs) ->
+
+templates.document = (title, paragraphs) ->
   """
   <w:document #{DOCUMENT_XMLNS}>
     <w:body>
-      #{e.paragraph [title], 'Title'}
+      #{templates.paragraph [title], 'Title'}
     </w:body>
   </w:document>
   """
 
-tab = "<w:r><w:tab/></w:r>"
+templates.tab = "<w:r><w:tab/></w:r>"
 
-lineBreak = "<w:r><w:br/></w:r>"
+templates.lineBreak = "<w:r><w:br/></w:r>"
 
-entitySignatureBlock = (entity, name, title) ->
+templates.entitySignatureBlock = (entity, name, title) ->
   """
     <w:p>
       #{paragraphStyle 'SignatureBlockEntity'}
     </w:p>
     <w:p>
       #{paragraphStyle 'SignatureBlock'}
-      #{text('By: ')}
+      #{templates.text('By: ')}
       #{tab}
       #{lineBreak}
-      #{text('Name: ')}
+      #{templates.text('Name: ')}
       #{if name then text name else tab}
       #{lineBreak}
-      #{text('Title: ')}
+      #{templates.text('Title: ')}
       #{if title then text title else tab}
     </w:p>
   """
 
-individualSignatureBlock = (name) ->
+templates.individualSignatureBlock = (name) ->
   """
     <w:p>
       #{paragraphStyle 'SignatureBlock'}
       #{tab}
       #{lineBreak}
-      #{e.text(name)}
+      #{templates.text(name)}
     </w:p>
   """
 
-pageBreak =
+templates.pageBreak =
   """
   <w:p>
     <w:pPr>

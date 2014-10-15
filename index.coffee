@@ -1,13 +1,7 @@
 JSZip = require 'jszip'
 
 templates = require './templates'
-
-trim = do ->
-  if String.prototype.trim
-    (s) -> s.trim()
-  else
-    rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g
-    (s) -> s.replace(rtrim, '')
+{trim} = require './util'
 
 zipObject = (zip, object) ->
   for own path, content of object
