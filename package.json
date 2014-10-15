@@ -2,6 +2,7 @@
   "name": "commonform-docx",
   "version": "0.1.1-alpha-1",
   "description": "Output Common Form contracts in Word .docx format",
+  "homepage": "https://github.com/commonform/commonform-docx",
   "main": "index.js",
   "keywords": [
     "contracts",
@@ -27,6 +28,10 @@
       "url": "https://raw.github.com/commonform/commonform-docx/master/LICENSE"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/commonform/commonform-docx"
+  },
   "devDependencies": {
     "coffee-script": "^1.8.0",
     "faker": "^2.0.1",
