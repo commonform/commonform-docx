@@ -4,6 +4,7 @@
   "description": "output contracts in Word format",
   "main": "index.js",
   "scripts": {
+    "prepublish": "./node_modules/coffee-script/bin/coffee -c *.coffee && ./node_modules/coffee-script/bin/coffee scripts/build.coffee scaffold.docx scaffold.json",
     "test": "./node_modules/mocha/bin/mocha"
   },
   "author": {
