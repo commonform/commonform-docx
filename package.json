@@ -1,17 +1,32 @@
 {
-  "name": "commonform-word-output",
+  "name": "commonform-docx",
   "version": "0.1.1-alpha-1",
-  "description": "output contracts in Word format",
+  "description": "Output Common Form contracts in Word .docx format",
   "main": "index.js",
+  "keywords": [
+    "contracts",
+    "drafting",
+    "law",
+    "document assembly"
+  ],
   "scripts": {
     "prepublish": "./node_modules/coffee-script/bin/coffee -c *.coffee && ./node_modules/coffee-script/bin/coffee scripts/build.coffee scaffold.docx scaffold.json",
     "test": "./node_modules/mocha/bin/mocha"
   },
-  "author": {
-    "name": "Kyle Mitchell",
-    "email": "kyle@devcounsel.com"
-  },
-  "license": "ISC",
+  "author": "Kyle E. Mitchell",
+  "maintainers": [
+    {
+      "email": "kyle@kemitchell.com",
+      "name": "Kyle E. Mitchell",
+      "url": "https://kemitchell.com"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "ISC",
+      "url": "https://raw.github.com/commonform/commonform-docx/master/LICENSE"
+    }
+  ],
   "devDependencies": {
     "coffee-script": "^1.8.0",
     "faker": "^2.0.1",
