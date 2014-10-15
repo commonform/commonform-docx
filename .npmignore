@@ -3,5 +3,5 @@
 .editorconfig
 .git*
 .npmignore
-**/*.docx
+**.docx
 test/

@@ -16,7 +16,7 @@ zipObject = (zip, object) ->
   zip
 
 module.exports.generate = (title, input) ->
-  tree = require './scaffold.json'
+  tree = require './data/scaffold.json'
   tree.word['document.xml'] = templates.document('Empty Document', [])
 
   zip = new JSZip()
