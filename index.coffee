@@ -7,7 +7,6 @@ zipObject = (zip, object) ->
   for own path, content of object
     if typeof content == 'string'
       # file
-      console.log path
       zip.file(path, trim(content))
     else
       # folder

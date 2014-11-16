@@ -1,7 +1,9 @@
-*.coffee
+**.docx
+**.coffee
 .DS_Store
 .editorconfig
-.git*
+.git/
+.gitignore
+.gitattributes
 .npmignore
-**.docx
 test/

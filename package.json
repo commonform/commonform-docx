@@ -2,7 +2,7 @@
   "name": "commonform-docx",
   "version": "0.1.1-alpha-1",
   "description": "Output Common Form contracts in Word .docx format",
-  "homepage": "https://github.com/commonform/commonform-docx",
+  "homepage": "https://github.com/commonform/docx",
   "main": "index.js",
   "keywords": [
     "contracts",
@@ -11,34 +11,29 @@
     "document assembly"
   ],
   "scripts": {
-    "prepublish": "./node_modules/coffee-script/bin/coffee -c *.coffee && ./node_modules/coffee-script/bin/coffee build/scaffold.coffee data/scaffold.docx data/scaffold.json",
-    "test": "./node_modules/mocha/bin/mocha"
+    "build": "coffee -c *.coffee && coffee build/scaffold.coffee data/scaffold.docx data/scaffold.json",
+    "prepublish": "npm run build",
+    "pretest": "npm run build",
+    "test": "mocha test/*.coffee"
   },
-  "author": "Kyle E. Mitchell",
-  "maintainers": [
-    {
-      "email": "kyle@kemitchell.com",
-      "name": "Kyle E. Mitchell",
-      "url": "https://kemitchell.com"
-    }
-  ],
+  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com/)",
   "licenses": [
     {
-      "type": "ISC",
-      "url": "https://raw.github.com/commonform/commonform-docx/master/LICENSE"
+      "type": "Apache-2.0",
+      "url": "https://raw.github.com/commonform/docx/master/LICENSE"
     }
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/commonform/commonform-docx"
+    "url": "git://github.com/commonform/docx.git"
+  },
+  "dependencies": {
+    "jszip": "^2.4.0"
   },
   "devDependencies": {
     "coffee-script": "^1.8.0",
     "faker": "^2.0.1",
     "mocha": "^1.21.5",
     "should": "^4.0.4"
-  },
-  "dependencies": {
-    "jszip": "^2.4.0"
   }
 }

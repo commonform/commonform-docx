@@ -1,4 +1,5 @@
-node_modules
 **.js
-npm-debug.log
+**.tgz
 data/scaffold.json
+node_modules
+npm-debug.log
