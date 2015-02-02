@@ -1,39 +1,47 @@
 {
-  "name": "commonform-docx",
-  "version": "0.1.1-alpha-1",
-  "description": "Output Common Form contracts in Word .docx format",
-  "homepage": "https://github.com/commonform/docx",
-  "main": "index.js",
-  "keywords": [
-    "contracts",
-    "drafting",
-    "law",
-    "document assembly"
-  ],
-  "scripts": {
-    "build": "coffee -c *.coffee && coffee build/scaffold.coffee data/scaffold.docx data/scaffold.json",
-    "prepublish": "npm run build",
-    "pretest": "npm run build",
-    "test": "mocha test/*.coffee"
+  "author": {
+    "name": "Kyle E. Mitchell",
+    "email": "kyle@kemitchell.com",
+    "url": "http://kemitchell.com/"
   },
-  "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com/)",
-  "licenses": [
-    {
-      "type": "Apache-2.0",
-      "url": "https://raw.github.com/commonform/docx/master/LICENSE"
-    }
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/commonform/docx.git"
+  "bugs": {
+    "url": "https://github.com/commonform/commonform-docx/issues"
   },
+  "description": "Common Form .docx export",
   "dependencies": {
-    "jszip": "^2.4.0"
+    "commonform-validation": "commonform/commonform-validation#0.0.1",
+    "jszip": "^2.4.0",
+    "smart-quotes": "kemitchell/smart-quotes.js#0.0.1",
+    "util-merge": "^1.0.0"
   },
   "devDependencies": {
-    "coffee-script": "^1.8.0",
-    "faker": "^2.0.1",
-    "mocha": "^1.21.5",
-    "should": "^4.0.4"
-  }
+    "chai": "^1.10.0",
+    "istanbul": "^0.3.5",
+    "jscs": "^1.10.0",
+    "jshint": "^2.6.0",
+    "mocha": "^2.1.0",
+    "semver": "^4.2.0"
+  },
+  "homepage": "https://github.com/commonform/commonform-docx",
+  "keywords": [
+    "contracts",
+    "document assembly",
+    "knowledge management",
+    "law"
+  ],
+  "license": "Apache-2.0",
+  "main": "source/index.js",
+  "name": "commonform-docx",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/commonform/commonform-docx.git"
+  },
+  "scripts": {
+    "build": "node build/scaffold.js data/scaffold.docx data/scaffold.json",
+    "prepublish": "npm run build",
+    "pre-commit": "npm run lint",
+    "lint": "jshint source test && jscs source test",
+    "test": "mocha"
+  },
+  "version": "0.0.1"
 }
