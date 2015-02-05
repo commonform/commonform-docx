@@ -26,3 +26,5 @@ module.exports = function(project) {
   zipObject(zip, scaffold);
   return zip;
 };
+
+module.exports.version = '0.0.1';

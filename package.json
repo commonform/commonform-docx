@@ -33,16 +33,16 @@
     "law"
   ],
   "license": "Apache-2.0",
-  "main": "index.js",
   "name": "commonform-docx",
   "repository": {
     "type": "git",
     "url": "https://github.com/commonform/commonform-docx.git"
   },
   "scripts": {
+    "check": "check-versions --check-module",
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "prepublish": "npm run build",
-    "pre-commit": "npm run lint",
+    "pre-commit": "npm run lint && npm run check",
     "lint": "jshint source test && jscs source test",
     "test": "mocha"
   },
