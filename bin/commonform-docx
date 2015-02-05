@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+var concat = require('concat-stream');
+var path = require('path');
+var fs = require('fs');
+var lib = path.join(
+  path.dirname(fs.realpathSync(__filename)),
+  '..', 'index'
+);
+var docx = require(lib);
+process.stdin.pipe(concat(function(buffer) {
+  var project = JSON.parse(buffer.toString());
+  var zip = docx(project);
+  process.stdout.write(zip.generate({type: 'nodebuffer'}));
+}));

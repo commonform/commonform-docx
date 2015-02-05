@@ -7,11 +7,14 @@
   "bugs": {
     "url": "https://github.com/commonform/commonform-docx/issues"
   },
-  "description": "Common Form .docx export",
+  "description": "export Common Form projects to Open Office XML",
   "dependencies": {
-    "commonform-validation": "commonform/commonform-validation#0.0.1",
+    "commonform-flatten": "commonform/commonform-flatten",
+    "commonform-number": "commonform/commonform-number",
+    "commonform-resolve": "commonform/commonform-resolve",
+    "commonform-validate": "commonform/commonform-validate",
+    "concat-stream": "^1.4.7",
     "jszip": "^2.4.0",
-    "smart-quotes": "kemitchell/smart-quotes.js#0.0.1",
     "util-merge": "^1.0.0"
   },
   "devDependencies": {
@@ -19,8 +22,7 @@
     "istanbul": "^0.3.5",
     "jscs": "^1.10.0",
     "jshint": "^2.6.0",
-    "mocha": "^2.1.0",
-    "semver": "^4.2.0"
+    "mocha": "^2.1.0"
   },
   "homepage": "https://github.com/commonform/commonform-docx",
   "keywords": [
@@ -30,14 +32,14 @@
     "law"
   ],
   "license": "Apache-2.0",
-  "main": "source/index.js",
+  "main": "index.js",
   "name": "commonform-docx",
   "repository": {
     "type": "git",
     "url": "https://github.com/commonform/commonform-docx.git"
   },
   "scripts": {
-    "build": "node build/scaffold.js data/scaffold.docx data/scaffold.json",
+    "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "prepublish": "npm run build",
     "pre-commit": "npm run lint",
     "lint": "jshint source test && jscs source test",
