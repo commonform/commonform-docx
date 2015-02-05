@@ -15,6 +15,7 @@
     "commonform-validate": "commonform/commonform-validate",
     "concat-stream": "^1.4.7",
     "jszip": "^2.4.0",
+    "smart-quotes": "0.0.1",
     "util-merge": "^1.0.0"
   },
   "devDependencies": {

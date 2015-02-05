@@ -1,4 +1,5 @@
 var merge = require('util-merge');
+var smarten = require('smart-quotes');
 
 var tag = require('./tag');
 
@@ -21,7 +22,7 @@ var XML_SPECIAL = {
 var escape = function(string) {
   return Object.keys(XML_SPECIAL).reduce(function(string, escaped) {
     return string.replace(XML_SPECIAL[escaped], escaped);
-  }, string);
+  }, smarten(string));
 };
 
 var underlineFlag = function(underline) {
