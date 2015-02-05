@@ -21,7 +21,7 @@ var ALIGNMENTS = {
 var properties = function(o) {
   // CAVEAT: The order of properties is important.
   return tag('w:pPr',
-    '<w:ind w:firstLine="' + (o.depth * HALF_INCH) + '" />' +
+    '<w:ind w:firstLine="' + ((o.depth - 1) * HALF_INCH) + '" />' +
     '<w:jc w:val="' + ALIGNMENTS[o.alignment] + '" />'
   );
 };
