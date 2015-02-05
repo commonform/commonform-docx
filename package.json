@@ -47,5 +47,5 @@
     "lint": "jshint source test && jscs source test",
     "test": "mocha"
   },
-  "version": "0.0.1"
+  "version": "0.1.0"
 }
