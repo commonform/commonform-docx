@@ -1,13 +1,10 @@
-var merge = require('util-merge');
 var smarten = require('smart-quotes');
 
 var tag = require('./tag');
 
 var DEFAULTS = {
   bold: false,
-  allCaps: false,
   italic: false,
-  smallCaps: false,
   underline: false
 };
 
@@ -30,17 +27,14 @@ var underlineFlag = function(underline) {
 };
 
 var flag = function(name, value) {
-  return '<w:' + name + ' w:val="' + (value ? 'true' : 'false') + '"/>';
+  return value ? '<w:' + name + '/>' : '';
 };
 
 var runProperties = function(options) {
   return tag('w:rPr',
     flag('b', options.bold) +
     flag('i', options.italic) +
-    underlineFlag(options.underline) +
-    flag('caps', options.allCaps) +
-    (options.smallCaps && !options.allCaps ?
-      flag('smallCaps', options.smallCaps) : '')
+    underlineFlag(options.underline)
   );
 };
 
@@ -50,8 +44,12 @@ var runText = function(text) {
 
 var BLANK = '__________';
 
-module.exports = function run(element, numberStyle) {
-  var properties = DEFAULTS;
+module.exports = function run(element, numberStyle, conspicuous) {
+  var properties = JSON.parse(JSON.stringify(DEFAULTS))
+  if (conspicuous === true) {
+    properties.italic = true;
+    properties.bold = true;
+  }
   var text = '';
   if (typeof element === 'string') {
     text = element;
@@ -63,9 +61,9 @@ module.exports = function run(element, numberStyle) {
     };
   } else if (element.hasOwnProperty('definition')) {
     var term = element.definition;
-    return run('“') +
+    return run('“', numberStyle, conspicuous) +
       tag('w:r', runProperties({bold: true}) + runText(term)) +
-      run('”');
+      run('”', numberStyle, conspicuous);
   } else if (element.hasOwnProperty('blank')) {
     text = BLANK;
   } else if (element.hasOwnProperty('reference')) {
@@ -75,7 +73,6 @@ module.exports = function run(element, numberStyle) {
       text = numberStyle.reference(element.reference);
       properties = {underline: true};
     }
-  } else if (element.hasOwnProperty('field')) {
   } else {
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2));
   }

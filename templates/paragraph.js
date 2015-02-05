@@ -33,15 +33,16 @@ module.exports = function(paragraph, numberStyle) {
   var number = options.numbering ?
     numberStyle.provision(options.numbering) :
     '';
+  var conspicuous = paragraph.conspicuous === 'true';
   return tag('w:p',
     properties(options) +
-    (number ? run(number) + TAB : '') +
+    (number ? run(number, numberStyle, conspicuous) + TAB : '') +
     (options.summary ?
-      run({text: options.summary, underline: true}, numberStyle) +
-      run({text: '. '}, numberStyle) :
+      run({text: options.summary, underline: true}, numberStyle, conspicuous) +
+      run({text: '. '}, numberStyle, conspicuous) :
       '') +
     options.flattened.map(function(element) {
-      return run(element, numberStyle);
+      return run(element, numberStyle, conspicuous);
     }).join('')
   );
 };
