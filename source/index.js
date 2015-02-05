@@ -20,7 +20,7 @@ module.exports = function(project) {
   if (!validate.project(project)) {
     throw new Error('Invalid project');
   }
-  var scaffold = require('./data/scaffold.json');
+  var scaffold = require('../data/scaffold.json');
   scaffold.word['document.xml'] = doc(project);
   var zip = new JSZip();
   zipObject(zip, scaffold);

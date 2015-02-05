@@ -45,7 +45,7 @@ var runText = function(text) {
 var BLANK = '__________';
 
 module.exports = function run(element, numberStyle, conspicuous) {
-  var properties = JSON.parse(JSON.stringify(DEFAULTS))
+  var properties = JSON.parse(JSON.stringify(DEFAULTS));
   if (conspicuous === true) {
     properties.italic = true;
     properties.bold = true;
