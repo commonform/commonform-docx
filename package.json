@@ -45,7 +45,8 @@
     "prepublish": "npm run build",
     "pre-commit": "npm run lint && npm run check",
     "lint": "jshint source test && jscs source test",
-    "test": "mocha"
+    "test": "mocha",
+    "travis-ci": "npm run pre-commit"
   },
   "version": "0.1.1"
 }
