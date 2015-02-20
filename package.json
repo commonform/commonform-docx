@@ -1,4 +1,7 @@
 {
+  "name": "commonform-docx",
+  "description": "export Common Form projects to Open Office XML",
+  "version": "0.1.1",
   "author": {
     "name": "Kyle E. Mitchell",
     "email": "kyle@kemitchell.com",
@@ -7,7 +10,6 @@
   "bugs": {
     "url": "https://github.com/commonform/commonform-docx/issues"
   },
-  "description": "export Common Form projects to Open Office XML",
   "dependencies": {
     "commonform-flatten": "0.1.x",
     "commonform-number": "0.1.x",
@@ -34,19 +36,17 @@
   ],
   "license": "Apache-2.0",
   "main": "source/index",
-  "name": "commonform-docx",
   "repository": {
     "type": "git",
     "url": "https://github.com/commonform/commonform-docx.git"
   },
   "scripts": {
-    "check": "check-versions --check-module",
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
-    "prepublish": "npm run build",
-    "pre-commit": "npm run lint && npm run check",
+    "check": "check-versions --check-module",
     "lint": "jshint source test && jscs source test",
+    "pre-commit": "npm run lint && npm run check",
+    "prepublish": "npm run build",
     "test": "mocha",
     "travis-ci": "npm run pre-commit"
-  },
-  "version": "0.1.1"
+  }
 }
