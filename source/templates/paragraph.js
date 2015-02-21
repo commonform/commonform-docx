@@ -1,47 +1,53 @@
-var merge = require('util-merge');
+var Immutable = require('immutable');
 
 var tag = require('./tag');
 var run = require('./run');
 
-var DEFAULTS = {
+var defaults = Immutable.Map({
   alignment: 'justify'
-};
+});
 
 // Half an inch in twentieths of a point
 var HALF_INCH = 720;
 
-var ALIGNMENTS = {
+var alignments = Immutable.Map({
   left: 'start',
   right: 'end',
   center: 'center',
   justify: 'both',
   distribute: 'distribute'
-};
+});
 
 var properties = function(o) {
   // CAVEAT: The order of properties is important.
+  var depth = o.get('depth');
+  var alignment = o.get('alignment');
   return tag('w:pPr',
-    '<w:ind w:firstLine="' + ((o.depth - 1) * HALF_INCH) + '" />' +
-    '<w:jc w:val="' + ALIGNMENTS[o.alignment] + '" />'
+    '<w:ind w:firstLine="' + ((depth - 1) * HALF_INCH) + '" />' +
+    '<w:jc w:val="' + alignments.get(alignment) + '" />'
   );
 };
 
 var TAB = '<w:r><w:tab/></w:r>';
 
-module.exports = function(paragraph, numberStyle) {
-  var options = merge(DEFAULTS, paragraph);
-  var number = options.numbering ?
-    numberStyle.provision(options.numbering) :
+module.exports = function(element, numberStyle) {
+  var options = defaults.mergeDeep(element);
+  var number = options.has('numbering') ?
+    numberStyle.provision(options.get('numbering').toJS()) :
     '';
-  var conspicuous = paragraph.conspicuous === 'true';
+  var conspicuous = options.has('conspicuous');
   return tag('w:p',
     properties(options) +
     (number ? run(number, numberStyle, conspicuous) + TAB : '') +
-    (options.summary ?
-      run({text: options.summary, underline: true}, numberStyle, conspicuous) +
-      run({text: '. '}, numberStyle, conspicuous) :
+    (options.has('summary') ?
+      run(
+        Immutable.Map({text: options.get('summary'), underline: true}),
+        numberStyle,
+        conspicuous
+      ) +
+      run(Immutable.Map({text: '. '}), numberStyle, conspicuous) :
       '') +
-    options.flattened.map(function(element) {
+    options.get('content').map(function(element) {
       return run(element, numberStyle, conspicuous);
     }).join('')
   );

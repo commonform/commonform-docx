@@ -1,9 +1,10 @@
+var Immutable = require('immutable');
 var paragraph = require('./paragraph');
 
 module.exports = function(string) {
-  return paragraph({
+  return paragraph(Immutable.fromJS({
     alignment: 'center',
     depth: 0,
-    flattened: [{bold: true, text: string}]
-  });
+    content: [{bold: true, text: string}]
+  }));
 };

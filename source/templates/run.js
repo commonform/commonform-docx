@@ -1,14 +1,17 @@
+var Immutable = require('immutable');
 var smarten = require('smart-quotes');
 
 var tag = require('./tag');
 
-var DEFAULTS = {
+var map = Immutable.Map.bind(Immutable);
+
+var defaults = map({
   bold: false,
   italic: false,
   underline: false
-};
+});
 
-var XML_SPECIAL = {
+var special = {
   '&amp;': /&/g,
   '&apos;': /'/g,
   '&gt;': />/g,
@@ -17,8 +20,8 @@ var XML_SPECIAL = {
 };
 
 var escape = function(string) {
-  return Object.keys(XML_SPECIAL).reduce(function(string, escaped) {
-    return string.replace(XML_SPECIAL[escaped], escaped);
+  return Object.keys(special).reduce(function(string, escaped) {
+    return string.replace(special[escaped], escaped);
   }, smarten(string));
 };
 
@@ -32,9 +35,9 @@ var flag = function(name, value) {
 
 var runProperties = function(options) {
   return tag('w:rPr',
-    flag('b', options.bold) +
-    flag('i', options.italic) +
-    underlineFlag(options.underline)
+    flag('b', options.get('bold', false)) +
+    flag('i', options.get('italic', false)) +
+    underlineFlag(options.get('underline', false))
   );
 };
 
@@ -45,33 +48,34 @@ var runText = function(text) {
 var BLANK = '__________';
 
 module.exports = function run(element, numberStyle, conspicuous) {
-  var properties = JSON.parse(JSON.stringify(DEFAULTS));
-  if (conspicuous === true) {
-    properties.italic = true;
-    properties.bold = true;
-  }
+  var properties = defaults.withMutations(function(properties) {
+    if (conspicuous === true) {
+      properties.set('italic', true);
+      properties.set('bold', true);
+    }
+  });
   var text = '';
   if (typeof element === 'string') {
     text = element;
-  } else if (element.hasOwnProperty('text')) {
-    text = element.text;
-    properties = {
-      bold: element.bold,
-      underline: element.underline
-    };
-  } else if (element.hasOwnProperty('definition')) {
-    var term = element.definition;
+  } else if (element.has('text')) {
+    text = element.get('text');
+    properties = map({
+      bold: element.get('bold', false),
+      underline: element.get('underline', false)
+    });
+  } else if (element.has('definition')) {
+    var term = element.get('definition');
     return run('“', numberStyle, conspicuous) +
-      tag('w:r', runProperties({bold: true}) + runText(term)) +
+      tag('w:r', runProperties(map({bold: true})) + runText(term)) +
       run('”', numberStyle, conspicuous);
-  } else if (element.hasOwnProperty('blank')) {
+  } else if (element.has('blank')) {
     text = BLANK;
-  } else if (element.hasOwnProperty('reference')) {
-    if (element.broken || element.ambiguous) {
+  } else if (element.has('reference')) {
+    if (element.has('broken') || element.has('ambiguous')) {
       text = BLANK;
     } else {
-      text = numberStyle.reference(element.reference);
-      properties = {underline: true};
+      text = numberStyle.reference(element.get('reference').toJS());
+      properties = map({underline: true});
     }
   } else {
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2));

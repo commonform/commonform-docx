@@ -1,6 +1,8 @@
+// var Immutable = require('immutable');
 var flatten = require('commonform-flatten');
 var resolve = require('commonform-resolve');
-var styles = require('commonform-number');
+var number = require('commonform-number');
+var decimalStyle = require('commonform-decimal-numbers');
 var title = require('./title');
 var paragraph = require('./paragraph');
 
@@ -28,33 +30,18 @@ var DOCUMENT_XMLNS = (
 );
 
 module.exports = function(project) {
-  var resolved = resolve(project);
+  var form = project.get('form');
+  var resolved = resolve(form, project.get('values'), number(form));
   var flattened = flatten(resolved);
-  var prefs = project.preferences;
-  var numberStyle;
-
-  if (prefs.hasOwnProperty('numbering')) {
-    var styleName = prefs.numbering;
-    if (typeof styleName === 'string') {
-      if (styles.hasOwnProperty(styleName)) {
-        numberStyle = styles[styleName];
-      } else {
-        throw new Error('Unknown numbering style "' + styleName + '"');
-      }
-    } else {
-      throw new Error('Invalid numbering preference');
-    }
-  } else {
-    numberStyle = styles.default;
-  }
+  var paragraphs = flattened.map(function(element) {
+    return paragraph(element, decimalStyle);
+  }).join('');
+  var titleParagraph = title(project.getIn(['metadata', 'title']));
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
-        title(project.metadata.title) +
-        flattened.flattened.map(function(element) {
-          var p = paragraph(element, numberStyle);
-          return p;
-        }).join('') +
+        titleParagraph +
+        paragraphs +
       '</w:body>' +
     '</w:document>'
   );
