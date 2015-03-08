@@ -12,9 +12,9 @@
   },
   "dependencies": {
     "commonform-decimal-numbers": "^0.1.1",
-    "commonform-flatten": "^0.2.0",
-    "commonform-number": "^0.2.1",
-    "commonform-resolve": "^0.2.1",
+    "commonform-flatten": "^0.3.0",
+    "commonform-number": "^0.3.0",
+    "commonform-resolve": "^0.3.0",
     "concat-stream": "^1.4.7",
     "immutable": "^3.6.2",
     "jszip": "^2.4.0",

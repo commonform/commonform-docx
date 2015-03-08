@@ -39,9 +39,9 @@ module.exports = function(element, numberStyle) {
   return tag('w:p',
     properties(options) +
     (number ? run(number, numberStyle, conspicuous) + TAB : '') +
-    (options.has('summary') ?
+    (options.has('heading') ?
       run(
-        Immutable.Map({text: options.get('summary'), underline: true}),
+        Immutable.Map({text: options.get('heading'), underline: true}),
         numberStyle,
         conspicuous
       ) +
