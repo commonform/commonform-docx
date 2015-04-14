@@ -1,12 +1,9 @@
 *.tgz
 .editorconfig
 .gitignore
-.istanbul.yml
 .jscsrc
 .jshintrc
 .npmignore
 .travis.yml
 build/scaffold.js
 data/scaffold.docx
-coverage
-test

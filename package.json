@@ -20,12 +20,9 @@
     "smart-quotes": "0.0.1"
   },
   "devDependencies": {
-    "chai": "^2.0.0",
     "check-versions": "1.x",
-    "istanbul": "^0.3.6",
     "jscs": "^1.11.3",
-    "jshint": "^2.6.0",
-    "mocha": "^2.1.0"
+    "jshint": "^2.6.0"
   },
   "homepage": "https://github.com/commonform/commonform-docx",
   "keywords": [
@@ -43,10 +40,9 @@
   "scripts": {
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "check": "check-versions --check-module",
-    "lint": "jshint source test && jscs source test",
+    "lint": "jshint source && jscs source",
     "pre-commit": "npm run lint && npm run check",
     "prepublish": "npm run build",
-    "test": "mocha",
     "travis-ci": "npm run pre-commit"
   }
 }
