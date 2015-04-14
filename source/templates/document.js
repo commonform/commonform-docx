@@ -30,13 +30,13 @@ var DOCUMENT_XMLNS = (
 );
 
 module.exports = function(project) {
-  var form = project.get('form');
-  var resolved = resolve(form, project.get('values'), number(form));
+  var form = project.form;
+  var resolved = resolve(form, project.values, number(form));
   var flattened = flatten(resolved);
   var paragraphs = flattened.map(function(element) {
     return paragraph(element, decimalStyle);
   }).join('');
-  var titleParagraph = title(project.getIn(['metadata', 'title']));
+  var titleParagraph = title(project.metadata.title);
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +

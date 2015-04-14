@@ -1,15 +1,12 @@
-var Immutable = require('immutable');
 var smarten = require('smart-quotes');
-
+var merge = require('merge');
 var tag = require('./tag');
 
-var map = Immutable.Map.bind(Immutable);
-
-var defaults = map({
+var defaults = {
   bold: false,
   italic: false,
   underline: false
-});
+};
 
 var special = {
   '&amp;': /&/g,
@@ -35,9 +32,9 @@ var flag = function(name, value) {
 
 var runProperties = function(options) {
   return tag('w:rPr',
-    flag('b', options.get('bold', false)) +
-    flag('i', options.get('italic', false)) +
-    underlineFlag(options.get('underline', false))
+    flag('b', options.bold || false) +
+    flag('i', options.italic || false) +
+    underlineFlag(options.underline || false)
   );
 };
 
@@ -48,34 +45,36 @@ var runText = function(text) {
 var BLANK = '__________';
 
 module.exports = function run(element, numberStyle, conspicuous) {
-  var properties = defaults.withMutations(function(properties) {
-    if (conspicuous === true) {
-      properties.set('italic', true);
-      properties.set('bold', true);
-    }
-  });
+  var properties = merge(true, defaults);
+  if (conspicuous === true) {
+    properties.italic = true;
+    properties.bold = true;
+  }
   var text = '';
   if (typeof element === 'string') {
     text = element;
-  } else if (element.has('text')) {
-    text = element.get('text');
-    properties = map({
-      bold: element.get('bold', false),
-      underline: element.get('underline', false)
-    });
-  } else if (element.has('definition')) {
-    var term = element.get('definition');
+  } else if (element.hasOwnProperty('text')) {
+    text = element.text;
+    properties = {
+      bold: element.bold || false,
+      underline: element.underline || false
+    };
+  } else if (element.hasOwnProperty('definition')) {
+    var term = element.definition;
     return run('“', numberStyle, conspicuous) +
-      tag('w:r', runProperties(map({bold: true})) + runText(term)) +
+      tag('w:r', runProperties({bold: true}) + runText(term)) +
       run('”', numberStyle, conspicuous);
-  } else if (element.has('blank')) {
+  } else if (element.hasOwnProperty('blank')) {
     text = BLANK;
-  } else if (element.has('reference')) {
-    if (element.has('broken') || element.has('ambiguous')) {
+  } else if (element.hasOwnProperty('reference')) {
+    if (
+      element.hasOwnProperty('broken') ||
+      element.hasOwnProperty('ambiguous')
+    ) {
       text = BLANK;
     } else {
-      text = numberStyle.reference(element.get('reference').toJS());
-      properties = map({underline: true});
+      text = numberStyle.reference(element.reference);
+      properties = {underline: true};
     }
   } else {
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2));
