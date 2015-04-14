@@ -11,18 +11,17 @@
     "url": "https://github.com/commonform/commonform-docx/issues"
   },
   "dependencies": {
-    "commonform-decimal-numbers": "^0.1.1",
-    "commonform-flatten": "^0.3.0",
-    "commonform-number": "^0.3.0",
-    "commonform-resolve": "^0.3.0",
+    "commonform-decimal-numbers": "1.x",
+    "commonform-flatten": "1.x",
+    "commonform-number": "1.x",
+    "commonform-resolve": "1.x",
     "concat-stream": "^1.4.7",
-    "immutable": "^3.6.2",
     "jszip": "^2.4.0",
     "smart-quotes": "0.0.1"
   },
   "devDependencies": {
     "chai": "^2.0.0",
-    "check-versions": "0.0.1",
+    "check-versions": "1.x",
     "istanbul": "^0.3.6",
     "jscs": "^1.11.3",
     "jshint": "^2.6.0",
