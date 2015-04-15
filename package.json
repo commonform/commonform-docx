@@ -7,36 +7,36 @@
     "email": "kyle@kemitchell.com",
     "url": "http://kemitchell.com/"
   },
-  "bugs": {
-    "url": "https://github.com/commonform/commonform-docx/issues"
-  },
+  "bugs": "https://github.com/commonform/commonform-docx/issues",
   "dependencies": {
-    "commonform-decimal-numbers": "1.x",
-    "commonform-flatten": "1.x",
-    "commonform-number": "1.x",
-    "commonform-resolve": "1.x",
+    "commonform-flatten": "^0.4.0",
+    "commonform-number": "^0.4.0",
+    "commonform-resolve": "^0.4.0",
     "concat-stream": "^1.4.7",
+    "decimal-numbering": "^1.0.0",
     "jszip": "^2.4.0",
+    "merge": "^1.2.0",
     "smart-quotes": "0.0.1"
   },
   "devDependencies": {
-    "check-versions": "1.x",
+    "check-versions": "^1.0.0",
     "jscs": "^1.11.3",
     "jshint": "^2.6.0"
   },
-  "homepage": "https://github.com/commonform/commonform-docx",
+  "homepage": "https://commonform.github.io",
   "keywords": [
     "contracts",
     "document assembly",
+    "docx",
     "knowledge management",
-    "law"
+    "law",
+    "Microsoft Office",
+    "Microsoft Word",
+    "Office Open XML"
   ],
   "license": "Apache-2.0",
   "main": "source/index",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/commonform/commonform-docx.git"
-  },
+  "repository": "commonform/commonform-docx",
   "scripts": {
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "check": "check-versions --check-module",

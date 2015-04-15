@@ -2,7 +2,7 @@
 var flatten = require('commonform-flatten');
 var resolve = require('commonform-resolve');
 var number = require('commonform-number');
-var decimalStyle = require('commonform-decimal-numbers');
+var decimal = require('decimal-numbering');
 var title = require('./title');
 var paragraph = require('./paragraph');
 
@@ -34,7 +34,7 @@ module.exports = function(project) {
   var resolved = resolve(form, project.values, number(form));
   var flattened = flatten(resolved);
   var paragraphs = flattened.map(function(element) {
-    return paragraph(element, decimalStyle);
+    return paragraph(element, decimal);
   }).join('');
   var titleParagraph = title(project.metadata.title);
   return (
