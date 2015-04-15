@@ -73,7 +73,7 @@ module.exports = function run(element, numberStyle, conspicuous) {
     ) {
       text = BLANK;
     } else {
-      text = numberStyle.reference(element.reference);
+      text = numberStyle(element.reference);
       properties = {underline: true};
     }
   } else {

@@ -1,9 +1,6 @@
-// var Immutable = require('immutable');
 var flatten = require('commonform-flatten');
-var resolve = require('commonform-resolve');
-var number = require('commonform-number');
 var decimal = require('decimal-numbering');
-var title = require('./title');
+var titleRun = require('./title');
 var paragraph = require('./paragraph');
 
 var DOCUMENT_XMLNS = (
@@ -29,14 +26,11 @@ var DOCUMENT_XMLNS = (
 /* jscs:enable maximumlinelength */
 );
 
-module.exports = function(project) {
-  var form = project.form;
-  var resolved = resolve(form, project.values, number(form));
-  var flattened = flatten(resolved);
-  var paragraphs = flattened.map(function(element) {
+module.exports = function(title, form, values) {
+  var paragraphs = flatten(form, values).map(function(element) {
     return paragraph(element, decimal);
   }).join('');
-  var titleParagraph = title(project.metadata.title);
+  var titleParagraph = titleRun(title);
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +

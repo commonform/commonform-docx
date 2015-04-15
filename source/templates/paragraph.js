@@ -1,8 +1,5 @@
-var merge = require('merge');
 var tag = require('./tag');
 var run = require('./run');
-
-var defaults = {alignment: 'justify'};
 
 // Half an inch in twentieths of a point
 var HALF_INCH = 720;
@@ -28,22 +25,24 @@ var properties = function(o) {
 var TAB = '<w:r><w:tab/></w:r>';
 
 module.exports = function(element, numberStyle) {
-  var options = merge(defaults, element);
-  var number = options.hasOwnProperty('numbering') ?
-    numberStyle.provision(options.numbering) : '';
-  var conspicuous = options.hasOwnProperty('conspicuous');
+  if (!element.hasOwnProperty('alignment')) {
+    element.alignment = 'justify';
+  }
+  var number = element.hasOwnProperty('numbering') ?
+    numberStyle(element.numbering) : '';
+  var conspicuous = element.hasOwnProperty('conspicuous');
   return tag('w:p',
-    properties(options) +
+    properties(element) +
     (number ? run(number, numberStyle, conspicuous) + TAB : '') +
-    (options.hasOwnProperty('heading') ?
+    (element.hasOwnProperty('heading') ?
       run(
-        {text: options.heading, underline: true},
+        {text: element.heading, underline: true},
         numberStyle,
         conspicuous
       ) +
       run({text: '. '}, numberStyle, conspicuous) :
       '') +
-    options.content.map(function(element) {
+    element.content.map(function(element) {
       return run(element, numberStyle, conspicuous);
     }).join('')
   );
