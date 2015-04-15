@@ -23,4 +23,4 @@ module.exports = function(title, form, values) {
   return zip;
 };
 
-module.exports.version = '0.4.0';
+module.exports.version = '0.4.1';
