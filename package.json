@@ -38,8 +38,7 @@
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "check": "check-versions --check-module",
     "lint": "jshint source && jscs source",
-    "pre-commit": "npm run lint && npm run check",
-    "prepublish": "npm run build",
-    "travis-ci": "npm run pre-commit"
+    "pre-commit": "npm run check && npm run lint && npm run build",
+    "prepublish": "npm run build"
   }
 }

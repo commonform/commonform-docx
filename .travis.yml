@@ -4,3 +4,4 @@ node_js:
   - node
   - iojs
 script: npm run pre-commit
+sudo: false
