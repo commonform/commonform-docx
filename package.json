@@ -19,14 +19,14 @@
   },
   "homepage": "https://commonform.github.io",
   "keywords": [
+    "Microsoft Office",
+    "Microsoft Word",
+    "Office Open XML",
     "contracts",
     "document assembly",
     "docx",
     "knowledge management",
-    "law",
-    "Microsoft Office",
-    "Microsoft Word",
-    "Office Open XML"
+    "law"
   ],
   "license": "Apache-2.0",
   "main": "source/index",
