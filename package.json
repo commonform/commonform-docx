@@ -10,7 +10,7 @@
     "decimal-numbering": "^1.0.0",
     "jszip": "^2.4.0",
     "merge": "^1.2.0",
-    "smart-quotes": "0.0.1"
+    "smart-quotes": "0.0.2"
   },
   "devDependencies": {
     "check-versions": "^1.0.0",
