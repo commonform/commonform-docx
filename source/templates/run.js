@@ -77,7 +77,9 @@ module.exports = function run(element, numberStyle, conspicuous) {
       properties = {underline: true};
     }
   } else {
-    throw new Error('Invalid type: ' + JSON.stringify(element, null, 2));
+    throw new Error(
+      'Invalid type: ' + JSON.stringify(element, null, 2)
+    );
   }
   return tag('w:r', runProperties(properties) + runText(text));
 };

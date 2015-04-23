@@ -37,8 +37,9 @@
   "scripts": {
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "check": "check-versions --check-module",
-    "lint": "jshint source && jscs source",
-    "pre-commit": "npm run check && npm run lint && npm run build",
-    "prepublish": "npm run build"
+    "lint": "jshint --config .dotfiles/jshint.json source && jscs --config .dotfiles/jscs.json source",
+    "precommit": "npm run check && npm run lint && npm run prepublish",
+    "prepublish": "npm run build",
+    "test": "mocha --opts .dotfiles/mocha.opts"
   }
 }
