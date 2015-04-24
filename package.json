@@ -39,7 +39,6 @@
     "check": "check-versions --check-module",
     "lint": "jshint --config .dotfiles/jshint.json source && jscs --config .dotfiles/jscs.json source",
     "precommit": "npm run check && npm run lint && npm run prepublish",
-    "prepublish": "npm run build",
-    "test": "mocha --opts .dotfiles/mocha.opts"
+    "prepublish": "npm run build"
   }
 }
