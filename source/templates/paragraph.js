@@ -29,7 +29,7 @@ module.exports = function(element, numberStyle) {
     element.alignment = 'justify';
   }
   var number = element.hasOwnProperty('numbering') ?
-    numberStyle(element.numbering) : '';
+    numberStyle(element.numbering) + '.' : '';
   var conspicuous = element.hasOwnProperty('conspicuous');
   return tag('w:p',
     properties(element) +
