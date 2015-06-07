@@ -1,6 +1,7 @@
 *.tgz
 .editorconfig
 .gitignore
+.istanbul.yml
 .jscsrc
 .jshintrc
 .npmignore
