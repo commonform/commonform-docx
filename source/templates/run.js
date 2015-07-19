@@ -73,7 +73,8 @@ module.exports = function run(element, numberStyle, conspicuous) {
     ) {
       text = BLANK;
     } else {
-      text = 'Section ' + numberStyle(element.reference);
+      text = 'Section ' + numberStyle(element.reference) + ' (' +
+        element.reference + ')';
       properties = {underline: true};
     }
   } else {
