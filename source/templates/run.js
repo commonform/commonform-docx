@@ -66,15 +66,19 @@ module.exports = function run(element, numberStyle, conspicuous) {
       run('”', numberStyle, conspicuous);
   } else if (element.hasOwnProperty('blank')) {
     text = BLANK;
-  } else if (element.hasOwnProperty('reference')) {
+  } else if (element.hasOwnProperty('numbering')) {
+    var numbering = element.numbering;
+    var heading = element.heading;
     if (
       element.hasOwnProperty('broken') ||
       element.hasOwnProperty('ambiguous')
     ) {
       text = BLANK;
     } else {
-      text = 'Section ' + numberStyle(element.reference) + ' (' +
-        element.reference + ')';
+      text = (
+        'Section ' + numberStyle(numbering) +
+        ' (' + heading + ')'
+      );
       properties = {underline: true};
     }
   } else {
