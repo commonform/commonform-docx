@@ -22,5 +22,3 @@ module.exports = function(title, form, values) {
   zipObject(zip, scaffold);
   return zip;
 };
-
-module.exports.version = '0.4.3';

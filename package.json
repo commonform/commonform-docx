@@ -13,7 +13,6 @@
     "smart-quotes": "0.0.2"
   },
   "devDependencies": {
-    "check-versions": "^1.0.0",
     "jscs": "^1.11.3",
     "jshint": "^2.6.0"
   },
@@ -36,9 +35,8 @@
   "repository": "commonform/commonform-docx",
   "scripts": {
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
-    "check": "check-versions --check-module",
     "lint": "jshint source && jscs source",
-    "precommit": "npm run check && npm run lint && npm run prepublish",
+    "precommit": "npm run lint && npm run prepublish",
     "prepublish": "npm run build"
   }
 }
