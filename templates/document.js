@@ -1,7 +1,7 @@
-var flatten = require('commonform-flatten');
-var decimal = require('decimal-numbering');
-var titleRun = require('./title');
-var paragraph = require('./paragraph');
+var flatten = require('commonform-flatten')
+var decimal = require('decimal-numbering')
+var titleRun = require('./title')
+var paragraph = require('./paragraph')
 
 var DOCUMENT_XMLNS = (
 /* jscs:disable maximumLineLength */
@@ -23,14 +23,13 @@ var DOCUMENT_XMLNS = (
   'xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" ' +
   'xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" '
 /* jshint ignore: end */
-/* jscs:enable maximumlinelength */
-);
+/* jscs:enable maximumlinelength */ )
 
 module.exports = function(title, form, values) {
   var paragraphs = flatten(form, values).map(function(element) {
-    return paragraph(element, decimal);
-  }).join('');
-  var titleParagraph = titleRun(title);
+    return paragraph(element, decimal)
+  }).join('')
+  var titleParagraph = titleRun(title)
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
@@ -38,5 +37,5 @@ module.exports = function(title, form, values) {
         paragraphs +
       '</w:body>' +
     '</w:document>'
-  );
-};
+  )
+}

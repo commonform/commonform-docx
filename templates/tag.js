@@ -1,3 +1,2 @@
 module.exports = function(name, content) {
-  return '<' + name + '>' + content + '</' + name + '>';
-};
+  return '<' + name + '>' + content + '</' + name + '>' }
