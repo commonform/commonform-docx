@@ -12,10 +12,6 @@
     "merge": "^1.2.0",
     "smart-quotes": "0.0.2"
   },
-  "devDependencies": {
-    "jscs": "^1.11.3",
-    "jshint": "^2.6.0"
-  },
   "homepage": "https://commonform.github.io",
   "keywords": [
     "Microsoft Office",
@@ -34,9 +30,6 @@
   },
   "repository": "commonform/commonform-docx",
   "scripts": {
-    "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
-    "lint": "jshint source && jscs source",
-    "precommit": "npm run lint && npm run prepublish",
-    "prepublish": "npm run build"
+    "prepublish": "node build/scaffold.js data/scaffold.docx > data/scaffold.json"
   }
 }
