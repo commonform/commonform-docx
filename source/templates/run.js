@@ -79,7 +79,7 @@ module.exports = function run(element, numberStyle, conspicuous) {
         'Section ' + numberStyle(numbering) +
         ' (' + heading + ')'
       );
-      properties = {underline: true};
+      properties.underline = true;
     }
   } else {
     throw new Error(
