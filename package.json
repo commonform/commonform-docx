@@ -5,7 +5,6 @@
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "bugs": "https://github.com/commonform/commonform-docx/issues",
   "dependencies": {
-    "clone": "^1.0.2",
     "commonform-flatten": "0.6.x",
     "concat-stream": "^1.4.7",
     "decimal-numbering": "^1.0.0",

@@ -1,4 +1,3 @@
-var clone = require('clone')
 var flatten = require('commonform-flatten')
 var decimal = require('decimal-numbering')
 var titleRun = require('./title')
@@ -27,7 +26,7 @@ var DOCUMENT_XMLNS = (
 /* jscs:enable maximumlinelength */ )
 
 module.exports = function(title, form, values) {
-  var paragraphs = flatten(clone(form), values).map(function(element) {
+  var paragraphs = flatten(form, values).map(function(element) {
     return paragraph(element, decimal)
   }).join('')
   var titleParagraph = titleRun(title)
