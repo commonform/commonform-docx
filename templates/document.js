@@ -25,7 +25,7 @@ var DOCUMENT_XMLNS = (
 /* jshint ignore: end */
 /* jscs:enable maximumlinelength */ )
 
-module.exports = function(title, form, values) {
+module.exports = function(form, values, title) {
   var paragraphs = flatten(form, values).map(function(element) {
     return paragraph(element, decimal)
   }).join('')
