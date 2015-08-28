@@ -8,16 +8,19 @@ var defaults = {
   underline: false }
 
 var underlineFlag = function(underline) {
-  return '<w:u w:val="' + (underline ? 'single' : 'none') + '"/>' }
+  return (
+    '<w:u w:val="' +
+    ( underline ? 'single' : 'none' ) +
+    '"/>' ) }
 
 var flag = function(name, value) {
-  return value ? '<w:' + name + '/>' : '' }
+  return ( value ? '<w:' + name + '/>' : '' ) }
 
 var runProperties = function(options) {
   return tag('w:rPr',
-    flag('b', options.bold || false) +
-    flag('i', options.italic || false) +
-    underlineFlag(options.underline || false)) }
+    ( flag('b', ( options.bold || false )) +
+      flag('i', ( options.italic || false )) +
+      underlineFlag(( options.underline || false )) )) }
 
 var runText = function(text) {
   return '<w:t xml:space="preserve">' + escape(text) + '</w:t>' }
@@ -39,9 +42,10 @@ module.exports = function run(element, numberStyle, conspicuous) {
       underline: element.underline || false } }
   else if (element.hasOwnProperty('definition')) {
     var term = element.definition
-    return run('“', numberStyle, conspicuous) +
-      tag('w:r', runProperties({bold: true}) + runText(term)) +
-      run('”', numberStyle, conspicuous) }
+    return (
+      run('“', numberStyle, conspicuous) +
+      tag('w:r', runProperties({ bold: true }) + runText(term)) +
+      run('”', numberStyle, conspicuous) ) }
   else if (element.hasOwnProperty('blank')) {
     text = BLANK }
   else if (element.hasOwnProperty('heading')) {
