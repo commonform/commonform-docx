@@ -25,17 +25,15 @@ var DOCUMENT_XMLNS = (
 /* jshint ignore: end */
 /* jscs:enable maximumlinelength */ )
 
-module.exports = function(form, values, title) {
-  var paragraphs = flatten(form, values).map(function(element) {
-    return paragraph(element, decimal)
-  }).join('')
-  var titleParagraph = titleRun(title)
+module.exports = function(form, values, title, numbering) {
+  var paragraphs = flatten(form, values)
+    .map(function(element) {
+      return paragraph(element, decimal) })
+    .join('')
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
-        titleParagraph +
+        ( title ? titleRun(title) : '' ) +
         paragraphs +
       '</w:body>' +
-    '</w:document>'
-  )
-}
+    '</w:document>') }

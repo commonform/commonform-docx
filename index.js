@@ -13,13 +13,10 @@ var zipObject = function(zip, object) {
       zipObject(zip.folder(path), content) } }) }
 
 module.exports = function(form, values, options) {
-  if (options === undefined) {
-    options = { } }
-  var title = (
-    options.hasOwnProperty('title') ?
-      options.title : 'Untitled' )
+  var title = options.title
+  var numbering = options.numbering
   var scaffold = require('./data/scaffold.json')
-  scaffold.word['document.xml'] = doc(form, values, title)
+  scaffold.word['document.xml'] = doc(form, values, title, numbering)
   var zip = new JSZip()
   zipObject(zip, scaffold)
   return zip }
