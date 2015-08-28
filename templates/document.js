@@ -1,5 +1,4 @@
 var flatten = require('commonform-flatten')
-var decimal = require('decimal-numbering')
 var titleRun = require('./title')
 var paragraph = require('./paragraph')
 
@@ -25,10 +24,10 @@ var DOCUMENT_XMLNS = (
 /* jshint ignore: end */
 /* jscs:enable maximumlinelength */ )
 
-module.exports = function(form, values, title, numbering) {
+module.exports = function(form, values, title, numberStyle) {
   var paragraphs = flatten(form, values)
     .map(function(element) {
-      return paragraph(element, decimal) })
+      return paragraph(element, numberStyle) })
     .join('')
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
