@@ -10,8 +10,7 @@ var zipObject = function(zip, object) {
       zip.file(path, content.trim()) }
     // Folder
     else {
-      zipObject(zip.folder(path), content) } })
-}
+      zipObject(zip.folder(path), content) } }) }
 
 module.exports = function(form, values, options) {
   if (options === undefined) {
