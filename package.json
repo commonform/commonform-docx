@@ -7,7 +7,6 @@
   "dependencies": {
     "commonform-flatten": "0.6.x",
     "concat-stream": "^1.4.7",
-    "decimal-numbering": "^1.0.0",
     "jszip": "^2.4.0",
     "merge": "^1.2.0",
     "smart-quotes": "0.0.2"

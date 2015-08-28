@@ -25,7 +25,7 @@ module.exports = function(element, numberStyle) {
   if (!element.hasOwnProperty('alignment')) {
     element.alignment = 'justify' }
   var number = element.hasOwnProperty('numbering') ?
-    numberStyle(element.numbering) + '.' : ''
+    numberStyle(element.numbering, true) : ''
   var conspicuous = element.hasOwnProperty('conspicuous')
   return tag('w:p',
     properties(element) +
