@@ -1,4 +1,4 @@
-var smarten = require('smart-quotes')
+var escape = require('../escape')
 var merge = require('merge')
 var tag = require('./tag')
 
@@ -6,20 +6,6 @@ var defaults = {
   bold: false,
   italic: false,
   underline: false }
-
-var special = {
-  '&amp': /&/g,
-  '&apos': /'/g,
-  '&gt': />/g,
-  '&lt': /</g,
-  '&quot': /"/g }
-
-var escape = function(string) {
-  return Object.keys(special)
-    .reduce(
-      function(string, escaped) {
-        return string.replace(special[escaped], escaped) },
-      smarten(string)) }
 
 var underlineFlag = function(underline) {
   return '<w:u w:val="' + (underline ? 'single' : 'none') + '"/>' }
