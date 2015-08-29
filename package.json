@@ -11,6 +11,9 @@
     "merge": "^1.2.0",
     "smart-quotes": "0.0.2"
   },
+  "devDependencies": {
+    "decimal-numbering": "~1.1.0"
+  },
   "homepage": "https://commonform.github.io",
   "keywords": [
     "Microsoft Office",
