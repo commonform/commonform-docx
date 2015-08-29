@@ -3,7 +3,6 @@
   "description": "render Common Forms in Office Open XML",
   "version": "0.8.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
-  "bugs": "https://github.com/commonform/commonform-docx/issues",
   "dependencies": {
     "commonform-flatten": "0.6.x",
     "concat-stream": "^1.4.7",
@@ -14,7 +13,6 @@
   "devDependencies": {
     "decimal-numbering": "~1.1.0"
   },
-  "homepage": "https://commonform.github.io",
   "keywords": [
     "Microsoft Office",
     "Microsoft Word",
