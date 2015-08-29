@@ -29,14 +29,13 @@ module.exports = function(element, numberStyle) {
   var conspicuous = element.hasOwnProperty('conspicuous')
   return tag('w:p',
     properties(element) +
-    ( number ? run(number, numberStyle, conspicuous) + TAB : '') +
+    ( number ? run(number, numberStyle, false) + TAB : '') +
     ( element.hasOwnProperty('heading') ?
       run(
         { text: element.heading, underline: true },
         numberStyle,
-        conspicuous
-      ) +
-      run({ text: '. ' }, numberStyle, conspicuous) :
+        false) +
+      run({ text: '. ' }, numberStyle, false) :
       '' ) +
     element.content
       .map(function(element) {
