@@ -13,7 +13,10 @@ var alignments = {
 
 var properties = function(o) {
   // CAVEAT: The order of properties is important.
-  var depth = o.depth
+  var depth = (
+    'heading' in o || 'numbering' in o ?
+      o.depth :
+      o.depth + 1 )
   var alignment = o.alignment
   return tag('w:pPr',
     '<w:ind w:firstLine="' + ( ( depth - 1 ) * HALF_INCH ) + '" />' +
