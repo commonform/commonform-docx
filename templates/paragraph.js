@@ -14,7 +14,7 @@ var alignments = {
 var properties = function(o) {
   // CAVEAT: The order of properties is important.
   var depth = (
-    'heading' in o || 'numbering' in o ?
+    'heading' in o || 'numbering' in o || 'title' in o ?
       o.depth :
       o.depth + 1 )
   var alignment = o.alignment
