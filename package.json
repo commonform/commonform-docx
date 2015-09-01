@@ -24,9 +24,6 @@
     "law"
   ],
   "license": "Apache-2.0",
-  "peerDependencies": {
-    "commonform": "1.x"
-  },
   "repository": "commonform/commonform-docx",
   "scripts": {
     "prepublish": "node build/scaffold.js data/scaffold.docx > data/scaffold.json"
