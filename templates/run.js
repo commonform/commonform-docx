@@ -57,7 +57,7 @@ module.exports = function run(element, numberStyle, conspicuous) {
     { text = BLANK }
     else {
       text = (
-        'Section ' + numberStyle(numbering) +
+        numberStyle(numbering) +
         ' (' + heading + ')' )
       properties.underline = true } }
   else {
