@@ -5,7 +5,6 @@
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "dependencies": {
     "commonform-flatten": "0.6.x",
-    "concat-stream": "^1.4.7",
     "jszip": "^2.4.0",
     "merge": "^1.2.0",
     "smart-quotes": "0.0.2"
