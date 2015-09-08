@@ -50,8 +50,13 @@ module.exports = function run(element, numberStyle, conspicuous) {
       tag('w:r', runProperties({ bold: true }) + runText(term)) +
       run('”', numberStyle, conspicuous) ) }
   else if (element.hasOwnProperty('blank')) {
-    text = '[' + element.blank + ']'
-    properties.highlight = 'yellow' }
+    if (element.hasOwnProperty('value')) {
+      text = element.value }
+    else {
+      text = '[' + element.blank + ']'
+      properties.highlight = 'yellow' } }
+  else if (element.hasOwnProperty('use')) {
+    text = element.use }
   else if (element.hasOwnProperty('heading')) {
     var numbering = element.numbering
     var heading = element.heading
