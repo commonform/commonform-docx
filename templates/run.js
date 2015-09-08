@@ -3,6 +3,7 @@ var merge = require('merge')
 var tag = require('./tag')
 
 var defaults = {
+  highlight: false,
   bold: false,
   italic: false,
   underline: false }
@@ -13,6 +14,9 @@ var underlineFlag = function(underline) {
     ( underline ? 'single' : 'none' ) +
     '"/>' ) }
 
+var highlightFlag = function(highlight) {
+  return ( '<w:highlight w:val="' + highlight + '"/>' ) }
+
 var flag = function(name, value) {
   return ( value ? '<w:' + name + '/>' : '' ) }
 
@@ -20,12 +24,11 @@ var runProperties = function(options) {
   return tag('w:rPr',
     ( flag('b', ( options.bold || false )) +
       flag('i', ( options.italic || false )) +
+      ( options.highlight ? highlightFlag(options.highlight) : '' ) +
       underlineFlag(( options.underline || false )) )) }
 
 var runText = function(text) {
   return '<w:t xml:space="preserve">' + escape(text) + '</w:t>' }
-
-var BLANK = '__________'
 
 module.exports = function run(element, numberStyle, conspicuous) {
   var properties = merge(true, defaults)
@@ -47,14 +50,16 @@ module.exports = function run(element, numberStyle, conspicuous) {
       tag('w:r', runProperties({ bold: true }) + runText(term)) +
       run('”', numberStyle, conspicuous) ) }
   else if (element.hasOwnProperty('blank')) {
-    text = BLANK }
+    text = '[' + element.blank + ']'
+    properties.highlight = 'yellow' }
   else if (element.hasOwnProperty('heading')) {
     var numbering = element.numbering
     var heading = element.heading
     if (
       element.hasOwnProperty('broken') ||
       element.hasOwnProperty('ambiguous') )
-    { text = BLANK }
+    { text = '[Broken Cross-Refernce to "' + heading + '"]'
+      properties.highlight = 'red' }
     else {
       text = (
         numberStyle(numbering) +
