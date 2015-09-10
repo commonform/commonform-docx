@@ -12,6 +12,6 @@ function escape(string) {
     .reduce(
       function(string, escaped) {
         return string.replace(special[escaped], escaped) },
-      smarten(string)) }
+      smarten(string.replace(/^'s/, '’s'))) }
 
 module.exports = escape
