@@ -24,7 +24,7 @@ var DOCUMENT_XMLNS = (
 /* jshint ignore: end */
 /* jscs:enable maximumlinelength */ )
 
-module.exports = function(form, values, title, numberStyle) {
+module.exports = function(form, values, title, numberStyle, after) {
   var paragraphs = flatten(form, values)
     .map(function(element) {
       return paragraph(element, numberStyle) })
@@ -34,5 +34,6 @@ module.exports = function(form, values, title, numberStyle) {
       '<w:body>' +
         ( title ? titleRun(title) : '' ) +
         paragraphs +
+        after +
       '</w:body>' +
     '</w:document>') }
