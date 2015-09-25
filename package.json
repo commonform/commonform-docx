@@ -7,7 +7,8 @@
     "commonform-flatten": "^0.7.0",
     "jszip": "^2.4.0",
     "merge": "^1.2.0",
-    "smart-quotes": "0.0.2"
+    "smart-quotes": "0.0.2",
+    "url-regex": "^3.0.0"
   },
   "devDependencies": {
     "decimal-numbering": "~1.1.0"
