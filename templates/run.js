@@ -63,7 +63,7 @@ module.exports = function run(element, numberStyle, conspicuous) {
     if (
       element.hasOwnProperty('broken') ||
       element.hasOwnProperty('ambiguous') )
-    { text = '[Broken Cross-Refernce to "' + heading + '"]'
+    { text = '[Broken Cross-Reference to "' + heading + '"]'
       properties.highlight = 'red' }
     else {
       text = (
