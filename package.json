@@ -1,7 +1,7 @@
 {
   "name": "commonform-docx",
   "description": "render Common Forms in Office Open XML",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "dependencies": {
     "commonform-flatten": "^0.7.0",
