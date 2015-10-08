@@ -1,5 +1,3 @@
-var smarten = require('smart-quotes')
-
 var special = {
   '&amp;': /&/g,
   '&apos;': /'/g,
@@ -12,6 +10,6 @@ function escape(string) {
     .reduce(
       function(string, escaped) {
         return string.replace(special[escaped], escaped) },
-      smarten(string.replace(/^'s/, '’s'))) }
+      string) }
 
 module.exports = escape
