@@ -50,10 +50,10 @@ module.exports = function run(element, numberStyle, conspicuous) {
       tag('w:r', runProperties({ bold: true }) + runText(term)) +
       run('"', numberStyle, conspicuous) ) }
   else if (element.hasOwnProperty('blank')) {
-    if (element.hasOwnProperty('value')) {
-      text = element.value }
+    if (element.blank !== undefined) {
+      text = element.blank }
     else {
-      text = '[' + element.blank + ']'
+      text = '[•]'
       properties.highlight = 'yellow' } }
   else if (element.hasOwnProperty('use')) {
     text = element.use }
