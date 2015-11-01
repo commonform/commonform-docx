@@ -46,9 +46,9 @@ module.exports = function run(element, numberStyle, conspicuous) {
   else if (element.hasOwnProperty('definition')) {
     var term = element.definition
     return (
-      run('“', numberStyle, conspicuous) +
+      run('"', numberStyle, conspicuous) +
       tag('w:r', runProperties({ bold: true }) + runText(term)) +
-      run('”', numberStyle, conspicuous) ) }
+      run('"', numberStyle, conspicuous) ) }
   else if (element.hasOwnProperty('blank')) {
     if (element.hasOwnProperty('value')) {
       text = element.value }
