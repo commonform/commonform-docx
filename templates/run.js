@@ -66,10 +66,13 @@ module.exports = function run(element, numberStyle, conspicuous) {
     { text = '[Broken Cross-Reference to "' + heading + '"]'
       properties.highlight = 'red' }
     else {
-      text = (
-        numberStyle(numbering) +
-        ' (' + heading + ')' )
-      properties.underline = true } }
+      text = numberStyle(numbering)
+      properties.underline = true
+      return (
+        // Underlined reference.
+        tag('w:r', runProperties(properties) + runText(text)) +
+        // Name of referenced section in parentheses.
+        run(' (' + heading + ')', numberStyle, false) ) } }
   else {
     throw new Error(
       'Invalid type: ' + JSON.stringify(element, null, 2)) }
