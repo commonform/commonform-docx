@@ -35,10 +35,10 @@ module.exports = function(element, numberStyle) {
     ( number ? run(number, numberStyle, false) + TAB : '') +
     ( element.hasOwnProperty('heading') ?
       run(
-        { text: element.heading, underline: true },
+        { caption: element.heading },
         numberStyle,
-        false) +
-      run({ text: '. ' }, numberStyle, false) :
+        conspicuous) +
+      run('. ', numberStyle, false) :
       '' ) +
     element.content
       .map(function(element) {

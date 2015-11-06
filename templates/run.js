@@ -39,11 +39,12 @@ module.exports = function run(element, numberStyle, conspicuous) {
   /* istanbul ignore else */
   if (typeof element === 'string') {
     text = element }
-  else if (element.hasOwnProperty('text')) {
-    text = element.text
-    properties = {
-      bold: element.bold || false,
-      underline: element.underline || false } }
+  else if (element.hasOwnProperty('caption')) {
+    text = element.caption
+    properties.underline = true }
+  else if (element.hasOwnProperty('title')) {
+    text = element.title
+    properties.bold = true }
   else if (element.hasOwnProperty('definition')) {
     var term = element.definition
     return (

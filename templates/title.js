@@ -5,4 +5,4 @@ module.exports = function(string) {
     alignment: 'center',
     depth: 1,
     title: true,
-    content: [ { bold: true, text: string } ] }) }
+    content: [ { title: string } ] }) }
