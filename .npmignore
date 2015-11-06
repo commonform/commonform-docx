@@ -2,3 +2,4 @@
 build/scaffold.js
 data/scaffold.docx
 test.js
+.travis.yml
