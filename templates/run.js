@@ -25,7 +25,7 @@ var runProperties = function(options) {
     ( flag('b', ( options.bold || false )) +
       flag('i', ( options.italic || false )) +
       ( options.highlight ? highlightFlag(options.highlight) : '' ) +
-      underlineFlag(( options.underline || false )) )) }
+      underlineFlag(options.underline || false) )) }
 
 var runText = function(text) {
   return '<w:t xml:space="preserve">' + escape(text) + '</w:t>' }

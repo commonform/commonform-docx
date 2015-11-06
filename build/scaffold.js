@@ -10,11 +10,11 @@ var arbitrarilyDeepFolder = function(dirs, object) {
       if (ret.hasOwnProperty(dir)) {
         ret = ret[dir] }
       else {
-        ret = ret[dir] = {} } })
+        ret = ret[dir] = { } } })
   return ret }
 
 var build = function(zip, data, object) {
-  object = object || {}
+  object = object || { }
   Object.keys(data).forEach(function(key) {
     if (key === 'word/document.xml') {
       return }

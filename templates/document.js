@@ -36,4 +36,4 @@ module.exports = function(form, values, title, numberStyle, after) {
         paragraphs +
         after +
       '</w:body>' +
-    '</w:document>') }
+    '</w:document>' ) }

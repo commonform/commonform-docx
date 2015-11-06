@@ -14,9 +14,9 @@ var alignments = {
 var properties = function(o) {
   // CAVEAT: The order of properties is important.
   var depth = (
-    'heading' in o || 'numbering' in o || 'title' in o ?
+    ( 'heading' in o || 'numbering' in o || 'title' in o ) ?
       o.depth :
-      o.depth + 1 )
+      ( o.depth + 1 ) )
   var alignment = o.alignment
   return tag('w:pPr',
     '<w:ind w:firstLine="' + ( ( depth - 1 ) * HALF_INCH ) + '" />' +
@@ -32,7 +32,7 @@ module.exports = function(element, numberStyle) {
   var conspicuous = element.hasOwnProperty('conspicuous')
   return tag('w:p',
     properties(element) +
-    ( number ? run(number, numberStyle, false) + TAB : '') +
+    ( number ? run(number, numberStyle, false) + TAB : '' ) +
     ( element.hasOwnProperty('heading') ?
       run(
         { caption: element.heading },
