@@ -36,6 +36,7 @@ module.exports = function run(element, numberStyle, conspicuous) {
     properties.italic = true
     properties.bold = true }
   var text = ''
+  /* istanbul ignore else */
   if (typeof element === 'string') {
     text = element }
   else if (element.hasOwnProperty('text')) {

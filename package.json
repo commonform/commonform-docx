@@ -9,7 +9,10 @@
     "merge": "^1.2.0"
   },
   "devDependencies": {
-    "decimal-numbering": "~1.1.0"
+    "decimal-numbering": "~1.1.0",
+    "istanbul": "^0.4.0",
+    "tape": "^4.2.2",
+    "textract": "^1.1.1"
   },
   "keywords": [
     "Microsoft Office",
@@ -24,6 +27,10 @@
   "license": "Apache-2.0",
   "repository": "commonform/commonform-docx",
   "scripts": {
-    "prepublish": "node build/scaffold.js data/scaffold.docx > data/scaffold.json"
+    "precoverage": "npm run pretest && istanbul cover -- tape test.js",
+    "coverage": "FORCE_COLOR=true istanbul check-coverage coverage/coverage.json",
+    "prepublish": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
+    "pretest": "npm run prepublish",
+    "test": "tape test.js"
   }
 }
