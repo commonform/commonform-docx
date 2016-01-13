@@ -74,7 +74,7 @@ module.exports = function run(element, numberStyle, conspicuous) {
         // Underlined reference.
         tag('w:r', runProperties(properties) + runText(text)) +
         // Name of referenced section in parentheses.
-        run(' (' + heading + ')', numberStyle, false) ) } }
+        run(' (' + heading + ')', numberStyle, conspicuous) ) } }
   else {
     throw new Error(
       'Invalid type: ' + JSON.stringify(element, null, 2)) }
