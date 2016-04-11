@@ -15,9 +15,10 @@ var zipObject = function(zip, object) {
 module.exports = function(form, values, options) {
   var title = options.title
   var numberStyle = options.numbering
+  var indentMargins = ( options.indentMargins || false )
   var after = ( options.after || '' )
   var scaffold = require('./data/scaffold.json')
-  scaffold.word['document.xml'] = doc(form, values, title, numberStyle, after)
+  scaffold.word['document.xml'] = doc(form, values, title, numberStyle, indentMargins, after)
   var zip = new JSZip()
   zipObject(zip, scaffold)
   return zip }

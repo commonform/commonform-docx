@@ -11,7 +11,7 @@ var alignments = {
   justify: 'both',
   distribute: 'distribute' }
 
-var properties = function(o) {
+var properties = function(o, number, indentMargins) {
   // CAVEAT: The order of properties is important.
   var depth = (
     ( 'heading' in o || 'numbering' in o || 'title' in o ) ?
@@ -19,19 +19,26 @@ var properties = function(o) {
       ( o.depth + 1 ) )
   var alignment = o.alignment
   return tag('w:pPr',
-    '<w:ind w:firstLine="' + ( ( depth - 1 ) * HALF_INCH ) + '" />' +
+    ( '<w:ind' +
+      ( indentMargins
+          ? ( ( number.length === 0 )
+            ? ( ' w:left="' + ( ( depth - 2 ) * HALF_INCH ) + '"' )
+            : ( ' w:left="' + ( ( depth - 1 ) * HALF_INCH ) + '"' +
+                ' w:firstLine="-' + HALF_INCH + '"' ) )
+          : ' w:firstLine="' + ( ( depth - 1 ) * HALF_INCH ) + '"' ) +
+      ' />' ) +
     '<w:jc w:val="' + alignments[alignment] + '" />') }
 
 var TAB = '<w:r><w:tab/></w:r>'
 
-module.exports = function(element, numberStyle) {
+module.exports = function(element, numberStyle, indentMargins) {
   if (!element.hasOwnProperty('alignment')) {
     element.alignment = 'justify' }
   var number = element.hasOwnProperty('numbering') ?
     numberStyle(element.numbering, true) : ''
   var conspicuous = element.hasOwnProperty('conspicuous')
   return tag('w:p',
-    properties(element) +
+    properties(element, number, indentMargins) +
     ( number ? run(number, numberStyle, false) + TAB : '' ) +
     ( element.hasOwnProperty('heading') ?
       run(

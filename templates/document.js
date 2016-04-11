@@ -24,10 +24,10 @@ var DOCUMENT_XMLNS = (
 /* jshint ignore: end */
 /* jscs:enable maximumlinelength */ )
 
-module.exports = function(form, values, title, numberStyle, after) {
+module.exports = function(form, values, title, numberStyle, indentMargins, after) {
   var paragraphs = flatten(form, values)
     .map(function(element) {
-      return paragraph(element, numberStyle) })
+      return paragraph(element, numberStyle, indentMargins) })
     .join('')
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
