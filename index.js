@@ -14,11 +14,12 @@ var zipObject = function(zip, object) {
 
 module.exports = function(form, values, options) {
   var title = options.title
+  var centerTitle = ( options.centerTitle || false )
   var numberStyle = options.numbering
   var indentMargins = ( options.indentMargins || false )
   var after = ( options.after || '' )
   var scaffold = require('./data/scaffold.json')
-  scaffold.word['document.xml'] = doc(form, values, title, numberStyle, indentMargins, after)
+  scaffold.word['document.xml'] = doc(form, values, title, centerTitle, numberStyle, indentMargins, after)
   var zip = new JSZip()
   zipObject(zip, scaffold)
   return zip }

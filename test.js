@@ -107,6 +107,21 @@ tape('renders titles', function(test) {
         'title appears in output')
       test.end() }) })
 
+tape('renders centered titles', function(test) {
+  textOf(
+    render(
+      { content: [ 'Hello' ] },
+      [ ],
+      { numbering: decimal,
+        title: 'The Title!',
+        centerTitle : true }),
+    function(error, text) {
+      test.ifError(error, 'no error')
+      test.assert(
+        text.indexOf('The Title!') > -1,
+        'title appears in output')
+      test.end() }) })
+
 tape('throws for invalid content', function(test) {
   test.throws(
     function() {
