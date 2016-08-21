@@ -3,13 +3,11 @@ var special = {
   '&apos;': /'/g,
   '&gt;': />/g,
   '&lt;': /</g,
-  '&quot;': /"/g }
+  '&quot;': /"/g
+}
 
-function escape(string) {
-  return Object.keys(special)
-    .reduce(
-      function(string, escaped) {
-        return string.replace(special[escaped], escaped) },
-      string) }
-
-module.exports = escape
+module.exports = function escape (string) {
+  return Object.keys(special).reduce(function (string, escaped) {
+    return string.replace(special[escaped], escaped)
+  }, string)
+}

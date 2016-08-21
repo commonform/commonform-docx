@@ -11,6 +11,7 @@
   "devDependencies": {
     "decimal-numbering": "~1.1.0",
     "istanbul": "^0.4.0",
+    "standard": "^8.0.0-beta.5",
     "tape": "^4.2.2",
     "textract": "^1.1.1"
   },
@@ -27,6 +28,7 @@
   "license": "Apache-2.0",
   "repository": "commonform/commonform-docx",
   "scripts": {
+    "lint": "standard",
     "precoverage": "npm run pretest && istanbul cover -- tape test.js",
     "coverage": "FORCE_COLOR=true istanbul check-coverage coverage/coverage.json",
     "prepublish": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
