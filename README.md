@@ -2,7 +2,7 @@ The exported function takes three arguments:
 
 1. A Common Form
 
-2. An Object map of fill-in-the-blank values
+2. An Array of fill-in-the-blank values
 
 3. An options Object
 
