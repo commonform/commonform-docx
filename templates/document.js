@@ -22,18 +22,24 @@ var DOCUMENT_XMLNS = (
   'xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" ' +
   'xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" '
 /* jshint ignore: end */
-/* jscs:enable maximumlinelength */ )
+/* jscs:enable maximumlinelength */
+)
 
-module.exports = function(form, values, title, centerTitle, numberStyle, indentMargins, after) {
+module.exports = function (
+  form, values, title, centerTitle, numberStyle, indentMargins, after
+) {
   var paragraphs = flatten(form, values)
-    .map(function(element) {
-      return paragraph(element, numberStyle, indentMargins) })
-    .join('')
+  .map(function (element) {
+    return paragraph(element, numberStyle, indentMargins)
+  })
+  .join('')
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
-        ( title ? titleRun(title, centerTitle) : '' ) +
+        (title ? titleRun(title, centerTitle) : '') +
         paragraphs +
         after +
       '</w:body>' +
-    '</w:document>' ) }
+    '</w:document>'
+  )
+}
