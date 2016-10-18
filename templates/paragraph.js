@@ -38,7 +38,9 @@ var properties = function (o, number, indentMargins) {
 
 var TAB = '<w:r><w:tab/></w:r>'
 
-module.exports = function (element, numberStyle, indentMargins) {
+module.exports = function (
+  element, numberStyle, indentMargins, blankText
+) {
   if (!element.hasOwnProperty('alignment')) {
     element.alignment = 'justify'
   }
@@ -50,20 +52,23 @@ module.exports = function (element, numberStyle, indentMargins) {
     properties(element, number, indentMargins) +
     (
       number
-      ? run(number, numberStyle, false) + TAB
+      ? makeRun(number, false) + TAB
       : ''
     ) + (
       element.hasOwnProperty('heading')
       ? (
-        run({caption: element.heading}, numberStyle, conspicuous) +
-        run('. ', numberStyle, false)
+        makeRun({caption: element.heading}, conspicuous) +
+        makeRun('. ', false)
       )
       : ''
     ) +
     element.content
     .map(function (element) {
-      return run(element, numberStyle, conspicuous)
+      return makeRun(element, conspicuous)
     })
     .join('')
   )
+  function makeRun (element, conspicuous) {
+    return run(element, numberStyle, conspicuous, blankText)
+  }
 }

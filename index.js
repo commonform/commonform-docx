@@ -21,9 +21,11 @@ module.exports = function (form, values, options) {
   var numberStyle = options.numbering
   var indentMargins = options.indentMargins || false
   var after = options.after || ''
+  var blankText = options.blankText || '[•]'
   var scaffold = require('./data/scaffold.json')
   scaffold.word['document.xml'] = doc(
-    form, values, title, centerTitle, numberStyle, indentMargins, after
+    form, values, title,
+    centerTitle, numberStyle, indentMargins, after, blankText
   )
   var zip = new JSZip()
   zipObject(zip, scaffold)

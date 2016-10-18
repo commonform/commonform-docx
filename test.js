@@ -116,13 +116,17 @@ tape('renders empty blank placeholders', function (test) {
   )
 })
 
-tape('renders empty blank placeholders', function (test) {
+tape('renders custom empty blank placeholders', function (test) {
   textOf(
-    render({content: ['A ', {blank: ''}, ' B']}),
+    render(
+      {content: ['A ', {blank: ''}, ' B']},
+      [],
+      {blankText: '________'}
+    ),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
-        text.indexOf('[') > -1,
+        text.indexOf('________') > -1,
         'placeholder appears in output'
       )
       test.end()

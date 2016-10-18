@@ -36,7 +36,9 @@ var runText = function (text) {
   return '<w:t xml:space="preserve">' + escape(text) + '</w:t>'
 }
 
-module.exports = function run (element, numberStyle, conspicuous) {
+module.exports = function run (
+  element, numberStyle, conspicuous, blankText
+) {
   var properties = merge(true, defaults)
   if (conspicuous === true) {
     properties.italic = true
@@ -63,7 +65,7 @@ module.exports = function run (element, numberStyle, conspicuous) {
     if (element.blank !== undefined) {
       text = element.blank
     } else {
-      text = '[•]'
+      text = blankText
       properties.highlight = 'yellow'
     }
   } else if (element.hasOwnProperty('use')) {
