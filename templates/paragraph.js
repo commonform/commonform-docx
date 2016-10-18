@@ -39,7 +39,7 @@ var properties = function (o, number, indentMargins) {
 var TAB = '<w:r><w:tab/></w:r>'
 
 module.exports = function (
-  element, numberStyle, indentMargins, blankText
+  element, numberStyle, indentMargins, blanks
 ) {
   if (!element.hasOwnProperty('alignment')) {
     element.alignment = 'justify'
@@ -69,6 +69,6 @@ module.exports = function (
     .join('')
   )
   function makeRun (element, conspicuous) {
-    return run(element, numberStyle, conspicuous, blankText)
+    return run(element, numberStyle, conspicuous, blanks)
   }
 }

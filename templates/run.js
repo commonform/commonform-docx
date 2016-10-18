@@ -37,7 +37,7 @@ var runText = function (text) {
 }
 
 module.exports = function run (
-  element, numberStyle, conspicuous, blankText
+  element, numberStyle, conspicuous, blanks
 ) {
   var properties = merge(true, defaults)
   if (conspicuous === true) {
@@ -65,8 +65,10 @@ module.exports = function run (
     if (element.blank !== undefined) {
       text = element.blank
     } else {
-      text = blankText
-      properties.highlight = 'yellow'
+      text = blanks.text
+      if (blanks.highlight) {
+        properties.highlight = blanks.highlight
+      }
     }
   } else if (element.hasOwnProperty('use')) {
     text = element.use

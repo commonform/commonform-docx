@@ -27,11 +27,11 @@ var DOCUMENT_XMLNS = (
 
 module.exports = function (
   form, values, title,
-  centerTitle, numberStyle, indentMargins, after, blankText
+  centerTitle, numberStyle, indentMargins, after, blanks
 ) {
   var paragraphs = flatten(form, values)
   .map(function (element) {
-    return paragraph(element, numberStyle, indentMargins, blankText)
+    return paragraph(element, numberStyle, indentMargins, blanks)
   })
   .join('')
   return (
