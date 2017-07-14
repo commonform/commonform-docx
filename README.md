@@ -14,4 +14,8 @@ It may contain:
 
 1. A `title` property whose value is a string
 
+2. An `edition` property whose value is a string
+
+3. A `hash` property whose value is `true` or `false`
+
 The function returns a [JSZip](https://npmjs.com/packages/jszip) Object primed with `.docx` document data.

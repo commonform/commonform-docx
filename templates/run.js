@@ -27,7 +27,18 @@ var runProperties = function (options) {
       flag('b', options.bold || false) +
       flag('i', options.italic || false) +
       (options.highlight ? highlightFlag(options.highlight) : '') +
-      underlineFlag(options.underline || false)
+      underlineFlag(options.underline || false) +
+      (
+        options.monospaced
+          ? (
+            '<w:rFonts ' +
+            'w:ascii="Courier New" ' +
+            'w:hAnsi="Courier New" ' +
+            'w:cs="Courier New"/>' +
+            '<w:sz w:val="20"/>'
+          )
+          : ''
+      )
     )
   )
 }
@@ -54,6 +65,9 @@ module.exports = function run (
   } else if (element.hasOwnProperty('title')) {
     text = element.title
     properties.bold = true
+  } else if (element.hasOwnProperty('monospaced')) {
+    text = element.monospaced
+    properties.monospaced = true
   } else if (element.hasOwnProperty('definition')) {
     var term = element.definition
     return (

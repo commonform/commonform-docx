@@ -5,6 +5,7 @@
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "dependencies": {
     "commonform-flatten": "^0.8.0",
+    "commonform-hash": "^0.4.3",
     "jszip": "^2.4.0",
     "merge": "^1.2.0"
   },

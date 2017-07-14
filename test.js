@@ -206,6 +206,42 @@ tape('renders centered titles', function (test) {
   )
 })
 
+tape('renders editions', function (test) {
+  textOf(
+    render(
+      {content: ['Hello']},
+      [],
+      {numbering: decimal, title: 'The Title!', edition: 'First'}
+    ),
+    function (error, text) {
+      test.ifError(error, 'no error')
+      test.assert(
+        text.indexOf('First') > -1,
+        'edition appears in output'
+      )
+      test.end()
+    }
+  )
+})
+
+tape('renders hashes', function (test) {
+  textOf(
+    render(
+      {content: ['Hello']},
+      [],
+      {numbering: decimal, title: 'The Title!', hash: 'aaaaa'}
+    ),
+    function (error, text) {
+      test.ifError(error, 'no error')
+      test.assert(
+        text.indexOf('aaaaa') > -1,
+        'hash appears in output'
+      )
+      test.end()
+    }
+  )
+})
+
 tape('throws for invalid content', function (test) {
   test.throws(
     function () {

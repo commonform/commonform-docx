@@ -1,4 +1,5 @@
 var JSZip = require('jszip')
+var commonformHash = require('commonform-hash')
 
 var doc = require('./templates/document')
 
@@ -17,6 +18,8 @@ var zipObject = function (zip, object) {
 
 module.exports = function (form, values, options) {
   var title = options.title
+  var edition = options.edition
+  var hash = options.hash ? commonformHash(form) : undefined
   var centerTitle = options.centerTitle || false
   var numberStyle = options.numbering
   var indentMargins = options.indentMargins || false
@@ -28,7 +31,7 @@ module.exports = function (form, values, options) {
       : options.blanks
   var scaffold = require('./data/scaffold.json')
   scaffold.word['document.xml'] = doc(
-    form, values, title,
+    form, values, title, edition, hash,
     centerTitle, numberStyle, indentMargins, after, blanks
   )
   var zip = new JSZip()
