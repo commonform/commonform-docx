@@ -206,6 +206,46 @@ tape('renders centered titles', function (test) {
   )
 })
 
+tape('renders editions', function (test) {
+  textOf(
+    render(
+      {content: ['Hello']},
+      [],
+      {numbering: decimal, title: 'The Title!', edition: 'First'}
+    ),
+    function (error, text) {
+      test.ifError(error, 'no error')
+      test.assert(
+        text.indexOf('First') > -1,
+        'edition appears in output'
+      )
+      test.end()
+    }
+  )
+})
+
+tape('renders hashes', function (test) {
+  var hash = (
+    '5a5e1027b2e2ca0a97f97b3239484dae' +
+    'f047e0fdd0f652067254227096207032'
+  )
+  textOf(
+    render(
+      {content: ['Hello']},
+      [],
+      {numbering: decimal, title: 'The Title!', hash: true}
+    ),
+    function (error, text) {
+      test.ifError(error, 'no error')
+      test.assert(
+        text.indexOf(hash) > -1,
+        'hash symbol appears in output'
+      )
+      test.end()
+    }
+  )
+})
+
 tape('throws for invalid content', function (test) {
   test.throws(
     function () {

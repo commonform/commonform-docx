@@ -1,4 +1,5 @@
 var flatten = require('commonform-flatten')
+var hashRun = require('./hash')
 var titleRun = require('./title')
 var paragraph = require('./paragraph')
 
@@ -26,7 +27,7 @@ var DOCUMENT_XMLNS = (
 )
 
 module.exports = function (
-  form, values, title,
+  form, values, title, edition, hash,
   centerTitle, numberStyle, indentMargins, after, blanks
 ) {
   var paragraphs = flatten(form, values)
@@ -38,6 +39,8 @@ module.exports = function (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
         (title ? titleRun(title, centerTitle) : '') +
+        (edition ? titleRun(edition, centerTitle) : '') +
+        (hash ? hashRun(hash, centerTitle) : '') +
         paragraphs +
         after +
       '</w:body>' +
