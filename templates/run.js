@@ -10,7 +10,11 @@ var defaults = {
 }
 
 var underlineFlag = function (underline) {
-  return '<w:u w:val="' + (underline ? 'single' : 'none') + '"/>'
+  if (typeof underline === 'string') {
+    return '<w:u w:val="' + underline + '"/>'
+  } else {
+    return '<w:u w:val="none"/>'
+  }
 }
 
 var highlightFlag = function (highlight) {
@@ -48,7 +52,7 @@ var runText = function (text) {
 }
 
 module.exports = function run (
-  element, numberStyle, conspicuous, blanks
+  element, numberStyle, conspicuous, blanks, markFilled
 ) {
   var properties = merge(true, defaults)
   if (conspicuous === true) {
@@ -61,7 +65,7 @@ module.exports = function run (
     text = element
   } else if (element.hasOwnProperty('caption')) {
     text = element.caption
-    properties.underline = true
+    properties.underline = 'single'
   } else if (element.hasOwnProperty('title')) {
     text = element.title
     properties.bold = true
@@ -78,6 +82,9 @@ module.exports = function run (
   } else if (element.hasOwnProperty('blank')) {
     if (element.blank !== undefined) {
       text = element.blank
+      if (markFilled) {
+        properties.underline = 'dash'
+      }
     } else {
       text = blanks.text
       if (blanks.highlight) {
@@ -97,7 +104,7 @@ module.exports = function run (
       properties.highlight = 'red'
     } else {
       text = numberStyle(numbering)
-      properties.underline = true
+      properties.underline = 'single'
       return (
         // Underlined reference.
         tag('w:r', runProperties(properties) + runText(text)) +

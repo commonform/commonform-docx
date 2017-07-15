@@ -18,4 +18,6 @@ It may contain:
 
 3. A `hash` property whose value is `true` or `false`
 
+4. A `markFilled` property whose value is `true` or `false`
+
 The function returns a [JSZip](https://npmjs.com/packages/jszip) Object primed with `.docx` document data.
