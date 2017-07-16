@@ -26,6 +26,15 @@ var DOCUMENT_XMLNS = (
 /* jscs:enable maximumlinelength */
 )
 
+var SECTION = (
+'<w:sectPr>' +
+'  <w:pgSz w:w="12240" w:h="15840"/>' +
+'  <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>' +
+'  <w:cols w:space="720"/>' +
+'  <w:docGrid w:linePitch="360"/>' +
+'</w:sectPr>'
+)
+
 module.exports = function (
   form, values, title, edition, hash,
   centerTitle, numberStyle, indentMargins, after, blanks, markFilled
@@ -45,6 +54,7 @@ module.exports = function (
         (hash ? hashRun(hash, centerTitle) : '') +
         paragraphs +
         after +
+        SECTION +
       '</w:body>' +
     '</w:document>'
   )
