@@ -5,6 +5,6 @@ module.exports = function (string, center) {
     alignment: center ? 'center' : 'left',
     depth: 1,
     title: true,
-    content: [{monospaced: '[•] ' + string}]
+    content: [{monospaced: string}]
   })
 }
