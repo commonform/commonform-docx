@@ -20,4 +20,6 @@ It may contain:
 
 4. A `markFilled` property whose value is `true` or `false`
 
+5. A `nearestHeadings` property whose value is `true` or `false`
+
 The function returns a [JSZip](https://npmjs.com/packages/jszip) Object primed with `.docx` document data.

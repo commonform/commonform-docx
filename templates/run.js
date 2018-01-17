@@ -52,7 +52,7 @@ var runText = function (text) {
 }
 
 module.exports = function run (
-  element, numberStyle, conspicuous, blanks, markFilled
+  element, numberStyle, conspicuous, blanks, markFilled, nearestHeadings
 ) {
   var properties = merge(true, defaults)
   if (conspicuous === true) {
@@ -95,6 +95,10 @@ module.exports = function run (
     text = element.use
   } else if (element.hasOwnProperty('heading')) {
     var numbering = element.numbering
+    if (nearestHeadings && element.hasOwnProperty('nearest')) {
+      numbering = element.nearest
+      delete element.ambiguous
+    }
     var heading = element.heading
     if (
       element.hasOwnProperty('broken') ||
