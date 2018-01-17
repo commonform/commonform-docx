@@ -30,10 +30,21 @@ module.exports = function (form, values, options) {
       ? {text: options.blanks}
       : options.blanks
   var markFilled = !!options.markFilled
+  var nearestHeadings = !!options.nearestHeadings
   var scaffold = require('./data/scaffold.json')
   scaffold.word['document.xml'] = doc(
-    form, values, title, edition, hash,
-    centerTitle, numberStyle, indentMargins, after, blanks, markFilled
+    form,
+    values,
+    title,
+    edition,
+    hash,
+    centerTitle,
+    numberStyle,
+    indentMargins,
+    after,
+    blanks,
+    markFilled,
+    nearestHeadings
   )
   var zip = new JSZip()
   zipObject(zip, scaffold)

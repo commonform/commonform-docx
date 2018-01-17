@@ -36,13 +36,28 @@ var SECTION = (
 )
 
 module.exports = function (
-  form, values, title, edition, hash,
-  centerTitle, numberStyle, indentMargins, after, blanks, markFilled
+  form,
+  values,
+  title,
+  edition,
+  hash,
+  centerTitle,
+  numberStyle,
+  indentMargins,
+  after,
+  blanks,
+  markFilled,
+  nearestHeadings
 ) {
   var paragraphs = flatten(form, values)
   .map(function (element) {
     return paragraph(
-      element, numberStyle, indentMargins, blanks, markFilled
+      element,
+      numberStyle,
+      indentMargins,
+      blanks,
+      markFilled,
+      nearestHeadings
     )
   })
   .join('')

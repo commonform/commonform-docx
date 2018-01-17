@@ -85,6 +85,40 @@ tape('renders broken references', function (test) {
   })
 })
 
+tape('renders nearest references', function (test) {
+  var form = {
+    content: [
+      {
+        heading: 'A',
+        form: {content: ['some text']}
+      },
+      {
+        form: {
+          content: [
+            {
+              heading: 'A',
+              form: {content: ['some text']}
+            },
+            {reference: 'A'}
+          ]
+        }
+      }
+    ]
+  }
+  var options = {
+    nearestHeadings: true,
+    numbering: decimal
+  }
+  textOf(render(form, [], options), function (error, text) {
+    test.ifError(error, 'no error')
+    test.assert(
+      text.indexOf('(A)') > -1,
+      'reference appears in output'
+    )
+    test.end()
+  })
+})
+
 tape('fills blanks', function (test) {
   textOf(
     render(
