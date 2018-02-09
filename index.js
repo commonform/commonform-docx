@@ -21,7 +21,7 @@ var defaultStyles = {
   use: {},
   text: {},
   conspicuous: {bold: true, italic: true},
-  heading: {underling: 'single'},
+  heading: {underline: 'single'},
   title: {bold: true},
   beforeDefinition: '"',
   definition: {bold: true},
