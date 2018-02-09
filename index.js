@@ -43,7 +43,7 @@ module.exports = function (form, values, options) {
   var indentMargins = options.indentMargins || false
   var after = options.after || ''
   var styles = options.styles
-    ? assign({}, options.styles, defaultStyles)
+    ? assign({}, defaultStyles, options.styles)
     : defaultStyles
   var blanks = options.blanks === undefined
     ? {text: '[•]', highlight: 'yellow'}
