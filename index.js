@@ -1,5 +1,6 @@
 var JSZip = require('jszip')
 var commonformHash = require('commonform-hash')
+var merge = require('merge')
 
 var doc = require('./templates/document')
 
@@ -16,6 +17,23 @@ var zipObject = function (zip, object) {
   })
 }
 
+var defaultStyles = {
+  use: {},
+  text: {},
+  conspicuous: {bold: true, italic: true},
+  heading: {underling: 'single'},
+  title: {bold: true},
+  beforeDefinition: '"',
+  definition: {bold: true},
+  afterDefinition: '"',
+  filled: {underline: 'dash'},
+  monospaced: {monospaced: true},
+  highlighted: {highlight: true},
+  broken: {highlight: 'red'},
+  reference: {underline: 'single'},
+  referenceHeading: {}
+}
+
 module.exports = function (form, values, options) {
   var title = options.title
   var edition = options.edition
@@ -24,6 +42,9 @@ module.exports = function (form, values, options) {
   var numberStyle = options.numbering
   var indentMargins = options.indentMargins || false
   var after = options.after || ''
+  var styles = options.styles
+    ? merge(true, options.styles, defaultStyles)
+    : defaultStyles
   var blanks = options.blanks === undefined
     ? {text: '[•]', highlight: 'yellow'}
     : typeof options.blanks === 'string'
@@ -33,7 +54,8 @@ module.exports = function (form, values, options) {
   var scaffold = require('./data/scaffold.json')
   scaffold.word['document.xml'] = doc(
     form, values, title, edition, hash,
-    centerTitle, numberStyle, indentMargins, after, blanks, markFilled
+    centerTitle, numberStyle, indentMargins, after, blanks, markFilled,
+    styles
   )
   var zip = new JSZip()
   zipObject(zip, scaffold)

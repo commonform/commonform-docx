@@ -52,46 +52,61 @@ var runText = function (text) {
 }
 
 module.exports = function run (
-  element, numberStyle, conspicuous, blanks, markFilled
+  element, numberStyle, conspicuous, blanks, markFilled, styles
 ) {
   var properties = merge(true, defaults)
   if (conspicuous === true) {
-    properties.italic = true
-    properties.bold = true
+    merge(properties, styles.conspicuous)
   }
   var text = ''
   /* istanbul ignore else */
   if (typeof element === 'string') {
+    merge(properties, styles.text)
     text = element
   } else if (element.hasOwnProperty('caption')) {
+    merge(properties, styles.heading)
     text = element.caption
-    properties.underline = 'single'
   } else if (element.hasOwnProperty('title')) {
+    merge(properties, styles.title)
     text = element.title
-    properties.bold = true
   } else if (element.hasOwnProperty('monospaced')) {
+    merge(properties, styles.monospaced)
     text = element.monospaced
-    properties.monospaced = true
   } else if (element.hasOwnProperty('definition')) {
     var term = element.definition
     return (
-      run('"', numberStyle, conspicuous) +
-      tag('w:r', runProperties({bold: true}) + runText(term)) +
-      run('"', numberStyle, conspicuous)
+      (
+        styles.beforeDefinition
+          ? run(
+            styles.beforeDefinition, numberStyle, conspicuous, blanks,
+            markFilled, styles
+          )
+          : ''
+      ) +
+      tag('w:r', runProperties(styles.definition) + runText(term)) +
+      (
+        styles.afterDefinition
+          ? run(
+            styles.afterDefinition, numberStyle, conspicuous, blanks,
+            markFilled, styles
+          )
+          : ''
+      )
     )
   } else if (element.hasOwnProperty('blank')) {
     if (element.blank !== undefined) {
       text = element.blank
       if (markFilled) {
-        properties.underline = 'dash'
+        merge(properties, styles.filled)
       }
     } else {
       text = blanks.text
       if (blanks.highlight) {
-        properties.highlight = blanks.highlight
+        merge(properties, styles.highlighted)
       }
     }
   } else if (element.hasOwnProperty('use')) {
+    merge(properties, styles.use)
     text = element.use
   } else if (element.hasOwnProperty('heading')) {
     var numbering = element.numbering
@@ -100,16 +115,24 @@ module.exports = function run (
       element.hasOwnProperty('broken') ||
       element.hasOwnProperty('ambiguous')
     ) {
+      merge(properties, styles.broken)
       text = '[Broken Cross-Reference to "' + heading + '"]'
-      properties.highlight = 'red'
     } else {
       text = numberStyle(numbering)
       properties.underline = 'single'
       return (
         // Underlined reference.
-        tag('w:r', runProperties(properties) + runText(text)) +
+        tag(
+          'w:r',
+          runProperties(merge(true, properties, styles.reference)) +
+          runText(text)
+        ) +
         // Name of referenced section in parentheses.
-        run(' (' + heading + ')', numberStyle, conspicuous)
+        tag(
+          'w:r',
+          runProperties(merge(true, properties, styles.referenceHeading)) +
+          runText('(' + heading + ')')
+        )
       )
     }
   } else {

@@ -37,21 +37,21 @@ var SECTION = (
 
 module.exports = function (
   form, values, title, edition, hash,
-  centerTitle, numberStyle, indentMargins, after, blanks, markFilled
+  centerTitle, numberStyle, indentMargins, after, blanks, markFilled, styles
 ) {
   var paragraphs = flatten(form, values)
   .map(function (element) {
     return paragraph(
-      element, numberStyle, indentMargins, blanks, markFilled
+      element, numberStyle, indentMargins, blanks, markFilled, styles
     )
   })
   .join('')
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
-        (title ? titleRun(title, centerTitle) : '') +
-        (edition ? titleRun(edition, centerTitle) : '') +
-        (hash ? hashRun(hash, centerTitle) : '') +
+        (title ? titleRun(title, centerTitle, styles) : '') +
+        (edition ? titleRun(edition, centerTitle, styles) : '') +
+        (hash ? hashRun(hash, centerTitle, styles) : '') +
         paragraphs +
         after +
         SECTION +

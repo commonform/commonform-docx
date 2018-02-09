@@ -1,6 +1,6 @@
 var paragraph = require('./paragraph')
 
-module.exports = function (string, center) {
+module.exports = function (string, center, styles) {
   var argument = {
     alignment: 'left',
     depth: 1,
@@ -10,5 +10,5 @@ module.exports = function (string, center) {
   if (center) {
     argument.alignment = 'center'
   }
-  return paragraph(argument)
+  return paragraph(argument, null, null, null, null, styles)
 }
