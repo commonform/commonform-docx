@@ -1,6 +1,6 @@
 var JSZip = require('jszip')
+var assign = require('object-assign')
 var commonformHash = require('commonform-hash')
-var merge = require('merge')
 
 var doc = require('./templates/document')
 
@@ -43,7 +43,7 @@ module.exports = function (form, values, options) {
   var indentMargins = options.indentMargins || false
   var after = options.after || ''
   var styles = options.styles
-    ? merge(true, options.styles, defaultStyles)
+    ? assign({}, options.styles, defaultStyles)
     : defaultStyles
   var blanks = options.blanks === undefined
     ? {text: '[•]', highlight: 'yellow'}

@@ -1,5 +1,5 @@
+var assign = require('object-assign')
 var escape = require('../escape')
-var merge = require('merge')
 var tag = require('./tag')
 
 var defaults = {
@@ -54,23 +54,23 @@ var runText = function (text) {
 module.exports = function run (
   element, numberStyle, conspicuous, blanks, markFilled, styles
 ) {
-  var properties = merge(true, defaults)
+  var properties = assign({}, defaults)
   if (conspicuous === true) {
-    merge(properties, styles.conspicuous)
+    assign(properties, styles.conspicuous)
   }
   var text = ''
   /* istanbul ignore else */
   if (typeof element === 'string') {
-    merge(properties, styles.text)
+    assign(properties, styles.text)
     text = element
   } else if (element.hasOwnProperty('caption')) {
-    merge(properties, styles.heading)
+    assign(properties, styles.heading)
     text = element.caption
   } else if (element.hasOwnProperty('title')) {
-    merge(properties, styles.title)
+    assign(properties, styles.title)
     text = element.title
   } else if (element.hasOwnProperty('monospaced')) {
-    merge(properties, styles.monospaced)
+    assign(properties, styles.monospaced)
     text = element.monospaced
   } else if (element.hasOwnProperty('definition')) {
     var term = element.definition
@@ -97,16 +97,16 @@ module.exports = function run (
     if (element.blank !== undefined) {
       text = element.blank
       if (markFilled) {
-        merge(properties, styles.filled)
+        assign(properties, styles.filled)
       }
     } else {
       text = blanks.text
       if (blanks.highlight) {
-        merge(properties, styles.highlighted)
+        assign(properties, styles.highlighted)
       }
     }
   } else if (element.hasOwnProperty('use')) {
-    merge(properties, styles.use)
+    assign(properties, styles.use)
     text = element.use
   } else if (element.hasOwnProperty('heading')) {
     var numbering = element.numbering
@@ -115,7 +115,7 @@ module.exports = function run (
       element.hasOwnProperty('broken') ||
       element.hasOwnProperty('ambiguous')
     ) {
-      merge(properties, styles.broken)
+      assign(properties, styles.broken)
       text = '[Broken Cross-Reference to "' + heading + '"]'
     } else {
       text = numberStyle(numbering)
@@ -124,13 +124,13 @@ module.exports = function run (
         // Underlined reference.
         tag(
           'w:r',
-          runProperties(merge(true, properties, styles.reference)) +
+          runProperties(assign({}, properties, styles.reference)) +
           runText(text)
         ) +
         // Name of referenced section in parentheses.
         tag(
           'w:r',
-          runProperties(merge(true, properties, styles.referenceHeading)) +
+          runProperties(assign({}, properties, styles.referenceHeading)) +
           runText('(' + heading + ')')
         )
       )
