@@ -94,6 +94,7 @@ module.exports = function run (
       )
     )
   } else if (element.hasOwnProperty('blank')) {
+    assign(properties, styles.text)
     if (element.blank !== undefined) {
       text = element.blank
       if (markFilled) {
