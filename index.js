@@ -28,7 +28,7 @@ var defaultStyles = {
   afterDefinition: '"',
   filled: {underline: 'dash'},
   monospaced: {monospaced: true},
-  highlighted: {highlight: true},
+  highlighted: {highlight: 'yellow'},
   broken: {highlight: 'red'},
   reference: {underline: 'single'},
   referenceHeading: {}
