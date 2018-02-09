@@ -130,7 +130,7 @@ module.exports = function run (
         tag(
           'w:r',
           runProperties(assign({}, properties, styles.referenceHeading)) +
-          runText('(' + heading + ')')
+          runText(' (' + heading + ')')
         )
       )
     }
