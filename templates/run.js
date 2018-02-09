@@ -119,7 +119,6 @@ module.exports = function run (
       text = '[Broken Cross-Reference to "' + heading + '"]'
     } else {
       text = numberStyle(numbering)
-      properties.underline = 'single'
       return (
         // Underlined reference.
         tag(
