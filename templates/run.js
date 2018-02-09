@@ -21,6 +21,10 @@ var highlightFlag = function (highlight) {
   return '<w:highlight w:val="' + highlight + '"/>'
 }
 
+var szFlag = function (size) {
+  return '<w:sz w:val="' + size + '"/>'
+}
+
 var flag = function (name, value) {
   return value ? '<w:' + name + '/>' : ''
 }
@@ -30,6 +34,7 @@ var runProperties = function (options) {
     (
       flag('b', options.bold || false) +
       flag('i', options.italic || false) +
+      (options.size ? szFlag(Math.floor(options.size * 2)) : '') +
       (options.highlight ? highlightFlag(options.highlight) : '') +
       underlineFlag(options.underline || false) +
       (

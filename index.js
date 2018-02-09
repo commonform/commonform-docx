@@ -18,6 +18,7 @@ var zipObject = function (zip, object) {
 }
 
 var defaultStyles = {
+  size: 12,
   use: {},
   text: {},
   conspicuous: {bold: true, italic: true},
@@ -45,6 +46,13 @@ module.exports = function (form, values, options) {
   var styles = options.styles
     ? assign({}, defaultStyles, options.styles)
     : defaultStyles
+  if (styles.size) {
+    Object.keys(styles).forEach(function (key) {
+      if (typeof styles[key] === 'object') {
+        styles[key].size = styles.size
+      }
+    })
+  }
   var blanks = options.blanks === undefined
     ? {text: '[•]', highlight: 'yellow'}
     : typeof options.blanks === 'string'
