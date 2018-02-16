@@ -66,6 +66,25 @@ tape('renders references', function (test) {
   })
 })
 
+tape('omits period after heading ending w/ period', function (test) {
+  var form = {
+    content: [
+      {
+        heading: 'Ends with period.',
+        form: {content: ['Some text.']}
+      }
+    ]
+  }
+  textOf(render(form), function (error, text) {
+    test.ifError(error, 'no error')
+    test.assert(
+      text.indexOf('.. ') === -1,
+      'double period does not appear in output'
+    )
+    test.end()
+  })
+})
+
 tape('renders broken references', function (test) {
   var form = {
     content: [
