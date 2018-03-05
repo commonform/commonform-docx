@@ -58,7 +58,11 @@ module.exports = function (
       element.hasOwnProperty('heading')
       ? (
         makeRun({caption: element.heading}, conspicuous) +
-        (/\.$/.test(element.heading) ? '' : makeRun('. ', false))
+        (
+          /\.$/.test(element.heading)
+            ? makeRun(' ', false)
+            : makeRun('. ', false)
+        )
       )
       : ''
     ) +
