@@ -42,7 +42,7 @@ module.exports = function (
   element, numberStyle, indentMargins, blanks, markFilled, styles
 ) {
   if (!element.hasOwnProperty('alignment')) {
-    element.alignment = 'justify'
+    element.alignment = styles.alignment || 'justify'
   }
   var number = element.hasOwnProperty('numbering')
   ? numberStyle(element.numbering, true)
