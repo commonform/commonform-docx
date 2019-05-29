@@ -1,6 +1,6 @@
 # commonform-docx
 
-render Common Forms in Office Open XML (Microsoft Word `.docx` format)
+render [Common Form objects](https://www.npmjs.com/package/commonform-validate) in Office Open XML (Microsoft Word `.docx` format)
 
 The exported function takes three arguments:
 
