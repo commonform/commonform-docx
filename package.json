@@ -1,6 +1,6 @@
 {
   "name": "commonform-docx",
-  "description": "render Common Forms in Office Open XML",
+  "description": "render Common Forms in Office Open XML (Microsoft Word .docx format)",
   "version": "1.4.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "bin": "bin.js",
