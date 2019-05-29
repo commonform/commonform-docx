@@ -3,7 +3,7 @@
   "description": "render Common Forms in Office Open XML",
   "version": "1.4.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
-  "bin": "commonform-docx",
+  "bin": "bin.js",
   "dependencies": {
     "@kemitchell/docopt": "^1.0.0",
     "agreement-schedules-exhibits-numbering": "^1.0.0",
