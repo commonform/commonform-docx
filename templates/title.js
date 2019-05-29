@@ -7,8 +7,6 @@ module.exports = function (string, center, styles) {
     title: true,
     content: [{ title: string }]
   }
-  if (center) {
-    argument.alignment = 'center'
-  }
+  if (center) argument.alignment = 'center'
   return paragraph(argument, null, null, null, null, styles)
 }

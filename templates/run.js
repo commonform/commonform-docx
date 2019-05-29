@@ -97,14 +97,10 @@ module.exports = function run (
     assign(properties, styles.text)
     if (element.blank !== undefined) {
       text = element.blank
-      if (markFilled) {
-        assign(properties, styles.filled)
-      }
+      if (markFilled) assign(properties, styles.filled)
     } else {
       text = blanks.text
-      if (blanks.highlight) {
-        assign(properties, styles.highlighted)
-      }
+      if (blanks.highlight) assign(properties, styles.highlighted)
     }
   } else if (element.hasOwnProperty('use')) {
     assign(properties, styles.use)

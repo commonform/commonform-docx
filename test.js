@@ -19,12 +19,13 @@ tape('renders text', function (test) {
 
 tape('renders definitions', function (test) {
   textOf(
-    render({ content: [{ definition: 'Agreement' }] }),
+    render({ content: [ { definition: 'Agreement' } ] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
         text.indexOf('Agreement') > -1,
-        'defined term appears in output')
+        'defined term appears in output'
+      )
       test.end()
     }
   )
@@ -32,12 +33,13 @@ tape('renders definitions', function (test) {
 
 tape('renders uses', function (test) {
   textOf(
-    render({ content: [{ use: 'Agreement' }] }),
+    render({ content: [ { use: 'Agreement' } ] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
         text.indexOf('Agreement') > -1,
-        'term appears in output')
+        'term appears in output'
+      )
       test.end()
     }
   )
@@ -48,11 +50,11 @@ tape('renders references', function (test) {
     content: [
       {
         heading: 'B',
-        form: { content: ['First'] }
+        form: { content: [ 'First' ] }
       },
       {
         heading: 'A',
-        form: { content: [{ reference: 'B' }] }
+        form: { content: [ { reference: 'B' } ] }
       }
     ]
   }
@@ -71,7 +73,7 @@ tape('omits period after heading ending w/ period', function (test) {
     content: [
       {
         heading: 'Ends with period.',
-        form: { content: ['Some text.'] }
+        form: { content: [ 'Some text.' ] }
       }
     ]
   }
@@ -90,7 +92,7 @@ tape('renders broken references', function (test) {
     content: [
       {
         heading: 'A',
-        form: { content: [{ reference: 'B' }] }
+        form: { content: [ { reference: 'B' } ] }
       }
     ]
   }
@@ -107,8 +109,8 @@ tape('renders broken references', function (test) {
 tape('fills blanks', function (test) {
   textOf(
     render(
-      { content: [{ blank: '' }] },
-      [{ blank: ['content', 0], value: 'Hello' }]
+      { content: [ { blank: '' } ] },
+      [ { blank: [ 'content', 0 ], value: 'Hello' } ]
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -123,7 +125,7 @@ tape('fills blanks', function (test) {
 
 tape('renders empty blank placeholders', function (test) {
   textOf(
-    render({ content: ['A ', { blank: '' }, ' B'] }),
+    render({ content: [ 'A ', { blank: '' }, ' B' ] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
@@ -156,7 +158,7 @@ tape('renders custom empty blank placeholders', function (test) {
 tape('renders custom empty blank placeholders', function (test) {
   textOf(
     render(
-      { content: ['A ', { blank: '' }, ' B'] },
+      { content: [ 'A ', { blank: '' }, ' B' ] },
       [],
       { blanks: '________' }
     ),
@@ -173,7 +175,7 @@ tape('renders custom empty blank placeholders', function (test) {
 
 tape('renders conspicuous text', function (test) {
   textOf(
-    render({ conspicuous: 'yes', content: ['Hello'] }),
+    render({ conspicuous: 'yes', content: [ 'Hello' ] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
@@ -188,7 +190,7 @@ tape('renders conspicuous text', function (test) {
 tape('renders titles', function (test) {
   textOf(
     render(
-      { content: ['Hello'] },
+      { content: [ 'Hello' ] },
       [],
       { numbering: decimal, title: 'The Title!' }
     ),
@@ -206,7 +208,7 @@ tape('renders titles', function (test) {
 tape('renders centered titles', function (test) {
   textOf(
     render(
-      { content: ['Hello'] },
+      { content: [ 'Hello' ] },
       [],
       {
         numbering: decimal,
@@ -228,9 +230,13 @@ tape('renders centered titles', function (test) {
 tape('renders editions', function (test) {
   textOf(
     render(
-      { content: ['Hello'] },
+      { content: [ 'Hello' ] },
       [],
-      { numbering: decimal, title: 'The Title!', edition: 'First' }
+      {
+        numbering: decimal,
+        title: 'The Title!',
+        edition: 'First'
+      }
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -250,9 +256,13 @@ tape('renders hashes', function (test) {
   )
   textOf(
     render(
-      { content: ['Hello'] },
+      { content: [ 'Hello' ] },
       [],
-      { numbering: decimal, title: 'The Title!', hash: true }
+      {
+        numbering: decimal,
+        title: 'The Title!',
+        hash: true
+      }
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -268,7 +278,7 @@ tape('renders hashes', function (test) {
 tape('throws for invalid content', function (test) {
   test.throws(
     function () {
-      render({ content: [{ nonsense: 'here' }] })
+      render({ content: [ { nonsense: 'here' } ] })
     },
     /Invalid content/,
     'throw an error')
