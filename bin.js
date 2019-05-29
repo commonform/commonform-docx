@@ -22,7 +22,7 @@ var usage = [
   '  -y JSON, --styles JSON        Render with custom styles.'
 ].join('\n')
 
-var parsed = docopt(usage, {version: require('./package.json').version})
+var parsed = docopt(usage, { version: require('./package.json').version })
 
 // Parse arguments and options.
 
