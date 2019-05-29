@@ -20,17 +20,17 @@ var zipObject = function (zip, object) {
 var defaultStyles = {
   use: {},
   text: {},
-  conspicuous: {bold: true, italic: true},
-  heading: {underline: 'single'},
-  title: {bold: true},
+  conspicuous: { bold: true, italic: true },
+  heading: { underline: 'single' },
+  title: { bold: true },
   beforeDefinition: '"',
-  definition: {bold: true},
+  definition: { bold: true },
   afterDefinition: '"',
-  filled: {underline: 'dash'},
-  monospaced: {monospaced: true},
-  highlighted: {highlight: 'yellow'},
-  broken: {highlight: 'red'},
-  reference: {underline: 'single'},
+  filled: { underline: 'dash' },
+  monospaced: { monospaced: true },
+  highlighted: { highlight: 'yellow' },
+  broken: { highlight: 'red' },
+  reference: { underline: 'single' },
   referenceHeading: {}
 }
 
@@ -46,9 +46,9 @@ module.exports = function (form, values, options) {
     ? assign({}, defaultStyles, options.styles)
     : defaultStyles
   var blanks = options.blanks === undefined
-    ? {text: '[•]', highlight: 'yellow'}
+    ? { text: '[•]', highlight: 'yellow' }
     : typeof options.blanks === 'string'
-      ? {text: options.blanks}
+      ? { text: options.blanks }
       : options.blanks
   var markFilled = !!options.markFilled
   var scaffold = require('./data/scaffold.json')

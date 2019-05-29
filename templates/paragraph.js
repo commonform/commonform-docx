@@ -15,22 +15,22 @@ var alignments = {
 var properties = function (o, number, indentMargins) {
   // CAVEAT: The order of properties is important.
   var depth = ('heading' in o || 'numbering' in o || 'title' in o)
-  ? o.depth
-  : o.depth + 1
+    ? o.depth
+    : o.depth + 1
   var alignment = o.alignment
   return tag('w:pPr',
     '<w:ind' +
     (
       indentMargins
-      ? (
-        number.length === 0
-        ? (' w:left="' + ((depth - 2) * HALF_INCH) + '"')
-        : (
-          ' w:left="' + ((depth - 1) * HALF_INCH) + '"' +
+        ? (
+          number.length === 0
+            ? (' w:left="' + ((depth - 2) * HALF_INCH) + '"')
+            : (
+              ' w:left="' + ((depth - 1) * HALF_INCH) + '"' +
           ' w:firstLine="-' + HALF_INCH + '"'
+            )
         )
-      )
-      : (' w:firstLine="' + ((depth - 1) * HALF_INCH) + '"')
+        : (' w:firstLine="' + ((depth - 1) * HALF_INCH) + '"')
     ) + ' />' +
     '<w:jc w:val="' + alignments[alignment] + '" />'
   )
@@ -45,32 +45,32 @@ module.exports = function (
     element.alignment = styles.alignment || 'justify'
   }
   var number = element.hasOwnProperty('numbering')
-  ? numberStyle(element.numbering, true)
-  : ''
+    ? numberStyle(element.numbering, true)
+    : ''
   var conspicuous = element.hasOwnProperty('conspicuous')
   return tag('w:p',
     properties(element, number, indentMargins) +
     (
       number
-      ? makeRun(number, false) + TAB
-      : ''
+        ? makeRun(number, false) + TAB
+        : ''
     ) + (
       element.hasOwnProperty('heading')
-      ? (
-        makeRun({caption: element.heading}, conspicuous) +
+        ? (
+          makeRun({ caption: element.heading }, conspicuous) +
         (
           /\.$/.test(element.heading)
             ? makeRun(' ', false)
             : makeRun('. ', false)
         )
-      )
-      : ''
+        )
+        : ''
     ) +
     element.content
-    .map(function (element) {
-      return makeRun(element, conspicuous)
-    })
-    .join('')
+      .map(function (element) {
+        return makeRun(element, conspicuous)
+      })
+      .join('')
   )
   function makeRun (element, conspicuous) {
     return run(element, numberStyle, conspicuous, blanks, markFilled, styles)

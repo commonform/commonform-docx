@@ -19,7 +19,7 @@
   "devDependencies": {
     "decimal-numbering": "^1.1.0",
     "istanbul": "^0.4.0",
-    "standard": "^10.0.2",
+    "standard": "^12.0.1",
     "tape": "^4.2.2",
     "textract": "^1.1.1"
   },

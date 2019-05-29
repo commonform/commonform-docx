@@ -27,7 +27,7 @@ var DOCUMENT_XMLNS = (
 )
 
 var SECTION = (
-'<w:sectPr>' +
+  '<w:sectPr>' +
 '  <w:pgSz w:w="12240" w:h="15840"/>' +
 '  <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>' +
 '  <w:cols w:space="720"/>' +
@@ -40,12 +40,12 @@ module.exports = function (
   centerTitle, numberStyle, indentMargins, after, blanks, markFilled, styles
 ) {
   var paragraphs = flatten(form, values)
-  .map(function (element) {
-    return paragraph(
-      element, numberStyle, indentMargins, blanks, markFilled, styles
-    )
-  })
-  .join('')
+    .map(function (element) {
+      return paragraph(
+        element, numberStyle, indentMargins, blanks, markFilled, styles
+      )
+    })
+    .join('')
   return (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +

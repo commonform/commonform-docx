@@ -5,7 +5,7 @@ module.exports = function (string, center, styles) {
     alignment: 'left',
     depth: 1,
     title: true,
-    content: [{title: string}]
+    content: [{ title: string }]
   }
   if (center) {
     argument.alignment = 'center'

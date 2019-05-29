@@ -5,7 +5,7 @@ var textract = require('textract')
 
 tape('renders text', function (test) {
   textOf(
-    render({content: ['Hello!']}),
+    render({ content: ['Hello!'] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
@@ -19,7 +19,7 @@ tape('renders text', function (test) {
 
 tape('renders definitions', function (test) {
   textOf(
-    render({content: [{definition: 'Agreement'}]}),
+    render({ content: [{ definition: 'Agreement' }] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
@@ -32,7 +32,7 @@ tape('renders definitions', function (test) {
 
 tape('renders uses', function (test) {
   textOf(
-    render({content: [{use: 'Agreement'}]}),
+    render({ content: [{ use: 'Agreement' }] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
@@ -48,11 +48,11 @@ tape('renders references', function (test) {
     content: [
       {
         heading: 'B',
-        form: {content: ['First']}
+        form: { content: ['First'] }
       },
       {
         heading: 'A',
-        form: {content: [{reference: 'B'}]}
+        form: { content: [{ reference: 'B' }] }
       }
     ]
   }
@@ -71,7 +71,7 @@ tape('omits period after heading ending w/ period', function (test) {
     content: [
       {
         heading: 'Ends with period.',
-        form: {content: ['Some text.']}
+        form: { content: ['Some text.'] }
       }
     ]
   }
@@ -90,7 +90,7 @@ tape('renders broken references', function (test) {
     content: [
       {
         heading: 'A',
-        form: {content: [{reference: 'B'}]}
+        form: { content: [{ reference: 'B' }] }
       }
     ]
   }
@@ -107,8 +107,8 @@ tape('renders broken references', function (test) {
 tape('fills blanks', function (test) {
   textOf(
     render(
-      {content: [{blank: ''}]},
-      [{blank: ['content', 0], value: 'Hello'}]
+      { content: [{ blank: '' }] },
+      [{ blank: ['content', 0], value: 'Hello' }]
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -123,7 +123,7 @@ tape('fills blanks', function (test) {
 
 tape('renders empty blank placeholders', function (test) {
   textOf(
-    render({content: ['A ', {blank: ''}, ' B']}),
+    render({ content: ['A ', { blank: '' }, ' B'] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
@@ -138,9 +138,9 @@ tape('renders empty blank placeholders', function (test) {
 tape('renders custom empty blank placeholders', function (test) {
   textOf(
     render(
-      {content: ['A ', {blank: ''}, ' B']},
+      { content: ['A ', { blank: '' }, ' B'] },
       [],
-      {blanks: {text: '________'}}
+      { blanks: { text: '________' } }
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -156,9 +156,9 @@ tape('renders custom empty blank placeholders', function (test) {
 tape('renders custom empty blank placeholders', function (test) {
   textOf(
     render(
-      {content: ['A ', {blank: ''}, ' B']},
+      { content: ['A ', { blank: '' }, ' B'] },
       [],
-      {blanks: '________'}
+      { blanks: '________' }
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -173,7 +173,7 @@ tape('renders custom empty blank placeholders', function (test) {
 
 tape('renders conspicuous text', function (test) {
   textOf(
-    render({conspicuous: 'yes', content: ['Hello']}),
+    render({ conspicuous: 'yes', content: ['Hello'] }),
     function (error, text) {
       test.ifError(error, 'no error')
       test.assert(
@@ -188,9 +188,9 @@ tape('renders conspicuous text', function (test) {
 tape('renders titles', function (test) {
   textOf(
     render(
-      {content: ['Hello']},
+      { content: ['Hello'] },
       [],
-      {numbering: decimal, title: 'The Title!'}
+      { numbering: decimal, title: 'The Title!' }
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -206,7 +206,7 @@ tape('renders titles', function (test) {
 tape('renders centered titles', function (test) {
   textOf(
     render(
-      {content: ['Hello']},
+      { content: ['Hello'] },
       [],
       {
         numbering: decimal,
@@ -228,9 +228,9 @@ tape('renders centered titles', function (test) {
 tape('renders editions', function (test) {
   textOf(
     render(
-      {content: ['Hello']},
+      { content: ['Hello'] },
       [],
-      {numbering: decimal, title: 'The Title!', edition: 'First'}
+      { numbering: decimal, title: 'The Title!', edition: 'First' }
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -250,9 +250,9 @@ tape('renders hashes', function (test) {
   )
   textOf(
     render(
-      {content: ['Hello']},
+      { content: ['Hello'] },
       [],
-      {numbering: decimal, title: 'The Title!', hash: true}
+      { numbering: decimal, title: 'The Title!', hash: true }
     ),
     function (error, text) {
       test.ifError(error, 'no error')
@@ -268,7 +268,7 @@ tape('renders hashes', function (test) {
 tape('throws for invalid content', function (test) {
   test.throws(
     function () {
-      render({content: [{nonsense: 'here'}]})
+      render({ content: [{ nonsense: 'here' }] })
     },
     /Invalid content/,
     'throw an error')
@@ -288,7 +288,7 @@ var MIME = [
 
 function render (form, blanks, options) {
   blanks = blanks || []
-  options = options || {numbering: decimal}
+  options = options || { numbering: decimal }
   return docx(form, blanks, options)
-  .generate({type: 'nodebuffer'})
+    .generate({ type: 'nodebuffer' })
 }
