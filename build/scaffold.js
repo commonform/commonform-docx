@@ -3,6 +3,12 @@ var fs = require('fs')
 
 var INPUT = process.argv[2]
 
+fs.readFile(INPUT, function (error, data) {
+  if (error) throw error
+  var zip = new JSZip(data)
+  writeJSON(zip)
+})
+
 function arbitrarilyDeepFolder (directories, object) {
   var returned = object
   directories.forEach(function (dir) {
@@ -31,9 +37,3 @@ function writeJSON (zip) {
   var json = build(zip, zip.files)
   process.stdout.write(JSON.stringify(json))
 }
-
-fs.readFile(INPUT, function (error, data) {
-  if (error) throw error
-  var zip = new JSZip(data)
-  writeJSON(zip)
-})
