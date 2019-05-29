@@ -4,7 +4,7 @@ var commonformHash = require('commonform-hash')
 
 var doc = require('./templates/document')
 
-var zipObject = function (zip, object) {
+function zipObject (zip, object) {
   Object.keys(object).forEach(function (path) {
     var content = object[path]
     // File
