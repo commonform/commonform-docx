@@ -4,19 +4,6 @@ var commonformHash = require('commonform-hash')
 
 var doc = require('./templates/document')
 
-function zipObject (zip, object) {
-  Object.keys(object).forEach(function (path) {
-    var content = object[path]
-    // File
-    if (typeof content === 'string') {
-      zip.file(path, content.trim())
-    // Folder
-    } else {
-      zipObject(zip.folder(path), content)
-    }
-  })
-}
-
 var defaultStyles = {
   use: {},
   text: {},
@@ -60,4 +47,17 @@ module.exports = function (form, values, options) {
   var zip = new JSZip()
   zipObject(zip, scaffold)
   return zip
+}
+
+function zipObject (zip, object) {
+  Object.keys(object).forEach(function (path) {
+    var content = object[path]
+    // File
+    if (typeof content === 'string') {
+      zip.file(path, content.trim())
+    // Folder
+    } else {
+      zipObject(zip.folder(path), content)
+    }
+  })
 }
