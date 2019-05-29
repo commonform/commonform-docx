@@ -1,3 +1,7 @@
+# commonform-docx
+
+render Common Forms in Office Open XML (Microsoft Word `.docx` format)
+
 The exported function takes three arguments:
 
 1. A Common Form
