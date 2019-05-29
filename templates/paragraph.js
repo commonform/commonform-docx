@@ -27,7 +27,7 @@ var properties = function (o, number, indentMargins) {
             ? (' w:left="' + ((depth - 2) * HALF_INCH) + '"')
             : (
               ' w:left="' + ((depth - 1) * HALF_INCH) + '"' +
-          ' w:firstLine="-' + HALF_INCH + '"'
+              ' w:firstLine="-' + HALF_INCH + '"'
             )
         )
         : (' w:firstLine="' + ((depth - 1) * HALF_INCH) + '"')

@@ -9,7 +9,7 @@ var defaults = {
   underline: false
 }
 
-var underlineFlag = function (underline) {
+function underlineFlag (underline) {
   if (typeof underline === 'string') {
     return '<w:u w:val="' + underline + '"/>'
   } else {
@@ -17,15 +17,15 @@ var underlineFlag = function (underline) {
   }
 }
 
-var highlightFlag = function (highlight) {
+function highlightFlag (highlight) {
   return '<w:highlight w:val="' + highlight + '"/>'
 }
 
-var flag = function (name, value) {
+function flag (name, value) {
   return value ? '<w:' + name + '/>' : ''
 }
 
-var runProperties = function (options) {
+function runProperties (options) {
   return tag('w:rPr',
     (
       flag('b', options.bold || false) +
@@ -47,7 +47,7 @@ var runProperties = function (options) {
   )
 }
 
-var runText = function (text) {
+function runText (text) {
   return '<w:t xml:space="preserve">' + escape(text) + '</w:t>'
 }
 
