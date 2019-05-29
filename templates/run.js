@@ -9,48 +9,6 @@ var defaults = {
   underline: false
 }
 
-function underlineFlag (underline) {
-  if (typeof underline === 'string') {
-    return '<w:u w:val="' + underline + '"/>'
-  } else {
-    return '<w:u w:val="none"/>'
-  }
-}
-
-function highlightFlag (highlight) {
-  return '<w:highlight w:val="' + highlight + '"/>'
-}
-
-function flag (name, value) {
-  return value ? '<w:' + name + '/>' : ''
-}
-
-function runProperties (options) {
-  return tag('w:rPr',
-    (
-      flag('b', options.bold || false) +
-      flag('i', options.italic || false) +
-      (options.highlight ? highlightFlag(options.highlight) : '') +
-      underlineFlag(options.underline || false) +
-      (
-        options.monospaced
-          ? (
-            '<w:rFonts ' +
-            'w:ascii="Courier New" ' +
-            'w:hAnsi="Courier New" ' +
-            'w:cs="Courier New"/>' +
-            '<w:sz w:val="20"/>'
-          )
-          : ''
-      )
-    )
-  )
-}
-
-function runText (text) {
-  return '<w:t xml:space="preserve">' + escape(text) + '</w:t>'
-}
-
 module.exports = function run (
   element, numberStyle, conspicuous, blanks, markFilled, styles
 ) {
@@ -135,4 +93,46 @@ module.exports = function run (
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2))
   }
   return tag('w:r', runProperties(properties) + runText(text))
+}
+
+function underlineFlag (underline) {
+  if (typeof underline === 'string') {
+    return '<w:u w:val="' + underline + '"/>'
+  } else {
+    return '<w:u w:val="none"/>'
+  }
+}
+
+function highlightFlag (highlight) {
+  return '<w:highlight w:val="' + highlight + '"/>'
+}
+
+function flag (name, value) {
+  return value ? '<w:' + name + '/>' : ''
+}
+
+function runProperties (options) {
+  return tag('w:rPr',
+    (
+      flag('b', options.bold || false) +
+      flag('i', options.italic || false) +
+      (options.highlight ? highlightFlag(options.highlight) : '') +
+      underlineFlag(options.underline || false) +
+      (
+        options.monospaced
+          ? (
+            '<w:rFonts ' +
+            'w:ascii="Courier New" ' +
+            'w:hAnsi="Courier New" ' +
+            'w:cs="Courier New"/>' +
+            '<w:sz w:val="20"/>'
+          )
+          : ''
+      )
+    )
+  )
+}
+
+function runText (text) {
+  return '<w:t xml:space="preserve">' + escape(text) + '</w:t>'
 }
