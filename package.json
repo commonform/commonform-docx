@@ -9,7 +9,7 @@
     "agreement-schedules-exhibits-numbering": "^2.0.0",
     "commonform-flatten": "^1.0.0",
     "commonform-hash": "^1.0.0",
-    "decimal-numbering": "^1.1.0",
+    "decimal-numbering": "^3.0.2",
     "jszip": "^2.4.0",
     "object-assign": "^4.1.1",
     "ooxml-signature-pages": "^2.0.1",
