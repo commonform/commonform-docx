@@ -7,7 +7,7 @@
   "dependencies": {
     "@kemitchell/docopt": "^1.0.0",
     "agreement-schedules-exhibits-numbering": "^2.0.0",
-    "commonform-flatten": "^0.8.0",
+    "commonform-flatten": "^1.0.0",
     "commonform-hash": "^0.4.3",
     "decimal-numbering": "^1.1.0",
     "jszip": "^2.4.0",
