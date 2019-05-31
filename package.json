@@ -13,7 +13,7 @@
     "jszip": "^2.4.0",
     "object-assign": "^4.1.1",
     "ooxml-signature-pages": "^3.0.2",
-    "outline-numbering": "^1.0.2",
+    "outline-numbering": "^2.0.0",
     "plan-addenda-exhibits-numbering": "^2.0.0",
     "resolutions-schedules-exhibits-numbering": "^0.1.0"
   },
