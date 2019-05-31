@@ -36,7 +36,7 @@ var options = {}
 
 if (parsed['--title']) options.title = parsed['--title']
 
-if (parsed['numbering']) {
+if (parsed['--number']) {
   var numberStyle = parsed['--number']
   var supportedNumberingStyles = {
     rse: 'resolutions-schedules-exhibits-numbering',
@@ -57,6 +57,8 @@ if (parsed['numbering']) {
   } else {
     options.numbering = require(supportedNumberingStyles[numberStyle])
   }
+} else {
+  options.numbering = require('decimal-numbering')
 }
 
 if (parsed['--signatures']) {
@@ -88,5 +90,6 @@ function readJSON (file) {
 }
 
 // Render and print.
+var rendered = require('./')(form, directions, options)
 
-process.stdout.write(require('./')(form, directions, options) + '\n')
+process.stdout.write(rendered.generate({ type: 'nodebuffer' }))
