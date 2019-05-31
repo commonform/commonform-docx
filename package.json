@@ -9,6 +9,7 @@
     "agreement-schedules-exhibits-numbering": "^1.0.0",
     "commonform-flatten": "^0.8.0",
     "commonform-hash": "^0.4.3",
+    "decimal-numbering": "^1.1.0",
     "jszip": "^2.4.0",
     "object-assign": "^4.1.1",
     "ooxml-signature-pages": "^2.0.1",
@@ -17,7 +18,6 @@
     "resolutions-schedules-exhibits-numbering": "^0.1.0"
   },
   "devDependencies": {
-    "decimal-numbering": "^1.1.0",
     "istanbul": "^0.4.0",
     "standard": "^12.0.1",
     "tape": "^4.2.2",
