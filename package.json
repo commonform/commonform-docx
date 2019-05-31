@@ -8,7 +8,7 @@
     "@kemitchell/docopt": "^1.0.0",
     "agreement-schedules-exhibits-numbering": "^2.0.0",
     "commonform-flatten": "^1.0.0",
-    "commonform-hash": "^0.4.3",
+    "commonform-hash": "^1.0.0",
     "decimal-numbering": "^1.1.0",
     "jszip": "^2.4.0",
     "object-assign": "^4.1.1",
