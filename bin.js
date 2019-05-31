@@ -18,7 +18,7 @@ var usage = [
   '  -l, --left-align-title        Align title flush to left margin',
   '  -n STYLE, --number STYLE      Numbering style [default: decimal]',
   '  -s PAGES, --signatures PAGES  Signature page data',
-  '  -t TITLE, --title=TITLE       Render title as <h1>.',
+  '  -t TITLE, --title TITLE       Render title as <h1>.',
   '  -y JSON, --styles JSON        Render with custom styles.'
 ].join('\n')
 
@@ -68,7 +68,7 @@ if (parsed['--signatures']) {
 }
 
 if (parsed['--styles']) {
-  options.styles = JSON.parse(fs.readFileSync(parsed['--style']))
+  options.styles = JSON.parse(fs.readFileSync(parsed['--styles']))
 }
 
 if (parsed['--title']) options.title = parsed['--title']
