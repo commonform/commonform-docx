@@ -21,7 +21,7 @@
     "istanbul": "^0.4.0",
     "standard": "^12.0.1",
     "tape": "^4.2.2",
-    "textract": "^1.1.1"
+    "textract": "^2.4.0"
   },
   "keywords": [
     "Microsoft Office",
