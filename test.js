@@ -3,44 +3,61 @@ var docx = require('./')
 var tape = require('tape')
 var textract = require('textract')
 
+var NO_BLANKS, NO_OPTIONS
+
 tape('renders text', function (test) {
-  textOf(
-    render({ content: ['Hello!'] }),
-    function (error, text) {
-      test.ifError(error, 'no error')
-      test.assert(
-        text.indexOf('Hello') > -1,
-        'text appears in output'
-      )
-      test.end()
+  render(
+    { content: ['Hello!'] },
+    NO_BLANKS,
+    NO_OPTIONS,
+    function (error, buffer) {
+      test.ifError(error, 'no render error')
+      textOf(buffer, function (error, text) {
+        test.ifError(error, 'no textract error')
+        test.assert(
+          text.indexOf('Hello') > -1,
+          'text appears in output'
+        )
+        test.end()
+      })
     }
   )
 })
 
 tape('renders definitions', function (test) {
-  textOf(
-    render({ content: [ { definition: 'Agreement' } ] }),
-    function (error, text) {
-      test.ifError(error, 'no error')
-      test.assert(
-        text.indexOf('Agreement') > -1,
-        'defined term appears in output'
-      )
-      test.end()
+  render(
+    { content: [ { definition: 'Agreement' } ] },
+    NO_BLANKS,
+    NO_OPTIONS,
+    function (error, buffer) {
+      test.ifError(error, 'no render error')
+      textOf(buffer, function (error, text) {
+        test.ifError(error, 'no textract error')
+        test.assert(
+          text.indexOf('Agreement') > -1,
+          'defined term appears in output'
+        )
+        test.end()
+      })
     }
   )
 })
 
 tape('renders uses', function (test) {
-  textOf(
-    render({ content: [ { use: 'Agreement' } ] }),
-    function (error, text) {
-      test.ifError(error, 'no error')
-      test.assert(
-        text.indexOf('Agreement') > -1,
-        'term appears in output'
-      )
-      test.end()
+  render(
+    { content: [ { use: 'Agreement' } ] },
+    NO_BLANKS,
+    NO_OPTIONS,
+    function (error, buffer) {
+      test.ifError(error, 'no render error')
+      textOf(buffer, function (error, text) {
+        test.ifError(error, 'no textract error')
+        test.assert(
+          text.indexOf('Agreement') > -1,
+          'term appears in output'
+        )
+        test.end()
+      })
     }
   )
 })
@@ -58,13 +75,16 @@ tape('renders references', function (test) {
       }
     ]
   }
-  textOf(render(form), function (error, text) {
-    test.ifError(error, 'no error')
-    test.assert(
-      text.indexOf('(B)') > -1,
-      'reference appears in output'
-    )
-    test.end()
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
+      test.assert(
+        text.indexOf('(B)') > -1,
+        'reference appears in output'
+      )
+      test.end()
+    })
   })
 })
 
@@ -77,13 +97,16 @@ tape('omits period after heading ending w/ period', function (test) {
       }
     ]
   }
-  textOf(render(form), function (error, text) {
-    test.ifError(error, 'no error')
-    test.assert(
-      text.indexOf('.. ') === -1,
-      'double period does not appear in output'
-    )
-    test.end()
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
+      test.assert(
+        text.indexOf('.. ') === -1,
+        'double period does not appear in output'
+      )
+      test.end()
+    })
   })
 })
 
@@ -96,157 +119,151 @@ tape('renders broken references', function (test) {
       }
     ]
   }
-  textOf(render(form), function (error, text) {
-    test.ifError(error, 'no error')
-    test.assert(
-      text.indexOf('Broken Cross') > -1,
-      'reference appears in output'
-    )
-    test.end()
+  render(form, NO_BLANKS, NO_BLANKS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
+      test.assert(
+        text.indexOf('Broken Cross') > -1,
+        'reference appears in output'
+      )
+      test.end()
+    })
   })
 })
 
 tape('fills blanks', function (test) {
-  textOf(
-    render(
-      { content: [ { blank: '' } ] },
-      [ { blank: [ 'content', 0 ], value: 'Hello' } ]
-    ),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: [ { blank: '' } ] }
+  var blanks = [ { blank: [ 'content', 0 ], value: 'Hello' } ]
+  render(form, blanks, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('Hello') > -1,
         'value appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders empty blank placeholders', function (test) {
-  textOf(
-    render({ content: [ 'A ', { blank: '' }, ' B' ] }),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: [ 'A ', { blank: '' }, ' B' ] }
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('[') > -1,
         'placeholder appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders custom empty blank placeholders', function (test) {
-  textOf(
-    render(
-      { content: ['A ', { blank: '' }, ' B'] },
-      [],
-      { blanks: { text: '________' } }
-    ),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: ['A ', { blank: '' }, ' B'] }
+  var options = { blanks: { text: '________' } }
+  render(form, NO_BLANKS, options, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('________') > -1,
         'placeholder appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders custom empty blank placeholders', function (test) {
-  textOf(
-    render(
-      { content: [ 'A ', { blank: '' }, ' B' ] },
-      [],
-      { blanks: '________' }
-    ),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: [ 'A ', { blank: '' }, ' B' ] }
+  var options = { blanks: '________' }
+  render(form, NO_BLANKS, options, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('________') > -1,
         'placeholder appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders conspicuous text', function (test) {
-  textOf(
-    render({ conspicuous: 'yes', content: [ 'Hello' ] }),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { conspicuous: 'yes', content: [ 'Hello' ] }
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('Hello') > -1,
         'conspicuous text appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders titles', function (test) {
-  textOf(
-    render(
-      { content: [ 'Hello' ] },
-      [],
-      { numbering: decimal, title: 'The Title!' }
-    ),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: [ 'Hello' ] }
+  var options = { numbering: decimal, title: 'The Title!' }
+  render(form, NO_BLANKS, options, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('The Title!') > -1,
         'title appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders centered titles', function (test) {
-  textOf(
-    render(
-      { content: [ 'Hello' ] },
-      [],
-      {
-        numbering: decimal,
-        title: 'The Title!',
-        centerTitle: true
-      }
-    ),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: [ 'Hello' ] }
+  var options = {
+    numbering: decimal,
+    title: 'The Title!',
+    centerTitle: true
+  }
+  render(form, NO_BLANKS, options, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('The Title!') > -1,
         'title appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders editions', function (test) {
-  textOf(
-    render(
-      { content: [ 'Hello' ] },
-      [],
-      {
-        numbering: decimal,
-        title: 'The Title!',
-        edition: 'First'
-      }
-    ),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: [ 'Hello' ] }
+  var options = {
+    numbering: decimal,
+    title: 'The Title!',
+    edition: 'First'
+  }
+  render(form, NO_BLANKS, options, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf('First') > -1,
         'edition appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('renders hashes', function (test) {
@@ -254,31 +271,30 @@ tape('renders hashes', function (test) {
     '5a5e1027b2e2ca0a97f97b3239484dae' +
     'f047e0fdd0f652067254227096207032'
   )
-  textOf(
-    render(
-      { content: [ 'Hello' ] },
-      [],
-      {
-        numbering: decimal,
-        title: 'The Title!',
-        hash: true
-      }
-    ),
-    function (error, text) {
-      test.ifError(error, 'no error')
+  var form = { content: [ 'Hello' ] }
+  var options = {
+    numbering: decimal,
+    title: 'The Title!',
+    hash: true
+  }
+  render(form, NO_BLANKS, options, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
       test.assert(
         text.indexOf(hash) > -1,
         'hash symbol appears in output'
       )
       test.end()
-    }
-  )
+    })
+  })
 })
 
 tape('throws for invalid content', function (test) {
+  var form = { content: [ { nonsense: 'here' } ] }
   test.throws(
     function () {
-      render({ content: [ { nonsense: 'here' } ] })
+      docx(form, [], { numbering: decimal })
     },
     /Invalid content/,
     'throw an error')
@@ -296,9 +312,13 @@ var MIME = [
   'document'
 ].join('.')
 
-function render (form, blanks, options) {
+function render (form, blanks, options, callback) {
   blanks = blanks || []
   options = options || { numbering: decimal }
   return docx(form, blanks, options)
-    .generate({ type: 'nodebuffer' })
+    .generateAsync({ type: 'nodebuffer' })
+    .catch(callback)
+    .then(function (buffer) {
+      callback(null, buffer)
+    })
 }

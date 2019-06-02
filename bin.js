@@ -92,4 +92,4 @@ function readJSON (file) {
 // Render and print.
 var rendered = require('./')(form, directions, options)
 
-process.stdout.write(rendered.generate({ type: 'nodebuffer' }))
+rendered.generateNodeStream().pipe(process.stdout)

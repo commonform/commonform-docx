@@ -10,7 +10,7 @@
     "commonform-flatten": "^1.0.0",
     "commonform-hash": "^1.0.0",
     "decimal-numbering": "^3.0.2",
-    "jszip": "^2.4.0",
+    "jszip": "^3.2.1",
     "object-assign": "^4.1.1",
     "ooxml-signature-pages": "^3.0.2",
     "outline-numbering": "^2.0.0",
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "istanbul": "^0.4.0",
+    "run-series": "^1.1.8",
     "standard": "^12.0.1",
     "tape": "^4.2.2",
     "textract": "^2.4.0"
