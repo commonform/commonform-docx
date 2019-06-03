@@ -7,18 +7,20 @@ var path = require('path')
 
 var usage = [
   'Usage:',
-  '  commonform-docx [options] <FILE> [<DIRECTIONS>]',
+  '  commonform-docx [options] <FILE>',
   '',
   'Options:',
   '  -h, --help                    Show this screen.',
   '  -v, --version                 Show version.',
   '  -H, --hash                    Render form hash',
+  '  -d JSON --directions JSON     Use directions to fill in blanks',
   '  -e EDITION, --edition EDITION Form edition to be rendered',
   '  -i, --indent-margins          Indent margins, commonwealth style',
   '  -l, --left-align-title        Align title flush to left margin',
   '  -n STYLE, --number STYLE      Numbering style [default: decimal]',
   '  -s PAGES, --signatures PAGES  Signature page data',
   '  -t TITLE, --title TITLE       Render title as <h1>.',
+  '  -v JSON --values JSON         Use values to fill in blanks',
   '  -y JSON, --styles JSON        Render with custom styles.'
 ].join('\n')
 
@@ -28,9 +30,36 @@ var parsed = docopt(usage, { version: require('./package.json').version })
 
 var form = readJSON(parsed['<FILE>'])
 
-var directions = parsed['<DIRECTIONS>']
-  ? readJSON(parsed['<DIRECTIONS>'])
-  : {}
+var directions = parsed['--directions']
+  ? readJSON(parsed['--directions'])
+  : false
+
+if (directions && !Array.isArray(directions)) {
+  console.error('Directions must be an array.')
+  process.exit(1)
+}
+
+var values = parsed['--values']
+  ? readJSON(parsed['--values'])
+  : false
+
+var blanks = []
+if (values) {
+  if (Array.isArray(values)) {
+    blanks = values
+  } else if (directions) {
+    Object.keys(values).forEach(function (label) {
+      var value = values[label]
+      directions.forEach(function (direction) {
+        if (direction.label !== label) return
+        blanks.push({ value: value, blank: direction.blank })
+      })
+    })
+  } else {
+    console.error('Values must be an array, or you must provide directions, as well.')
+    process.exit(1)
+  }
+}
 
 var options = {}
 
@@ -90,6 +119,6 @@ function readJSON (file) {
 }
 
 // Render and print.
-var rendered = require('./')(form, directions, options)
+var rendered = require('./')(form, blanks, options)
 
 rendered.generateNodeStream().pipe(process.stdout)
