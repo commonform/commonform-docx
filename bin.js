@@ -30,8 +30,8 @@ var parsed = docopt(usage, { version: require('./package.json').version })
 
 var form = readJSON(parsed['<FILE>'])
 
-var values = parsed['--values']
-var directions = parsed['--directions']
+var values = parsed['--values'] ? readJSON(parsed['--values']) : {}
+var directions = parsed['--directions'] ? readJSON(parsed['--directions']) : []
 var blanks = require('commonform-prepare-blanks')(values, directions)
 
 var options = {}
