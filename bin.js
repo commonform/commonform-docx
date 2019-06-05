@@ -30,36 +30,9 @@ var parsed = docopt(usage, { version: require('./package.json').version })
 
 var form = readJSON(parsed['<FILE>'])
 
-var directions = parsed['--directions']
-  ? readJSON(parsed['--directions'])
-  : false
-
-if (directions && !Array.isArray(directions)) {
-  console.error('Directions must be an array.')
-  process.exit(1)
-}
-
 var values = parsed['--values']
-  ? readJSON(parsed['--values'])
-  : false
-
-var blanks = []
-if (values) {
-  if (Array.isArray(values)) {
-    blanks = values
-  } else if (directions) {
-    Object.keys(values).forEach(function (label) {
-      var value = values[label]
-      directions.forEach(function (direction) {
-        if (direction.label !== label) return
-        blanks.push({ value: value, blank: direction.blank })
-      })
-    })
-  } else {
-    console.error('Values must be an array, or you must provide directions, as well.')
-    process.exit(1)
-  }
-}
+var directions = parsed['--directions']
+var blanks = require('commonform-prepare-blanks')(values, directions)
 
 var options = {}
 
