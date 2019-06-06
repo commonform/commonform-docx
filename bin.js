@@ -1,97 +1,177 @@
 #!/usr/bin/env node
-var docopt = require('@kemitchell/docopt').docopt
-var fs = require('fs')
-var path = require('path')
+if (module.parent) {
+  module.exports = bin
+} else {
+  bin(
+    process.stdin,
+    process.stdout,
+    process.stderr,
+    process.argv.slice(2),
+    function (status) {
+      process.exit(status)
+    }
+  )
+}
 
-// Parse arguments and options.
-
-var usage = [
-  'Usage:',
-  '  commonform-docx [options] <FILE>',
-  '',
-  'Options:',
-  '  -h, --help                    Show this screen.',
-  '  -v, --version                 Show version.',
-  '  -H, --hash                    Render form hash',
-  '  -d JSON --directions JSON     Use directions to fill in blanks',
-  '  -e EDITION, --edition EDITION Form edition to be rendered',
-  '  -i, --indent-margins          Indent margins, commonwealth style',
-  '  -l, --left-align-title        Align title flush to left margin',
-  '  -n STYLE, --number STYLE      Numbering style [default: decimal]',
-  '  -s PAGES, --signatures PAGES  Signature page data',
-  '  -t TITLE, --title TITLE       Render title as <h1>.',
-  '  -v JSON --values JSON         Use values to fill in blanks',
-  '  -y JSON, --styles JSON        Render with custom styles.'
-].join('\n')
-
-var parsed = docopt(usage, { version: require('./package.json').version })
-
-// Parse arguments and options.
-
-var form = readJSON(parsed['<FILE>'])
-
-var values = parsed['--values'] ? readJSON(parsed['--values']) : {}
-var directions = parsed['--directions'] ? readJSON(parsed['--directions']) : []
-var blanks = require('commonform-prepare-blanks')(values, directions)
-
-var options = {}
-
-if (parsed['--title']) options.title = parsed['--title']
-
-if (parsed['--number']) {
-  var numberStyle = parsed['--number']
-  var supportedNumberingStyles = {
+function bin (stdin, stdout, stderr, argv, done) {
+  var supportedNumberings = {
     rse: 'resolutions-schedules-exhibits-numbering',
     ase: 'agreement-schedules-exhibits-numbering',
     pae: 'plan-addenda-exhibits-numbering',
     decimal: 'decimal-numbering',
     outline: 'outline-numbering'
   }
-  if (!supportedNumberingStyles.hasOwnProperty(numberStyle)) {
-    process.stderr.write([
-      '"' + numberStyle + '" is not a valid numbering style.',
-      'Valid styles are ' +
-      Object.keys(supportedNumberingStyles).map(function (s) {
-        return '"' + s + '"'
-      }).join(', ') + '.'
-    ].join('\n') + '\n')
-    process.exit(1)
-  } else {
-    options.numbering = require(supportedNumberingStyles[numberStyle])
+
+  require('yargs')
+    .scriptName('commonform-docx')
+    .option('hash', {
+      alias: 'H',
+      describe: 'render form digest',
+      type: 'boolean'
+    })
+    .option('indent-margins', {
+      alias: 'i',
+      describe: 'indent margins, commonwealth style',
+      type: 'boolean'
+    })
+    .option('left-align-title', {
+      alias: 'l',
+      describe: 'align title flush to left margin',
+      type: 'boolean'
+    })
+    .option('mark-filled', {
+      alias: 'm',
+      describe: 'mark filled blanks',
+      type: 'boolean'
+    })
+    .option('number', {
+      alias: 'n',
+      describe: 'numbering style',
+      default: 'decimal',
+      choices: Object.keys(supportedNumberings)
+    })
+    .option('title', {
+      alias: 't',
+      describe: 'form title',
+      type: 'string'
+    })
+    .option('edition', {
+      alias: 'e',
+      describe: 'form edition',
+      type: 'string'
+    })
+    .option('values', {
+      alias: 'v',
+      describe: 'JSON file with blank values',
+      type: 'string',
+      coerce: readJSON,
+      demandOption: false
+    })
+    .option('directions', {
+      alias: 'd',
+      describe: 'JSON file with directions',
+      type: 'string',
+      coerce: readJSON,
+      demandOption: false
+    })
+    .implies('directions', 'values')
+    .option('signatures', {
+      alias: 's',
+      describe: 'signature page data',
+      type: 'string',
+      coerce: readJSON,
+      demandOption: false
+    })
+    .option('styles', {
+      alias: 'y',
+      describe: 'custom styles',
+      type: 'string',
+      coerce: readJSON,
+      demandOption: false
+    })
+    .version()
+    .help()
+    .alias('help', 'h')
+    .command(
+      '$0 [form]',
+      'render Common Forms to Office Open XML (Microsoft Word .docx) format',
+      function (yargs) {
+        yargs.positional('form', {
+          describe: 'Common Form JSON or standard input by default',
+          default: '-'
+        })
+      },
+      function (args) {
+        // Prepare fill-in-the-blank values.
+        var blanks = require('commonform-prepare-blanks')(
+          args.values, args.directions
+        )
+
+        // Prepare rendering options.
+        var options = {
+          numbering: require(supportedNumberings[args.number])
+        }
+
+        if (args['hash']) options.hash = true
+        if (args['indent-margins']) options.indentMargins = true
+        if (args['left-align-title']) options.centerTitle = false
+        if (args['mark-filled']) options.markFilled = true
+
+        var passthroughs = [ 'title', 'edition', 'styles' ]
+        passthroughs.forEach(function (key) {
+          if (args[key]) options[key] = args[key]
+        })
+
+        if (args['blank-text']) options.blankText = args['blank-text']
+
+        if (args.signatures) {
+          options.after = require('ooxml-signature-pages')(args.signatures)
+        }
+
+        // Read the form to be rendered.
+        var chunks = []
+        var input = args.form === '-'
+          ? stdin
+          : require('fs').createReadStream(args.form)
+        input
+          .on('data', function (chunk) {
+            chunks.push(chunk)
+          })
+          .once('error', function (error) {
+            return fail(error)
+          })
+          .once('end', function () {
+            var buffer = Buffer.concat(chunks)
+            try {
+              var form = JSON.parse(buffer)
+            } catch (error) {
+              return fail(error)
+            }
+
+            // Render.
+            try {
+              require('./')(form, blanks, options)
+                .generateNodeStream()
+                .pipe(stdout)
+            } catch (error) {
+              return fail(error)
+            }
+            return done(0)
+          })
+      }
+    )
+    .parse(argv)
+
+  function fail (error) {
+    stderr.write(error.toString() + '\n')
+    done(1)
   }
-} else {
-  options.numbering = require('decimal-numbering')
 }
-
-if (parsed['--signatures']) {
-  options.after = require('ooxml-signature-pages')(
-    JSON.parse(fs.readFileSync(parsed['--signatures']))
-  )
-}
-
-if (parsed['--styles']) {
-  options.styles = JSON.parse(fs.readFileSync(parsed['--styles']))
-}
-
-if (parsed['--title']) options.title = parsed['--title']
-
-if (parsed['--edition']) options.edition = parsed['--edition']
-
-if (parsed['--hash']) options.hash = true
-
-options.indentMargins = parsed['--indent-margins']
-
-options.centerTitle = !parsed['--left-align-title']
-
-if (parsed['--blank-text']) options.blanks = parsed['--blank-text']
-
-if (parsed['--mark-filled']) options.markFilled = true
 
 function readJSON (file) {
-  return JSON.parse(fs.readFileSync(path.resolve(file)))
+  return JSON.parse(
+    require('fs').readFileSync(
+      require('path').normalize(file)
+    )
+  )
 }
-
-// Render and print.
-var rendered = require('./')(form, blanks, options)
-
-rendered.generateNodeStream().pipe(process.stdout)

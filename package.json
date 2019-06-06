@@ -5,7 +5,6 @@
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "bin": "bin.js",
   "dependencies": {
-    "@kemitchell/docopt": "^1.0.0",
     "agreement-schedules-exhibits-numbering": "^2.0.0",
     "commonform-flatten": "^1.0.0",
     "commonform-hash": "^1.0.0",
@@ -23,7 +22,8 @@
     "run-series": "^1.1.8",
     "standard": "^12.0.1",
     "tape": "^4.2.2",
-    "textract": "^2.4.0"
+    "textract": "^2.4.0",
+    "yargs": "^13.2.4"
   },
   "keywords": [
     "Microsoft Office",
