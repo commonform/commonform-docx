@@ -1,5 +1,6 @@
-var tag = require('./tag')
+var has = require('has')
 var run = require('./run')
+var tag = require('./tag')
 
 // Half an inch in twentieths of a point
 var HALF_INCH = 720
@@ -41,13 +42,13 @@ var TAB = '<w:r><w:tab/></w:r>'
 module.exports = function (
   element, numberStyle, indentMargins, blanks, markFilled, styles
 ) {
-  if (!element.hasOwnProperty('alignment')) {
+  if (!has(element, 'alignment')) {
     element.alignment = styles.alignment || 'justify'
   }
-  var number = element.hasOwnProperty('numbering')
+  var number = has(element, 'numbering')
     ? numberStyle(element.numbering, true)
     : ''
-  var conspicuous = element.hasOwnProperty('conspicuous')
+  var conspicuous = has(element, 'conspicuous')
   return tag('w:p',
     properties(element, number, indentMargins) +
     (
@@ -55,7 +56,7 @@ module.exports = function (
         ? makeRun(number, false) + TAB
         : ''
     ) + (
-      element.hasOwnProperty('heading')
+      has(element, 'heading')
         ? (
           makeRun({ caption: element.heading }, conspicuous) +
           (

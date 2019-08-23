@@ -26,7 +26,7 @@ tape('renders text', function (test) {
 
 tape('renders definitions', function (test) {
   render(
-    { content: [ { definition: 'Agreement' } ] },
+    { content: [{ definition: 'Agreement' }] },
     NO_BLANKS,
     NO_OPTIONS,
     function (error, buffer) {
@@ -45,7 +45,7 @@ tape('renders definitions', function (test) {
 
 tape('renders uses', function (test) {
   render(
-    { content: [ { use: 'Agreement' } ] },
+    { content: [{ use: 'Agreement' }] },
     NO_BLANKS,
     NO_OPTIONS,
     function (error, buffer) {
@@ -67,11 +67,11 @@ tape('renders references', function (test) {
     content: [
       {
         heading: 'B',
-        form: { content: [ 'First' ] }
+        form: { content: ['First'] }
       },
       {
         heading: 'A',
-        form: { content: [ { reference: 'B' } ] }
+        form: { content: [{ reference: 'B' }] }
       }
     ]
   }
@@ -93,7 +93,7 @@ tape('omits period after heading ending w/ period', function (test) {
     content: [
       {
         heading: 'Ends with period.',
-        form: { content: [ 'Some text.' ] }
+        form: { content: ['Some text.'] }
       }
     ]
   }
@@ -115,7 +115,7 @@ tape('renders broken references', function (test) {
     content: [
       {
         heading: 'A',
-        form: { content: [ { reference: 'B' } ] }
+        form: { content: [{ reference: 'B' }] }
       }
     ]
   }
@@ -133,8 +133,8 @@ tape('renders broken references', function (test) {
 })
 
 tape('fills blanks', function (test) {
-  var form = { content: [ { blank: '' } ] }
-  var blanks = [ { blank: [ 'content', 0 ], value: 'Hello' } ]
+  var form = { content: [{ blank: '' }] }
+  var blanks = [{ blank: ['content', 0], value: 'Hello' }]
   render(form, blanks, NO_OPTIONS, function (error, buffer) {
     test.ifError(error, 'no render error')
     textOf(buffer, function (error, text) {
@@ -149,7 +149,7 @@ tape('fills blanks', function (test) {
 })
 
 tape('renders empty blank placeholders', function (test) {
-  var form = { content: [ 'A ', { blank: '' }, ' B' ] }
+  var form = { content: ['A ', { blank: '' }, ' B'] }
   render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
     test.ifError(error, 'no render error')
     textOf(buffer, function (error, text) {
@@ -180,7 +180,7 @@ tape('renders custom empty blank placeholders', function (test) {
 })
 
 tape('renders custom empty blank placeholders', function (test) {
-  var form = { content: [ 'A ', { blank: '' }, ' B' ] }
+  var form = { content: ['A ', { blank: '' }, ' B'] }
   var options = { blanks: '________' }
   render(form, NO_BLANKS, options, function (error, buffer) {
     test.ifError(error, 'no render error')
@@ -196,7 +196,7 @@ tape('renders custom empty blank placeholders', function (test) {
 })
 
 tape('renders conspicuous text', function (test) {
-  var form = { conspicuous: 'yes', content: [ 'Hello' ] }
+  var form = { conspicuous: 'yes', content: ['Hello'] }
   render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
     test.ifError(error, 'no render error')
     textOf(buffer, function (error, text) {
@@ -211,7 +211,7 @@ tape('renders conspicuous text', function (test) {
 })
 
 tape('renders titles', function (test) {
-  var form = { content: [ 'Hello' ] }
+  var form = { content: ['Hello'] }
   var options = { numbering: decimal, title: 'The Title!' }
   render(form, NO_BLANKS, options, function (error, buffer) {
     test.ifError(error, 'no render error')
@@ -227,7 +227,7 @@ tape('renders titles', function (test) {
 })
 
 tape('renders centered titles', function (test) {
-  var form = { content: [ 'Hello' ] }
+  var form = { content: ['Hello'] }
   var options = {
     numbering: decimal,
     title: 'The Title!',
@@ -247,7 +247,7 @@ tape('renders centered titles', function (test) {
 })
 
 tape('renders editions', function (test) {
-  var form = { content: [ 'Hello' ] }
+  var form = { content: ['Hello'] }
   var options = {
     numbering: decimal,
     title: 'The Title!',
@@ -271,7 +271,7 @@ tape('renders hashes', function (test) {
     '5a5e1027b2e2ca0a97f97b3239484dae' +
     'f047e0fdd0f652067254227096207032'
   )
-  var form = { content: [ 'Hello' ] }
+  var form = { content: ['Hello'] }
   var options = {
     numbering: decimal,
     title: 'The Title!',
@@ -291,7 +291,7 @@ tape('renders hashes', function (test) {
 })
 
 tape('throws for invalid content', function (test) {
-  var form = { content: [ { nonsense: 'here' } ] }
+  var form = { content: [{ nonsense: 'here' }] }
   test.throws(
     function () {
       docx(form, [], { numbering: decimal })

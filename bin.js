@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var docopt = require('@kemitchell/docopt').docopt
 var fs = require('fs')
+var has = require('has')
 var path = require('path')
 
 // Parse arguments and options.
@@ -47,7 +48,7 @@ if (parsed['--number']) {
     decimal: 'decimal-numbering',
     outline: 'outline-numbering'
   }
-  if (!supportedNumberingStyles.hasOwnProperty(numberStyle)) {
+  if (!has(supportedNumberingStyles, numberStyle)) {
     process.stderr.write([
       '"' + numberStyle + '" is not a valid numbering style.',
       'Valid styles are ' +

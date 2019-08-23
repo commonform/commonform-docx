@@ -1,5 +1,6 @@
 var assign = require('object-assign')
 var escape = require('../escape')
+var has = require('has')
 var tag = require('./tag')
 
 var defaults = {
@@ -21,16 +22,16 @@ module.exports = function run (
   if (typeof element === 'string') {
     assign(properties, styles.text)
     text = element
-  } else if (element.hasOwnProperty('caption')) {
+  } else if (has(element, 'caption')) {
     assign(properties, styles.heading)
     text = element.caption
-  } else if (element.hasOwnProperty('title')) {
+  } else if (has(element, 'title')) {
     assign(properties, styles.title)
     text = element.title
-  } else if (element.hasOwnProperty('monospaced')) {
+  } else if (has(element, 'monospaced')) {
     assign(properties, styles.monospaced)
     text = element.monospaced
-  } else if (element.hasOwnProperty('definition')) {
+  } else if (has(element, 'definition')) {
     var term = element.definition
     return (
       (
@@ -51,7 +52,7 @@ module.exports = function run (
           : ''
       )
     )
-  } else if (element.hasOwnProperty('blank')) {
+  } else if (has(element, 'blank')) {
     assign(properties, styles.text)
     if (element.blank !== undefined) {
       text = element.blank
@@ -60,15 +61,15 @@ module.exports = function run (
       text = blanks.text
       if (blanks.highlight) assign(properties, styles.highlighted)
     }
-  } else if (element.hasOwnProperty('use')) {
+  } else if (has(element, 'use')) {
     assign(properties, styles.use)
     text = element.use
-  } else if (element.hasOwnProperty('heading')) {
+  } else if (has(element, 'heading')) {
     var numbering = element.numbering
     var heading = element.heading
     if (
-      element.hasOwnProperty('broken') ||
-      element.hasOwnProperty('ambiguous')
+      has(element, 'broken') ||
+      has(element, 'ambiguous')
     ) {
       assign(properties, styles.broken)
       text = '[Broken Cross-Reference to "' + heading + '"]'
