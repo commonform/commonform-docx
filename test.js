@@ -148,6 +148,22 @@ tape('fills blanks', function (test) {
   })
 })
 
+tape('custom blank text', function (test) {
+  var form = { content: [{ blank: '' }] }
+  var options = { blanks: 'XXX' }
+  render(form, NO_BLANKS, options, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
+      test.assert(
+        text.indexOf('XXX') > -1,
+        'value appears in output'
+      )
+      test.end()
+    })
+  })
+})
+
 tape('renders empty blank placeholders', function (test) {
   var form = { content: ['A ', { blank: '' }, ' B'] }
   render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
