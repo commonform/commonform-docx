@@ -19,6 +19,7 @@ var usage = [
   '  -e EDITION, --edition EDITION Form edition to be rendered',
   '  -i, --indent-margins          Indent margins, commonwealth style',
   '  -l, --left-align-title        Align title flush to left margin',
+  '  -p, --smartify                Render Unicode punctuation',
   '  -n STYLE, --number STYLE      Numbering style [default: decimal]',
   '  -s PAGES, --signatures PAGES  Signature page data',
   '  -t TITLE, --title TITLE       Render title as <h1>.',
@@ -84,6 +85,8 @@ if (parsed['--hash']) options.hash = true
 options.indentMargins = parsed['--indent-margins']
 
 options.centerTitle = !parsed['--left-align-title']
+
+options.smartify = !parsed['--smartify']
 
 if (parsed['--blank-text']) options.blanks = parsed['--blank-text']
 

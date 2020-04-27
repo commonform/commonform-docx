@@ -1,24 +1,27 @@
 var JSZip = require('jszip')
 var assign = require('object-assign')
 var commonformHash = require('commonform-hash')
+var smartify = require('commonform-smartify')
 
 var doc = require('./templates/document')
 
-var defaultStyles = {
-  use: {},
-  text: {},
-  conspicuous: { bold: true, italic: true },
-  heading: { underline: 'single' },
-  title: { bold: true },
-  beforeDefinition: '"',
-  definition: { bold: true },
-  afterDefinition: '"',
-  filled: { underline: 'dash' },
-  monospaced: { monospaced: true },
-  highlighted: { highlight: 'yellow' },
-  broken: { highlight: 'red' },
-  reference: { underline: 'single' },
-  referenceHeading: {}
+function defaultStyles (smart) {
+  return {
+    use: {},
+    text: {},
+    conspicuous: { bold: true, italic: true },
+    heading: { underline: 'single' },
+    title: { bold: true },
+    beforeDefinition: smart ? '“' : '"',
+    definition: { bold: true },
+    afterDefinition: smart ? '”' : '"',
+    filled: { underline: 'dash' },
+    monospaced: { monospaced: true },
+    highlighted: { highlight: 'yellow' },
+    broken: { highlight: 'red' },
+    reference: { underline: 'single' },
+    referenceHeading: {}
+  }
 }
 
 module.exports = function (form, values, options) {
@@ -29,9 +32,10 @@ module.exports = function (form, values, options) {
   var numberStyle = options.numbering
   var indentMargins = options.indentMargins || false
   var after = options.after || ''
+  var smart = options.smartify
   var styles = options.styles
-    ? assign({}, defaultStyles, options.styles)
-    : defaultStyles
+    ? assign({}, defaultStyles(smart), options.styles)
+    : defaultStyles(smart)
   var blanks = options.blanks === undefined
     ? { text: '[•]', highlight: 'yellow' }
     : typeof options.blanks === 'string'
@@ -40,7 +44,8 @@ module.exports = function (form, values, options) {
   var markFilled = !!options.markFilled
   var scaffold = require('./data/scaffold.json')
   scaffold.word['document.xml'] = doc(
-    form, values, title, edition, hash,
+    smart ? smartify(form) : form,
+    values, title, edition, hash,
     centerTitle, numberStyle, indentMargins, after, blanks, markFilled,
     styles
   )
