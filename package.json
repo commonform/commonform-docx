@@ -24,7 +24,7 @@
     "istanbul": "^0.4.0",
     "run-series": "^1.1.8",
     "standard": "^14.0.2",
-    "tape": "^4.2.2",
+    "tape": "^5.0.1",
     "textract": "^2.4.0"
   },
   "keywords": [
