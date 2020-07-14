@@ -19,6 +19,7 @@ var usage = [
   '  -e EDITION, --edition EDITION Form edition to be rendered',
   '  -i, --indent-margins          Indent margins, commonwealth style',
   '  -l, --left-align-title        Align title flush to left margin',
+  '  -m, --mark-filled             Mark filled blanks',
   '  -p, --smartify                Render Unicode punctuation',
   '  -n STYLE, --number STYLE      Numbering style [default: decimal]',
   '  -s PAGES, --signatures PAGES  Signature page data',
