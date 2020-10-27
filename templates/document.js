@@ -37,10 +37,11 @@ var SECTION = (
 
 module.exports = function (
   form, values, title, edition, hash,
-  centerTitle, numberStyle, indentMargins, after, blanks, markFilled, styles
+  centerTitle, leftAlignBody, numberStyle, indentMargins, after, blanks, markFilled, styles
 ) {
   var paragraphs = flatten(form, values)
     .map(function (element) {
+      if (leftAlignBody) element.alignment = 'left'
       return paragraph(
         element, numberStyle, indentMargins, blanks, markFilled, styles
       )

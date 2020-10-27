@@ -29,6 +29,7 @@ module.exports = function (form, values, options) {
   var edition = options.edition
   var hash = options.hash ? commonformHash(form) : undefined
   var centerTitle = options.centerTitle || false
+  var leftAlignBody = options.leftAlignBody || false
   var numberStyle = options.numbering
   var indentMargins = options.indentMargins || false
   var after = options.after || ''
@@ -46,7 +47,7 @@ module.exports = function (form, values, options) {
   scaffold.word['document.xml'] = doc(
     smart ? smartify(form) : form,
     values, title, edition, hash,
-    centerTitle, numberStyle, indentMargins, after, blanks, markFilled,
+    centerTitle, leftAlignBody, numberStyle, indentMargins, after, blanks, markFilled,
     styles
   )
   var zip = new JSZip()

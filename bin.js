@@ -22,6 +22,7 @@ var usage = [
   '  -m, --mark-filled             Mark filled blanks',
   '  -p, --smartify                Render Unicode punctuation',
   '  -n STYLE, --number STYLE      Numbering style [default: decimal]',
+  '  -r --left-align-body          Left-align body paragraphs.',
   '  -s PAGES, --signatures PAGES  Signature page data',
   '  -t TITLE, --title TITLE       Render title as <h1>.',
   '  -v JSON --values JSON         Use values to fill in blanks',
@@ -86,6 +87,8 @@ if (parsed['--hash']) options.hash = true
 options.indentMargins = parsed['--indent-margins']
 
 options.centerTitle = !parsed['--left-align-title']
+
+options.leftAlignBody = parsed['--left-align-body']
 
 options.smartify = !parsed['--smartify']
 
