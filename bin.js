@@ -14,6 +14,7 @@ var usage = [
   '  -h, --help                    Show this screen.',
   '  -v, --version                 Show version.',
   '  -H, --hash                    Render form hash',
+  '  -a, --a4-paper                A4 paper.',
   '  -b TEXT, --blank-text TEXT    Render blanks with custom text.',
   '  -d JSON --directions JSON     Use directions to fill in blanks',
   '  -e EDITION, --edition EDITION Form edition to be rendered',
@@ -83,6 +84,8 @@ if (parsed['--title']) options.title = parsed['--title']
 if (parsed['--edition']) options.edition = parsed['--edition']
 
 if (parsed['--hash']) options.hash = true
+
+if (parsed['--a4-paper']) options.a4 = true
 
 options.indentMargins = parsed['--indent-margins']
 

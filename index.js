@@ -32,6 +32,7 @@ module.exports = function (form, values, options) {
   var leftAlignBody = options.leftAlignBody || false
   var numberStyle = options.numbering
   var indentMargins = options.indentMargins || false
+  var a4Paper = options.a4 || false
   var after = options.after || ''
   var smart = options.smartify
   var styles = options.styles
@@ -47,7 +48,7 @@ module.exports = function (form, values, options) {
   scaffold.word['document.xml'] = doc(
     smart ? smartify(form) : form,
     values, title, edition, hash,
-    centerTitle, leftAlignBody, numberStyle, indentMargins, after, blanks, markFilled,
+    centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled,
     styles
   )
   var zip = new JSZip()

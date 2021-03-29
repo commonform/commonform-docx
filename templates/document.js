@@ -26,18 +26,23 @@ var DOCUMENT_XMLNS = (
 /* jscs:enable maximumlinelength */
 )
 
-var SECTION = (
-  '<w:sectPr>' +
-'  <w:pgSz w:w="12240" w:h="15840"/>' +
-'  <w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>' +
-'  <w:cols w:space="720"/>' +
-'  <w:docGrid w:linePitch="360"/>' +
-'</w:sectPr>'
-)
+function section (a4) {
+  var returned = '<w:sectPr>'
+  if (a4) {
+    returned += '<w:pgSz w:w="11907" w:h="16839"/>'
+  } else {
+    returned += '<w:pgSz w:w="12240" w:h="15840"/>'
+  }
+  returned += '<w:pgMar w:top="1440" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>'
+  returned += '<w:cols w:space="720"/>'
+  returned += '<w:docGrid w:linePitch="360"/>'
+  returned += '</w:sectPr>'
+  return returned
+}
 
 module.exports = function (
   form, values, title, edition, hash,
-  centerTitle, leftAlignBody, numberStyle, indentMargins, after, blanks, markFilled, styles
+  centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles
 ) {
   var paragraphs = flatten(form, values)
     .map(function (element) {
@@ -55,7 +60,7 @@ module.exports = function (
         (hash ? hashRun(hash, centerTitle, styles) : '') +
         paragraphs +
         after +
-        SECTION +
+        section(a4Paper) +
       '</w:body>' +
     '</w:document>'
   )
