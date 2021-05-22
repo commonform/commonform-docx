@@ -93,7 +93,7 @@ options.centerTitle = !parsed['--left-align-title']
 
 options.leftAlignBody = parsed['--left-align-body']
 
-options.smartify = !parsed['--smartify']
+options.smartify = !!parsed['--smartify']
 
 if (parsed['--blank-text']) options.blanks = parsed['--blank-text']
 
