@@ -110,6 +110,54 @@ tape('omits period after heading ending w/ period', function (test) {
   })
 })
 
+tape('adds space between heading and defined term', function (test) {
+  var form = {
+    content: [
+      {
+        heading: 'Heading',
+        form: {
+          content: [
+            { definition: 'Term' }
+          ]
+        }
+      }
+    ]
+  }
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      console.error(text)
+      test.ifError(error, 'no textract error')
+      test.assert(
+        text.includes('Heading. "Term"'),
+        'space between heading and term'
+      )
+      test.end()
+    })
+  })
+})
+
+tape('adds space between heading and text', function (test) {
+  var form = {
+    content: [
+      {
+        heading: 'Heading',
+        form: { content: ['text'] }
+      }
+    ]
+  }
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    textOf(buffer, function (error, text) {
+      test.ifError(error, 'no textract error')
+      test.assert(
+        text.includes('Heading. text'),
+        'space between heading and text'
+      )
+      test.end()
+    })
+  })
+})
 tape('renders broken references', function (test) {
   var form = {
     content: [

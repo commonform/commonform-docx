@@ -59,11 +59,8 @@ module.exports = function (
       has(element, 'heading')
         ? (
           makeRun({ caption: element.heading }, conspicuous) +
-          (
-            /\.$/.test(element.heading)
-              ? makeRun(' ', false)
-              : makeRun('. ', false)
-          )
+          (/\.$/.test(element.heading) ? '' : makeRun('.', false)) +
+          (element.content.length === 0 ? '' : makeRun(' ', false))
         )
         : ''
     ) +
