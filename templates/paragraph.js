@@ -49,6 +49,7 @@ module.exports = function (
     ? numberStyle(element.numbering, true)
     : ''
   var conspicuous = has(element, 'conspicuous')
+  var component = has(element, 'repository')
   return tag('w:p',
     properties(element, number, indentMargins) +
     (
@@ -60,12 +61,12 @@ module.exports = function (
         ? (
           makeRun({ caption: element.heading }, conspicuous) +
           (/\.$/.test(element.heading) ? '' : makeRun('.', false)) +
-          (element.content.length === 0 ? '' : makeRun(' ', false))
+          ((component || element.content.length === 0) ? '' : makeRun(' ', false))
         )
         : ''
     ) +
     (
-      has(element, 'repository') // component
+      component
         ? componentToContent(element)
           .map(function (element) {
             return makeRun(element, conspicuous)

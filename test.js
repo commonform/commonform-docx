@@ -88,6 +88,24 @@ tape('renders references', function (test) {
   })
 })
 
+tape('handles components without headings', function (test) {
+  var form = {
+    content: [
+      {
+        repository: 'api.commonform.org',
+        publisher: 'example',
+        project: 'example',
+        edition: '1e',
+        substitutions: { terms: {}, headings: {} }
+      }
+    ]
+  }
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    test.end()
+  })
+})
+
 tape('omits period after heading ending w/ period', function (test) {
   var form = {
     content: [
