@@ -90,7 +90,7 @@ function componentToContent (component, hrefs) {
     '<w:hyperlink r:id="' + id + '">' +
     '<w:r>' +
     '<w:rPr>' +
-    '<w:rStyle w:val="InternetLink"/>' +
+    '<w:rStyle w:val="Hyperlink"/>' +
     '</w:rPr>' +
     '<w:t>' + escape(url) + '</w:t>' +
     '</w:r>' +
