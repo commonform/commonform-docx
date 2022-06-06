@@ -45,11 +45,16 @@ module.exports = function (
   centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles
 ) {
   var hrefs = []
+  function rIdForHREF (url) {
+    var rId = 'rId' + (100 + (hrefs.length - 1))
+    hrefs.push({ rId: rId, url: url })
+    return rId
+  }
   var paragraphs = flatten(form, values)
     .map(function (element) {
       if (leftAlignBody) element.alignment = 'left'
       return paragraph(
-        element, numberStyle, indentMargins, blanks, markFilled, styles, hrefs
+        element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF
       )
     })
     .join('')

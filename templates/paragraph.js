@@ -41,7 +41,7 @@ var properties = function (o, number, indentMargins) {
 var TAB = '<w:r><w:tab/></w:r>'
 
 module.exports = function (
-  element, numberStyle, indentMargins, blanks, markFilled, styles, hrefs
+  element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF
 ) {
   if (!has(element, 'alignment')) {
     element.alignment = styles.alignment || 'justify'
@@ -68,7 +68,7 @@ module.exports = function (
     ) +
     (
       component
-        ? componentToContent(element, hrefs)
+        ? componentToContent(element, rIdForHREF)
         : element.content
           .map(function (element) {
             return makeRun(element, conspicuous)
@@ -81,13 +81,12 @@ module.exports = function (
   }
 }
 
-function componentToContent (component, hrefs) {
+function componentToContent (component, rIdForHREF) {
   var url = component.component + '/' + component.version
   var returned = ['Incorporate ']
-  hrefs.push(url)
-  var id = 'rId' + (100 + (hrefs.length - 1))
+  var rId = rIdForHREF(url)
   returned.push(
-    '<w:hyperlink r:id="' + id + '">' +
+    '<w:hyperlink r:id="' + rId + '">' +
     '<w:r>' +
     '<w:rPr>' +
     '<w:rStyle w:val="Hyperlink"/>' +
