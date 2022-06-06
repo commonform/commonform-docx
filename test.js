@@ -104,6 +104,25 @@ tape('handles components without headings', function (test) {
   })
 })
 
+tape('handles components with substitutions', function (test) {
+  var form = {
+    content: [
+      {
+        component: 'https://example.com/component',
+        version: '1.0.0',
+        substitutions: {
+          terms: { A: 'B' },
+          headings: { C: 'D' }
+        }
+      }
+    ]
+  }
+  render(form, NO_BLANKS, NO_OPTIONS, function (error, buffer) {
+    test.ifError(error, 'no render error')
+    test.end()
+  })
+})
+
 tape('omits period after heading ending w/ period', function (test) {
   var form = {
     content: [

@@ -42,7 +42,7 @@ function section (a4) {
 
 module.exports = function (
   form, values, title, version, hash,
-  centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles
+  centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles, smartQuotes
 ) {
   // Hyperlinks in documents must refer to Relationships by rId.
   // Set up a running list of HREFs to turn into Relationships,
@@ -57,7 +57,7 @@ module.exports = function (
     .map(function (element) {
       if (leftAlignBody) element.alignment = 'left'
       return paragraph(
-        element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF
+        element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF, smartQuotes
       )
     })
     .join('')

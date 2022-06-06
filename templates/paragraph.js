@@ -41,7 +41,7 @@ var properties = function (o, number, indentMargins) {
 var TAB = '<w:r><w:tab/></w:r>'
 
 module.exports = function (
-  element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF
+  element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF, smartQuotes
 ) {
   if (!has(element, 'alignment')) {
     element.alignment = styles.alignment || 'justify'
@@ -98,11 +98,11 @@ module.exports = function (
       var phrases = []
       Object.keys(substitutions.terms).forEach(function (from) {
         var to = substitutions.terms[from]
-        phrases.push(makeRun({ use: to }) + makeRun(' for ' + from))
+        phrases.push(makeRun('the term ' + quote(to) + ' for the term ' + quote(from)))
       })
       Object.keys(substitutions.headings).forEach(function (from) {
         var to = substitutions.headings[from]
-        phrases.push(makeRun({ heading: to }), makeRun(' for ' + to))
+        phrases.push(makeRun('references to ' + quote(to) + ' for references to ' + quote(from)))
       })
       var length = phrases.length
       if (length === 1) {
@@ -121,5 +121,10 @@ module.exports = function (
     }
     returned.push(makeRun('.'))
     return returned.join('')
+  }
+
+  function quote (string) {
+    if (smartQuotes) return '“' + string + '”'
+    else return '"' + string + '"'
   }
 }

@@ -49,7 +49,8 @@ module.exports = function (form, values, options) {
     smart ? smartify(form) : form,
     values, title, version, hash,
     centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled,
-    styles
+    styles,
+    smart
   )
   var scaffold = require('./data/scaffold.json')
   var clone = Object.assign({}, scaffold)
