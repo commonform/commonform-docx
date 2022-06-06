@@ -5,16 +5,14 @@ const runSeries = require('run-series')
 
 const INPUT = process.argv[2]
 
-fs.readFile(INPUT, function (error, data) {
+fs.readFile(INPUT, (error, data) => {
   if (error) throw error
-  JSZip.loadAsync(data).then(function (zip) {
-    writeJSON(zip)
-  })
+  JSZip.loadAsync(data).then(zip => writeJSON(zip))
 })
 
 function arbitrarilyDeepFolder (directories, object) {
   let returned = object
-  directories.forEach(function (dir) {
+  directories.forEach(dir => {
     if (has(returned, dir)) {
       returned = returned[dir]
     } else {
@@ -27,8 +25,8 @@ function arbitrarilyDeepFolder (directories, object) {
 function build (zip, data, callback) {
   const object = {}
   runSeries(
-    Object.keys(data).map(function (key) {
-      return function (done) {
+    Object.keys(data).map(key => {
+      return done => {
         if (key === 'word/document.xml') return done()
         const path = key.split('/')
         const filename = path.pop()
@@ -37,13 +35,13 @@ function build (zip, data, callback) {
           .file(key)
           .async('string')
           .catch(done)
-          .then(function (string) {
+          .then(string => {
             parent[filename] = string
             done()
           })
       }
     }),
-    function (error) {
+    error => {
       if (error) return callback(error)
       callback(null, object)
     }
@@ -51,7 +49,7 @@ function build (zip, data, callback) {
 }
 
 function writeJSON (zip) {
-  build(zip, zip.files, function (error, result) {
+  build(zip, zip.files, (error, result) => {
     if (error) throw error
     process.stdout.write(JSON.stringify(result))
   })

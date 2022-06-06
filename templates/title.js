@@ -1,12 +1,11 @@
 const paragraph = require('./paragraph')
 
-module.exports = function (string, center, styles) {
+module.exports = (string, options) => {
   const argument = {
-    alignment: 'left',
-    depth: 1,
     title: true,
+    alignment: 'center',
     content: [{ title: string }]
   }
-  if (center) argument.alignment = 'center'
-  return paragraph(argument, null, null, null, null, styles)
+  if (options.leftAlignTitle) argument.alignment = 'left'
+  return paragraph(argument, options)
 }

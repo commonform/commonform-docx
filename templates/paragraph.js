@@ -14,51 +14,51 @@ const alignments = {
   distribute: 'distribute'
 }
 
-const properties = function (o, number, indentMargins) {
-  // CAVEAT: The order of properties is important.
-  const depth = ('heading' in o || 'numbering' in o || 'title' in o)
+function properties (o, number, indentMargins) {
+  if (o.title) {
+    // Titles don't have margins or indentation.
+    return tag('w:pPr', `<w:jc w:val="${alignments[o.alignment]}" />`)
+  }
+  const depth = ('heading' in o || 'numbering' in o)
     ? o.depth
     : o.depth + 1
-  const alignment = o.alignment
+  // CAVEAT: The order of properties is important.
   return tag('w:pPr',
     '<w:ind' +
     (
       indentMargins
         ? (
             number.length === 0
-              ? (' w:left="' + ((depth - 2) * HALF_INCH) + '"')
+              ? (
+                  ' w:left="' + ((depth - 2) * HALF_INCH) + '"'
+                )
               : (
                   ' w:left="' + ((depth - 1) * HALF_INCH) + '"' +
-              ' w:firstLine="-' + HALF_INCH + '"'
+                  ' w:firstLine="-' + HALF_INCH + '"'
                 )
           )
         : (' w:firstLine="' + ((depth - 1) * HALF_INCH) + '"')
     ) + ' />' +
-    '<w:jc w:val="' + alignments[alignment] + '" />'
+    '<w:jc w:val="' + alignments[o.alignment] + '" />'
   )
 }
 
 const TAB = '<w:r><w:tab/></w:r>'
 
-module.exports = function (
-  element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF, smartQuotes
-) {
+module.exports = (element, options) => {
   if (!has(element, 'alignment')) {
-    element.alignment = styles.alignment || 'justify'
+    element.alignment = options.styles.alignment || 'justify'
   }
   const number = has(element, 'numbering')
-    ? numberStyle(element.numbering, true)
+    ? options.numberStyle(element.numbering, true)
     : ''
   const conspicuous = has(element, 'conspicuous')
   const hasComponent = has(element, 'component')
   const hasContent = has(element, 'content')
   return tag('w:p',
-    properties(element, number, indentMargins) +
+    properties(element, number, options.indentMargins) +
+    (number ? makeRun(number, false) + TAB : '') +
     (
-      number
-        ? makeRun(number, false) + TAB
-        : ''
-    ) + (
       has(element, 'heading')
         ? (
             makeRun({ caption: element.heading }, conspicuous) +
@@ -71,18 +71,18 @@ module.exports = function (
       hasComponent
         ? hasContent
           ? (
-              referenceContent(element.reference, rIdForHREF) +
+              referenceContent(element.reference, options.rIdForHREF) +
             makeRun(' Quoting for convenience, with any conflicts resolved in favor of the standard:') +
             '</w:p>' +
             '<w:p>' +
             properties(
               Object.assign({}, element, { depth: element.depth + 1 }),
               number,
-              indentMargins
+              options.indentMargins
             ) +
             childContent({ content: element.content })
             )
-          : referenceContent(element, rIdForHREF)
+          : referenceContent(element, options.rIdForHREF)
         : childContent(element)
     )
   )
@@ -90,14 +90,12 @@ module.exports = function (
   function childContent (element) {
     const conspicuous = has(element, 'conspicuous')
     return element.content
-      .map(function (element) {
-        return makeRun(element, conspicuous)
-      })
+      .map(element => makeRun(element, conspicuous, options))
       .join('')
   }
 
   function makeRun (element, conspicuous) {
-    return run(element, numberStyle, conspicuous, blanks, markFilled, styles)
+    return run(element, conspicuous, options)
   }
 
   function referenceContent (component, rIdForHREF) {
@@ -115,11 +113,11 @@ module.exports = function (
     if (hasSubstitutions) {
       returned.push(makeRun(' substituting '))
       const phrases = []
-      Object.keys(substitutions.terms).forEach(function (from) {
+      Object.keys(substitutions.terms).forEach(from => {
         const to = substitutions.terms[from]
         phrases.push(makeRun('the term ' + quote(to) + ' for the term ' + quote(from)))
       })
-      Object.keys(substitutions.headings).forEach(function (from) {
+      Object.keys(substitutions.headings).forEach(from => {
         const to = substitutions.headings[from]
         phrases.push(makeRun('references to ' + quote(to) + ' for references to ' + quote(from)))
       })
@@ -143,7 +141,7 @@ module.exports = function (
   }
 
   function quote (string) {
-    if (smartQuotes) return '“' + string + '”'
+    if (options.smart) return '“' + string + '”'
     else return '"' + string + '"'
   }
 }

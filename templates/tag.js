@@ -1,3 +1,3 @@
-module.exports = function (name, content) {
-  return '<' + name + '>' + content + '</' + name + '>'
+module.exports = (name, content) => {
+  return `<${name}>${content}</${name}>`
 }

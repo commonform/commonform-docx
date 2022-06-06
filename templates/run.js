@@ -9,9 +9,8 @@ const defaults = {
   underline: false
 }
 
-module.exports = function run (
-  element, numberStyle, conspicuous, blanks, markFilled, styles
-) {
+module.exports = function run (element, conspicuous, options) {
+  const { styles } = options
   const properties = Object.assign({}, defaults)
   if (conspicuous === true) {
     Object.assign(properties, styles.conspicuous)
@@ -35,19 +34,13 @@ module.exports = function run (
     return (
       (
         styles.beforeDefinition
-          ? run(
-            styles.beforeDefinition, numberStyle, conspicuous, blanks,
-            markFilled, styles
-          )
+          ? run(styles.beforeDefinition, conspicuous, options)
           : ''
       ) +
       tag('w:r', runProperties(styles.definition) + runText(term)) +
       (
         styles.afterDefinition
-          ? run(
-            styles.afterDefinition, numberStyle, conspicuous, blanks,
-            markFilled, styles
-          )
+          ? run(styles.afterDefinition, conspicuous, options)
           : ''
       )
     )
@@ -55,10 +48,10 @@ module.exports = function run (
     Object.assign(properties, styles.text)
     if (element.blank !== undefined) {
       text = element.blank
-      if (markFilled) Object.assign(properties, styles.filled)
+      if (options.markFilled) Object.assign(properties, styles.filled)
     } else {
-      text = blanks.text
-      if (blanks.highlight) Object.assign(properties, styles.highlighted)
+      text = options.blanks.text
+      if (options.blanks.highlight) Object.assign(properties, styles.highlighted)
     }
   } else if (has(element, 'use')) {
     Object.assign(properties, styles.use)
@@ -73,7 +66,7 @@ module.exports = function run (
       Object.assign(properties, styles.broken)
       text = '[Broken Cross-Reference to "' + heading + '"]'
     } else {
-      text = numberStyle(numbering)
+      text = options.numberStyle(numbering)
       return (
         // Underlined reference.
         tag(
@@ -97,35 +90,35 @@ module.exports = function run (
 
 function underlineFlag (underline) {
   if (typeof underline === 'string') {
-    return '<w:u w:val="' + underline + '"/>'
+    return `<w:u w:val="${underline}"/>`
   } else {
     return '<w:u w:val="none"/>'
   }
 }
 
 function highlightFlag (highlight) {
-  return '<w:highlight w:val="' + highlight + '"/>'
+  return `<w:highlight w:val="${highlight}"/>`
 }
 
 function flag (name, value) {
-  return value ? '<w:' + name + '/>' : ''
+  return value ? `<w:${name}/>` : ''
 }
 
-function runProperties (options) {
+function runProperties (style) {
   return tag('w:rPr',
     (
-      flag('b', options.bold || false) +
-      flag('i', options.italic || false) +
-      (options.highlight ? highlightFlag(options.highlight) : '') +
-      underlineFlag(options.underline || false) +
+      flag('b', style.bold || false) +
+      flag('i', style.italic || false) +
+      (style.highlight ? highlightFlag(style.highlight) : '') +
+      underlineFlag(style.underline || false) +
       (
-        options.monospaced
+        style.monospaced
           ? (
               '<w:rFonts ' +
-            'w:ascii="Courier New" ' +
-            'w:hAnsi="Courier New" ' +
-            'w:cs="Courier New"/>' +
-            '<w:sz w:val="20"/>'
+              'w:ascii="Courier New" ' +
+              'w:hAnsi="Courier New" ' +
+              'w:cs="Courier New"/>' +
+              '<w:sz w:val="20"/>'
             )
           : ''
       )
@@ -134,5 +127,5 @@ function runProperties (options) {
 }
 
 function runText (text) {
-  return '<w:t xml:space="preserve">' + escape(text) + '</w:t>'
+  return `<w:t xml:space="preserve">${escape(text)}</w:t>`
 }

@@ -21,7 +21,7 @@ const usage = [
   '  -i, --indent-margins                Indent margins, commonwealth style',
   '  -l, --left-align-title              Align title flush to left margin',
   '  -m, --mark-filled                   Mark filled blanks',
-  '  -p, --smartify                      Render Unicode punctuation',
+  '  -p, --smart                         Render Unicode punctuation',
   '  -n STYLE, --number STYLE            Numbering style [default: decimal]',
   '  -r --left-align-body                Left-align body paragraphs.',
   '  -s PAGES, --signatures PAGES        Signature page data',
@@ -55,18 +55,18 @@ if (parsed['--number']) {
   }
   if (!has(supportedNumberingStyles, numberStyle)) {
     process.stderr.write([
-      '"' + numberStyle + '" is not a valid numbering style.',
+      `"${numberStyle}" is not a valid numbering style.`,
       'Valid styles are ' +
-      Object.keys(supportedNumberingStyles).map(function (s) {
-        return '"' + s + '"'
-      }).join(', ') + '.'
+      Object.keys(supportedNumberingStyles)
+        .map(s => `"${s}"`)
+        .join(', ') + '.'
     ].join('\n') + '\n')
     process.exit(1)
   } else {
-    options.numbering = require(supportedNumberingStyles[numberStyle])
+    options.numberStyle = require(supportedNumberingStyles[numberStyle])
   }
 } else {
-  options.numbering = require('decimal-numbering')
+  options.numberStyle = require('decimal-numbering')
 }
 
 if (parsed['--signatures']) {
@@ -89,11 +89,11 @@ if (parsed['--a4-paper']) options.a4 = true
 
 options.indentMargins = parsed['--indent-margins']
 
-options.centerTitle = !parsed['--left-align-title']
+options.leftAlignTitle = parsed['--left-align-title']
 
 options.leftAlignBody = parsed['--left-align-body']
 
-options.smartify = !!parsed['--smartify']
+options.smart = !!parsed['--smart']
 
 if (parsed['--blank-text']) options.blanks = parsed['--blank-text']
 

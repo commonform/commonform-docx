@@ -1,10 +1,9 @@
 const paragraph = require('./paragraph')
 
-module.exports = function (string, center, styles) {
+module.exports = (string, options) => {
   return paragraph({
-    alignment: center ? 'center' : 'left',
-    depth: 1,
     title: true,
+    alignment: options.leftAlignTitle ? 'left' : 'center',
     content: [{ monospaced: string }]
-  }, null, null, null, null, styles)
+  }, options)
 }

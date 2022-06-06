@@ -1,4 +1,4 @@
-module.exports = function escape (string) {
+module.exports = string => {
   const special = {
     '&amp;': /&/g,
     '&apos;': /'/g,
@@ -6,7 +6,5 @@ module.exports = function escape (string) {
     '&lt;': /</g,
     '&quot;': /"/g
   }
-  return Object.keys(special).reduce(function (string, escaped) {
-    return string.replace(special[escaped], escaped)
-  }, string)
+  return Object.keys(special).reduce((string, escaped) => string.replace(special[escaped], escaped), string)
 }

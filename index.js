@@ -1,5 +1,6 @@
 const JSZip = require('jszip')
 const commonformHash = require('commonform-hash')
+const decimalNumbering = require('decimal-numbering')
 const smartify = require('commonform-smartify')
 
 const doc = require('./templates/document')
@@ -24,32 +25,48 @@ function defaultStyles (smart) {
   }
 }
 
-module.exports = function (form, values, options) {
-  const title = options.title
-  const version = options.version
-  const hash = options.hash ? commonformHash(form) : undefined
-  const centerTitle = options.centerTitle || false
-  const leftAlignBody = options.leftAlignBody || false
-  const numberStyle = options.numbering
-  const indentMargins = options.indentMargins || false
-  const a4Paper = options.a4 || false
-  const after = options.after || ''
-  const smart = options.smartify
-  const styles = options.styles
-    ? Object.assign({}, defaultStyles(smart), options.styles)
+module.exports = (
+  form,
+  values = [],
+  {
+    a4 = false,
+    after = '',
+    blanks = { text: '[•]', highlight: 'yellow' },
+    hash = false,
+    indentMargins = false,
+    leftAlignBody = false,
+    leftAlignTitle = false,
+    markFilled = false,
+    numberStyle = decimalNumbering,
+    smart,
+    styles,
+    title,
+    version
+  }
+) => {
+  styles = styles
+    ? Object.assign({}, defaultStyles(smart), styles)
     : defaultStyles(smart)
-  const blanks = options.blanks === undefined
-    ? { text: '[•]', highlight: 'yellow' }
-    : typeof options.blanks === 'string'
-      ? { text: options.blanks }
-      : options.blanks
-  const markFilled = !!options.markFilled
+  if (typeof blanks === 'string') blanks = { text: blanks }
+  hash = hash ? commonformHash(form) : undefined
   const result = doc(
     smart ? smartify(form) : form,
-    values, title, version, hash,
-    centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled,
-    styles,
-    smart
+    values,
+    {
+      a4,
+      after,
+      blanks,
+      leftAlignTitle,
+      hash,
+      indentMargins,
+      leftAlignBody,
+      markFilled,
+      numberStyle,
+      smart,
+      styles,
+      title,
+      version
+    }
   )
   const scaffold = require('./data/scaffold.json')
   const clone = Object.assign({}, scaffold)
@@ -61,7 +78,7 @@ module.exports = function (form, values, options) {
 }
 
 function zipObject (zip, object) {
-  Object.keys(object).forEach(function (path) {
+  Object.keys(object).forEach(path => {
     const content = object[path]
     // File
     if (typeof content === 'string') {

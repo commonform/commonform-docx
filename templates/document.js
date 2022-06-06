@@ -40,37 +40,33 @@ function section (a4) {
   return returned
 }
 
-module.exports = function (
-  form, values, title, version, hash,
-  centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles, smartQuotes
-) {
+module.exports = (form, values, options) => {
   // Hyperlinks in documents must refer to Relationships by rId.
   // Set up a running list of HREFs to turn into Relationships,
   // then pass a helper function that assigns rIds to HREFs.
   const hrefs = []
-  function rIdForHREF (url) {
-    const rId = 'rId' + (100 + (hrefs.length - 1))
+  options.rIdForHREF = url => {
+    const rId = `rId${100 + (hrefs.length - 1)}`
     hrefs.push({ rId, url })
     return rId
   }
   const paragraphs = flatten(form, values)
-    .map(function (element) {
-      if (leftAlignBody) element.alignment = 'left'
-      return paragraph(
-        element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF, smartQuotes
-      )
+    .map(element => {
+      if (options.leftAlignBody) element.alignment = 'left'
+      return paragraph(element, options)
     })
     .join('')
+  const { title, version, hash, after, a4 } = options
   const xml = (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
-        (title ? titleRun(title, centerTitle, styles) : '') +
-        (version ? titleRun(version, centerTitle, styles) : '') +
-        (hash ? hashRun(hash, centerTitle, styles) : '') +
+        (title ? titleRun(title, options) : '') +
+        (version ? titleRun(version, options) : '') +
+        (hash ? hashRun(hash, options) : '') +
         paragraphs +
         after +
-        section(a4Paper) +
+        section(a4) +
       '</w:body>' +
     '</w:document>'
   )
