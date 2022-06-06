@@ -44,6 +44,9 @@ module.exports = function (
   form, values, title, version, hash,
   centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles
 ) {
+  // Hyperlinks in documents must refer to Relationships by rId.
+  // Set up a running list of HREFs to turn into Relationships,
+  // then pass a helper function that assigns rIds to HREFs.
   var hrefs = []
   function rIdForHREF (url) {
     var rId = 'rId' + (100 + (hrefs.length - 1))

@@ -82,11 +82,11 @@ module.exports = function (
 }
 
 function componentToContent (component, rIdForHREF) {
-  var url = component.component + '/' + component.version
+  var href = component.component + '/' + component.version
   var returned = ['Incorporate ']
-  var rId = rIdForHREF(url)
+  var rId = rIdForHREF(href)
   returned.push(
-    '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>' + escape(url) + '</w:t></w:r></w:hyperlink>'
+    '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
   )
   var substitutions = component.substitutions
   var hasSubstitutions = (
