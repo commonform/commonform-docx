@@ -27,7 +27,7 @@ function defaultStyles (smart) {
 
 module.exports = function (form, values, options) {
   var title = options.title
-  var edition = options.edition
+  var version = options.version
   var hash = options.hash ? commonformHash(form) : undefined
   var centerTitle = options.centerTitle || false
   var leftAlignBody = options.leftAlignBody || false
@@ -47,7 +47,7 @@ module.exports = function (form, values, options) {
   var markFilled = !!options.markFilled
   var result = doc(
     smart ? smartify(form) : form,
-    values, title, edition, hash,
+    values, title, version, hash,
     centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled,
     styles
   )

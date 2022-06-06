@@ -41,7 +41,7 @@ function section (a4) {
 }
 
 module.exports = function (
-  form, values, title, edition, hash,
+  form, values, title, version, hash,
   centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles
 ) {
   var hrefs = []
@@ -62,7 +62,7 @@ module.exports = function (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
         (title ? titleRun(title, centerTitle, styles) : '') +
-        (edition ? titleRun(edition, centerTitle, styles) : '') +
+        (version ? titleRun(version, centerTitle, styles) : '') +
         (hash ? hashRun(hash, centerTitle, styles) : '') +
         paragraphs +
         after +

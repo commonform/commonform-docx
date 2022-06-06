@@ -18,7 +18,7 @@ It may contain:
 
 1. a `title` property whose value is a string
 
-2. an `edition` property whose value is a string
+2. an `version` property whose value is a string
 
 3. a `hash` property whose value is `true` or `false`
 

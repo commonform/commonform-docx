@@ -325,20 +325,20 @@ tape('renders centered titles', function (test) {
   })
 })
 
-tape('renders editions', function (test) {
+tape('renders versions', function (test) {
   var form = { content: ['Hello'] }
   var options = {
     numbering: decimal,
     title: 'The Title!',
-    edition: 'First'
+    version: '1.0.0'
   }
   render(form, NO_BLANKS, options, function (error, buffer) {
     test.ifError(error, 'no render error')
     textOf(buffer, function (error, text) {
       test.ifError(error, 'no textract error')
       test.assert(
-        text.indexOf('First') > -1,
-        'edition appears in output'
+        text.indexOf('1.0.0') > -1,
+        'version appears in output'
       )
       test.end()
     })

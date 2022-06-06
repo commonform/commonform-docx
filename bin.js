@@ -11,23 +11,23 @@ var usage = [
   '  commonform-docx [options] <FILE>',
   '',
   'Options:',
-  '  -h, --help                    Show this screen.',
-  '  -v, --version                 Show version.',
-  '  -H, --hash                    Render form hash',
-  '  -a, --a4-paper                A4 paper.',
-  '  -b TEXT, --blank-text TEXT    Render blanks with custom text.',
-  '  -d JSON --directions JSON     Use directions to fill in blanks',
-  '  -e EDITION, --edition EDITION Form edition to be rendered',
-  '  -i, --indent-margins          Indent margins, commonwealth style',
-  '  -l, --left-align-title        Align title flush to left margin',
-  '  -m, --mark-filled             Mark filled blanks',
-  '  -p, --smartify                Render Unicode punctuation',
-  '  -n STYLE, --number STYLE      Numbering style [default: decimal]',
-  '  -r --left-align-body          Left-align body paragraphs.',
-  '  -s PAGES, --signatures PAGES  Signature page data',
-  '  -t TITLE, --title TITLE       Render title as <h1>.',
-  '  -v JSON --values JSON         Use values to fill in blanks',
-  '  -y JSON, --styles JSON        Render with custom styles.'
+  '  -h, --help                          Show this screen.',
+  '  -v, --version                       Show version.',
+  '  -H, --hash                          Render form hash',
+  '  -a, --a4-paper                      A4 paper.',
+  '  -b TEXT, --blank-text TEXT          Render blanks with custom text.',
+  '  -d JSON --directions JSON           Use directions to fill in blanks',
+  '  -e VERSION, --form-version VERSION  Form version to be rendered',
+  '  -i, --indent-margins                Indent margins, commonwealth style',
+  '  -l, --left-align-title              Align title flush to left margin',
+  '  -m, --mark-filled                   Mark filled blanks',
+  '  -p, --smartify                      Render Unicode punctuation',
+  '  -n STYLE, --number STYLE            Numbering style [default: decimal]',
+  '  -r --left-align-body                Left-align body paragraphs.',
+  '  -s PAGES, --signatures PAGES        Signature page data',
+  '  -t TITLE, --title TITLE             Render title as <h1>.',
+  '  -v JSON --values JSON               Use values to fill in blanks',
+  '  -y JSON, --styles JSON              Render with custom styles.'
 ].join('\n')
 
 var parsed = docopt(usage, { version: require('./package.json').version })
@@ -81,7 +81,7 @@ if (parsed['--styles']) {
 
 if (parsed['--title']) options.title = parsed['--title']
 
-if (parsed['--edition']) options.edition = parsed['--edition']
+if (parsed['--form-version']) options.version = parsed['--form-version']
 
 if (parsed['--hash']) options.hash = true
 
