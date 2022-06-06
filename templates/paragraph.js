@@ -50,7 +50,8 @@ module.exports = function (
     ? numberStyle(element.numbering, true)
     : ''
   var conspicuous = has(element, 'conspicuous')
-  var component = has(element, 'component')
+  var hasComponent = has(element, 'component')
+  var hasContent = has(element, 'content')
   return tag('w:p',
     properties(element, number, indentMargins) +
     (
@@ -62,26 +63,44 @@ module.exports = function (
         ? (
           makeRun({ caption: element.heading }, conspicuous) +
           (/\.$/.test(element.heading) ? '' : makeRun('.', false)) +
-          ((component || element.content.length === 0) ? '' : makeRun(' ', false))
+          (((hasComponent && !hasContent) || element.content.length === 0) ? '' : makeRun(' ', false))
         )
         : ''
     ) +
     (
-      component
-        ? componentToContent(element, rIdForHREF)
-        : element.content
-          .map(function (element) {
-            return makeRun(element, conspicuous)
-          })
-          .join('')
+      hasComponent
+        ? hasContent
+          ? (
+            referenceContent(element.reference, rIdForHREF) +
+            makeRun(' Quoting for convenience, with any conflicts resolved in favor of the standard:') +
+            '</w:p>' +
+            '<w:p>' +
+            properties(
+              Object.assign({}, element, { depth: element.depth + 1 }),
+              number,
+              indentMargins
+            ) +
+            childContent({ content: element.content })
+          )
+          : referenceContent(element, rIdForHREF)
+        : childContent(element)
     )
   )
+
+  function childContent (element) {
+    var conspicuous = has(element, 'conspicuous')
+    return element.content
+      .map(function (element) {
+        return makeRun(element, conspicuous)
+      })
+      .join('')
+  }
 
   function makeRun (element, conspicuous) {
     return run(element, numberStyle, conspicuous, blanks, markFilled, styles)
   }
 
-  function componentToContent (component, rIdForHREF) {
+  function referenceContent (component, rIdForHREF) {
     var href = component.component + '/' + component.version
     var returned = [makeRun('Incorporate ')]
     var rId = rIdForHREF(href)
