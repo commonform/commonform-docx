@@ -92,10 +92,8 @@ tape('handles components without headings', function (test) {
   var form = {
     content: [
       {
-        repository: 'api.commonform.org',
-        publisher: 'example',
-        project: 'example',
-        edition: '1e',
+        component: 'https://example.com/component',
+        version: '1.0.0',
         substitutions: { terms: {}, headings: {} }
       }
     ]

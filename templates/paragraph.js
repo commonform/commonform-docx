@@ -49,7 +49,7 @@ module.exports = function (
     ? numberStyle(element.numbering, true)
     : ''
   var conspicuous = has(element, 'conspicuous')
-  var component = has(element, 'repository')
+  var component = has(element, 'component')
   return tag('w:p',
     properties(element, number, indentMargins) +
     (
@@ -85,13 +85,8 @@ module.exports = function (
 }
 
 function componentToContent (component) {
-  var url = 'https://' + [
-    component.repository,
-    component.publisher,
-    component.project,
-    component.edition
-  ].map(encodeURIComponent).join('/')
-  var returned = []
+  var url = component.component + '/' + component.version
+  var returned = ['Incorporate ']
   var substitutions = component.substitutions
   var hasSubstitutions = (
     Object.keys(substitutions.terms).length > 0 ||
@@ -99,8 +94,7 @@ function componentToContent (component) {
   )
   var firstString = url
   if (hasSubstitutions) {
-    if (component.upgrade) firstString += ' with updates and corrections, replacing '
-    else firstString += ' replacing '
+    firstString += ', replacing '
     returned.push(firstString)
     var substitutionContent = []
     Object.keys(substitutions.terms).forEach(function (from) {
@@ -119,7 +113,6 @@ function componentToContent (component) {
       returned.push(element)
     })
   } else {
-    if (component.upgrade) firstString += ' with updates and corrections'
     returned.push(firstString)
   }
   return returned
