@@ -1,5 +1,4 @@
 const JSZip = require('jszip')
-const assign = require('object-assign')
 const commonformHash = require('commonform-hash')
 const smartify = require('commonform-smartify')
 
@@ -37,7 +36,7 @@ module.exports = function (form, values, options) {
   const after = options.after || ''
   const smart = options.smartify
   const styles = options.styles
-    ? assign({}, defaultStyles(smart), options.styles)
+    ? Object.assign({}, defaultStyles(smart), options.styles)
     : defaultStyles(smart)
   const blanks = options.blanks === undefined
     ? { text: '[•]', highlight: 'yellow' }

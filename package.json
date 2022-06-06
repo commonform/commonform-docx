@@ -14,7 +14,6 @@
     "decimal-numbering": "^3.0.2",
     "has": "^1.0.3",
     "jszip": "^3.2.1",
-    "object-assign": "^4.1.1",
     "ooxml-signature-pages": "^3.0.2",
     "outline-numbering": "^2.0.0",
     "plan-addenda-exhibits-numbering": "^3.0.0",
