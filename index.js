@@ -4,6 +4,7 @@ var commonformHash = require('commonform-hash')
 var smartify = require('commonform-smartify')
 
 var doc = require('./templates/document')
+var docRels = require('./templates/document-relationships')
 
 function defaultStyles (smart) {
   return {
@@ -44,12 +45,21 @@ module.exports = function (form, values, options) {
       ? { text: options.blanks }
       : options.blanks
   var markFilled = !!options.markFilled
-  var scaffold = require('./data/scaffold.json')
-  scaffold.word['document.xml'] = doc(
+  var result = doc(
     smart ? smartify(form) : form,
     values, title, edition, hash,
     centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled,
     styles
+  )
+  var scaffold = Object.assign(
+    {},
+    require('./data/scaffold.json'),
+    {
+      word: {
+        'document.xml': result.xml,
+        _rels: { 'document.xml.rels': docRels(result.hrefs) }
+      }
+    }
   )
   var zip = new JSZip()
   zipObject(zip, scaffold)

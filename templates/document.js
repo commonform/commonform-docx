@@ -44,15 +44,16 @@ module.exports = function (
   form, values, title, edition, hash,
   centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled, styles
 ) {
+  var hrefs = []
   var paragraphs = flatten(form, values)
     .map(function (element) {
       if (leftAlignBody) element.alignment = 'left'
       return paragraph(
-        element, numberStyle, indentMargins, blanks, markFilled, styles
+        element, numberStyle, indentMargins, blanks, markFilled, styles, hrefs
       )
     })
     .join('')
-  return (
+  var xml = (
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
         (title ? titleRun(title, centerTitle, styles) : '') +
@@ -64,4 +65,5 @@ module.exports = function (
       '</w:body>' +
     '</w:document>'
   )
+  return { xml: xml, hrefs: hrefs }
 }

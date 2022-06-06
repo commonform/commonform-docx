@@ -1,3 +1,4 @@
+var escape = require('../escape')
 var has = require('has')
 var run = require('./run')
 var tag = require('./tag')
@@ -40,7 +41,7 @@ var properties = function (o, number, indentMargins) {
 var TAB = '<w:r><w:tab/></w:r>'
 
 module.exports = function (
-  element, numberStyle, indentMargins, blanks, markFilled, styles
+  element, numberStyle, indentMargins, blanks, markFilled, styles, hrefs
 ) {
   if (!has(element, 'alignment')) {
     element.alignment = styles.alignment || 'justify'
@@ -67,11 +68,7 @@ module.exports = function (
     ) +
     (
       component
-        ? componentToContent(element)
-          .map(function (element) {
-            return makeRun(element, conspicuous)
-          })
-          .join('')
+        ? componentToContent(element, hrefs)
         : element.content
           .map(function (element) {
             return makeRun(element, conspicuous)
@@ -84,18 +81,28 @@ module.exports = function (
   }
 }
 
-function componentToContent (component) {
+function componentToContent (component, hrefs) {
   var url = component.component + '/' + component.version
   var returned = ['Incorporate ']
+  hrefs.push(url)
+  var id = 'rId' + (100 + (hrefs.length - 1))
+  returned.push(
+    '<w:hyperlink r:id="' + id + '">' +
+    '<w:r>' +
+    '<w:rPr>' +
+    '<w:rStyle w:val="InternetLink"/>' +
+    '</w:rPr>' +
+    '<w:t>' + escape(url) + '</w:t>' +
+    '</w:r>' +
+    '</w:hyperlink>'
+  )
   var substitutions = component.substitutions
   var hasSubstitutions = (
     Object.keys(substitutions.terms).length > 0 ||
     Object.keys(substitutions.headings).length > 0
   )
-  var firstString = url
   if (hasSubstitutions) {
-    firstString += ', replacing '
-    returned.push(firstString)
+    returned.push(', replacing ')
     var substitutionContent = []
     Object.keys(substitutions.terms).forEach(function (from) {
       var to = substitutions.terms[from]
@@ -112,8 +119,6 @@ function componentToContent (component) {
     substitutionContent.forEach(function (element) {
       returned.push(element)
     })
-  } else {
-    returned.push(firstString)
   }
   return returned
 }
