@@ -76,41 +76,50 @@ module.exports = function (
           .join('')
     )
   )
+
   function makeRun (element, conspicuous) {
     return run(element, numberStyle, conspicuous, blanks, markFilled, styles)
   }
-}
 
-function componentToContent (component, rIdForHREF) {
-  var href = component.component + '/' + component.version
-  var returned = ['Incorporate ']
-  var rId = rIdForHREF(href)
-  returned.push(
-    '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
-  )
-  var substitutions = component.substitutions
-  var hasSubstitutions = (
-    Object.keys(substitutions.terms).length > 0 ||
-    Object.keys(substitutions.headings).length > 0
-  )
-  if (hasSubstitutions) {
-    returned.push(', replacing ')
-    var substitutionContent = []
-    Object.keys(substitutions.terms).forEach(function (from) {
-      var to = substitutions.terms[from]
-      substitutionContent.push(from + ' with ', { use: to })
-    })
-    Object.keys(substitutions.headings).forEach(function (from) {
-      var to = substitutions.headings[from]
-      substitutionContent.push(from + ' with ', { referene: to })
-    })
-    var length = substitutionContent.length
-    for (var index = 2; index < length - 1; index += 2) {
-      substitutionContent[index] = ', ' + substitutionContent[index]
+  function componentToContent (component, rIdForHREF) {
+    var href = component.component + '/' + component.version
+    var returned = [makeRun('Incorporate ')]
+    var rId = rIdForHREF(href)
+    returned.push(
+      '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
+    )
+    var substitutions = component.substitutions
+    var hasSubstitutions = (
+      Object.keys(substitutions.terms).length > 0 ||
+      Object.keys(substitutions.headings).length > 0
+    )
+    if (hasSubstitutions) {
+      returned.push(makeRun(' substituting '))
+      var phrases = []
+      Object.keys(substitutions.terms).forEach(function (from) {
+        var to = substitutions.terms[from]
+        phrases.push(makeRun({ use: to }) + makeRun(' for ' + from))
+      })
+      Object.keys(substitutions.headings).forEach(function (from) {
+        var to = substitutions.headings[from]
+        phrases.push(makeRun({ heading: to }), makeRun(' for ' + to))
+      })
+      var length = phrases.length
+      if (length === 1) {
+        returned.push(phrases[0])
+      } else if (length === 2) {
+        returned.push(phrases[0])
+        returned.push(makeRun(' and '))
+        returned.push(phrases[1])
+      } else {
+        returned.push(
+          phrases.slice(0, -1).join(makeRun(', ')) +
+          makeRun(', and ') +
+          phrases[phrases.length - 1]
+        )
+      }
     }
-    substitutionContent.forEach(function (element) {
-      returned.push(element)
-    })
+    returned.push(makeRun('.'))
+    return returned.join('')
   }
-  return returned
 }
