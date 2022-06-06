@@ -51,18 +51,12 @@ module.exports = function (form, values, options) {
     centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled,
     styles
   )
-  var scaffold = Object.assign(
-    {},
-    require('./data/scaffold.json'),
-    {
-      word: {
-        'document.xml': result.xml,
-        _rels: { 'document.xml.rels': docRels(result.hrefs) }
-      }
-    }
-  )
+  var scaffold = require('./data/scaffold.json')
+  var clone = Object.assign({}, scaffold)
+  clone.word['document.xml'] = result.xml
+  clone.word._rels['document.xml.rels'] = docRels(result.hrefs)
   var zip = new JSZip()
-  zipObject(zip, scaffold)
+  zipObject(zip, clone)
   return zip
 }
 
