@@ -1,9 +1,9 @@
-var assign = require('object-assign')
-var escape = require('../escape')
-var has = require('has')
-var tag = require('./tag')
+const assign = require('object-assign')
+const escape = require('../escape')
+const has = require('has')
+const tag = require('./tag')
 
-var defaults = {
+const defaults = {
   highlight: false,
   bold: false,
   italic: false,
@@ -13,11 +13,11 @@ var defaults = {
 module.exports = function run (
   element, numberStyle, conspicuous, blanks, markFilled, styles
 ) {
-  var properties = assign({}, defaults)
+  const properties = assign({}, defaults)
   if (conspicuous === true) {
     assign(properties, styles.conspicuous)
   }
-  var text = ''
+  let text = ''
   /* istanbul ignore else */
   if (typeof element === 'string') {
     assign(properties, styles.text)
@@ -32,7 +32,7 @@ module.exports = function run (
     assign(properties, styles.monospaced)
     text = element.monospaced
   } else if (has(element, 'definition')) {
-    var term = element.definition
+    const term = element.definition
     return (
       (
         styles.beforeDefinition
@@ -65,8 +65,8 @@ module.exports = function run (
     assign(properties, styles.use)
     text = element.use
   } else if (has(element, 'heading')) {
-    var numbering = element.numbering
-    var heading = element.heading
+    const numbering = element.numbering
+    const heading = element.heading
     if (
       has(element, 'broken') ||
       has(element, 'ambiguous')
@@ -122,12 +122,12 @@ function runProperties (options) {
       (
         options.monospaced
           ? (
-            '<w:rFonts ' +
+              '<w:rFonts ' +
             'w:ascii="Courier New" ' +
             'w:hAnsi="Courier New" ' +
             'w:cs="Courier New"/>' +
             '<w:sz w:val="20"/>'
-          )
+            )
           : ''
       )
     )

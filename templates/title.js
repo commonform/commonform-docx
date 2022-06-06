@@ -1,7 +1,7 @@
-var paragraph = require('./paragraph')
+const paragraph = require('./paragraph')
 
 module.exports = function (string, center, styles) {
-  var argument = {
+  const argument = {
     alignment: 'left',
     depth: 1,
     title: true,

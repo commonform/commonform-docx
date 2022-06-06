@@ -1,4 +1,4 @@
-var paragraph = require('./paragraph')
+const paragraph = require('./paragraph')
 
 module.exports = function (string, center, styles) {
   return paragraph({

@@ -1,12 +1,12 @@
-var escape = require('../escape')
-var has = require('has')
-var run = require('./run')
-var tag = require('./tag')
+const escape = require('../escape')
+const has = require('has')
+const run = require('./run')
+const tag = require('./tag')
 
 // Half an inch in twentieths of a point
-var HALF_INCH = 720
+const HALF_INCH = 720
 
-var alignments = {
+const alignments = {
   left: 'start',
   right: 'end',
   center: 'center',
@@ -14,31 +14,31 @@ var alignments = {
   distribute: 'distribute'
 }
 
-var properties = function (o, number, indentMargins) {
+const properties = function (o, number, indentMargins) {
   // CAVEAT: The order of properties is important.
-  var depth = ('heading' in o || 'numbering' in o || 'title' in o)
+  const depth = ('heading' in o || 'numbering' in o || 'title' in o)
     ? o.depth
     : o.depth + 1
-  var alignment = o.alignment
+  const alignment = o.alignment
   return tag('w:pPr',
     '<w:ind' +
     (
       indentMargins
         ? (
-          number.length === 0
-            ? (' w:left="' + ((depth - 2) * HALF_INCH) + '"')
-            : (
-              ' w:left="' + ((depth - 1) * HALF_INCH) + '"' +
+            number.length === 0
+              ? (' w:left="' + ((depth - 2) * HALF_INCH) + '"')
+              : (
+                  ' w:left="' + ((depth - 1) * HALF_INCH) + '"' +
               ' w:firstLine="-' + HALF_INCH + '"'
-            )
-        )
+                )
+          )
         : (' w:firstLine="' + ((depth - 1) * HALF_INCH) + '"')
     ) + ' />' +
     '<w:jc w:val="' + alignments[alignment] + '" />'
   )
 }
 
-var TAB = '<w:r><w:tab/></w:r>'
+const TAB = '<w:r><w:tab/></w:r>'
 
 module.exports = function (
   element, numberStyle, indentMargins, blanks, markFilled, styles, rIdForHREF, smartQuotes
@@ -46,12 +46,12 @@ module.exports = function (
   if (!has(element, 'alignment')) {
     element.alignment = styles.alignment || 'justify'
   }
-  var number = has(element, 'numbering')
+  const number = has(element, 'numbering')
     ? numberStyle(element.numbering, true)
     : ''
-  var conspicuous = has(element, 'conspicuous')
-  var hasComponent = has(element, 'component')
-  var hasContent = has(element, 'content')
+  const conspicuous = has(element, 'conspicuous')
+  const hasComponent = has(element, 'component')
+  const hasContent = has(element, 'content')
   return tag('w:p',
     properties(element, number, indentMargins) +
     (
@@ -61,17 +61,17 @@ module.exports = function (
     ) + (
       has(element, 'heading')
         ? (
-          makeRun({ caption: element.heading }, conspicuous) +
+            makeRun({ caption: element.heading }, conspicuous) +
           (/\.$/.test(element.heading) ? '' : makeRun('.', false)) +
           (((hasComponent && !hasContent) || element.content.length === 0) ? '' : makeRun(' ', false))
-        )
+          )
         : ''
     ) +
     (
       hasComponent
         ? hasContent
           ? (
-            referenceContent(element.reference, rIdForHREF) +
+              referenceContent(element.reference, rIdForHREF) +
             makeRun(' Quoting for convenience, with any conflicts resolved in favor of the standard:') +
             '</w:p>' +
             '<w:p>' +
@@ -81,14 +81,14 @@ module.exports = function (
               indentMargins
             ) +
             childContent({ content: element.content })
-          )
+            )
           : referenceContent(element, rIdForHREF)
         : childContent(element)
     )
   )
 
   function childContent (element) {
-    var conspicuous = has(element, 'conspicuous')
+    const conspicuous = has(element, 'conspicuous')
     return element.content
       .map(function (element) {
         return makeRun(element, conspicuous)
@@ -101,29 +101,29 @@ module.exports = function (
   }
 
   function referenceContent (component, rIdForHREF) {
-    var href = component.component + '/' + component.version
-    var returned = [makeRun('Incorporate ')]
-    var rId = rIdForHREF(href)
+    const href = component.component + '/' + component.version
+    const returned = [makeRun('Incorporate ')]
+    const rId = rIdForHREF(href)
     returned.push(
       '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:color w:val="0000EE"/><w:u w:val="single"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
     )
-    var substitutions = component.substitutions
-    var hasSubstitutions = (
+    const substitutions = component.substitutions
+    const hasSubstitutions = (
       Object.keys(substitutions.terms).length > 0 ||
       Object.keys(substitutions.headings).length > 0
     )
     if (hasSubstitutions) {
       returned.push(makeRun(' substituting '))
-      var phrases = []
+      const phrases = []
       Object.keys(substitutions.terms).forEach(function (from) {
-        var to = substitutions.terms[from]
+        const to = substitutions.terms[from]
         phrases.push(makeRun('the term ' + quote(to) + ' for the term ' + quote(from)))
       })
       Object.keys(substitutions.headings).forEach(function (from) {
-        var to = substitutions.headings[from]
+        const to = substitutions.headings[from]
         phrases.push(makeRun('references to ' + quote(to) + ' for references to ' + quote(from)))
       })
-      var length = phrases.length
+      const length = phrases.length
       if (length === 1) {
         returned.push(phrases[0])
       } else if (length === 2) {

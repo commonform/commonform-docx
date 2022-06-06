@@ -1,9 +1,9 @@
-var JSZip = require('jszip')
-var fs = require('fs')
-var has = require('has')
-var runSeries = require('run-series')
+const JSZip = require('jszip')
+const fs = require('fs')
+const has = require('has')
+const runSeries = require('run-series')
 
-var INPUT = process.argv[2]
+const INPUT = process.argv[2]
 
 fs.readFile(INPUT, function (error, data) {
   if (error) throw error
@@ -13,7 +13,7 @@ fs.readFile(INPUT, function (error, data) {
 })
 
 function arbitrarilyDeepFolder (directories, object) {
-  var returned = object
+  let returned = object
   directories.forEach(function (dir) {
     if (has(returned, dir)) {
       returned = returned[dir]
@@ -25,14 +25,14 @@ function arbitrarilyDeepFolder (directories, object) {
 }
 
 function build (zip, data, callback) {
-  var object = {}
+  const object = {}
   runSeries(
     Object.keys(data).map(function (key) {
       return function (done) {
         if (key === 'word/document.xml') return done()
-        var path = key.split('/')
-        var filename = path.pop()
-        var parent = arbitrarilyDeepFolder(path, object)
+        const path = key.split('/')
+        const filename = path.pop()
+        const parent = arbitrarilyDeepFolder(path, object)
         zip
           .file(key)
           .async('string')

@@ -1,10 +1,10 @@
-var JSZip = require('jszip')
-var assign = require('object-assign')
-var commonformHash = require('commonform-hash')
-var smartify = require('commonform-smartify')
+const JSZip = require('jszip')
+const assign = require('object-assign')
+const commonformHash = require('commonform-hash')
+const smartify = require('commonform-smartify')
 
-var doc = require('./templates/document')
-var docRels = require('./templates/document-relationships')
+const doc = require('./templates/document')
+const docRels = require('./templates/document-relationships')
 
 function defaultStyles (smart) {
   return {
@@ -26,44 +26,44 @@ function defaultStyles (smart) {
 }
 
 module.exports = function (form, values, options) {
-  var title = options.title
-  var version = options.version
-  var hash = options.hash ? commonformHash(form) : undefined
-  var centerTitle = options.centerTitle || false
-  var leftAlignBody = options.leftAlignBody || false
-  var numberStyle = options.numbering
-  var indentMargins = options.indentMargins || false
-  var a4Paper = options.a4 || false
-  var after = options.after || ''
-  var smart = options.smartify
-  var styles = options.styles
+  const title = options.title
+  const version = options.version
+  const hash = options.hash ? commonformHash(form) : undefined
+  const centerTitle = options.centerTitle || false
+  const leftAlignBody = options.leftAlignBody || false
+  const numberStyle = options.numbering
+  const indentMargins = options.indentMargins || false
+  const a4Paper = options.a4 || false
+  const after = options.after || ''
+  const smart = options.smartify
+  const styles = options.styles
     ? assign({}, defaultStyles(smart), options.styles)
     : defaultStyles(smart)
-  var blanks = options.blanks === undefined
+  const blanks = options.blanks === undefined
     ? { text: '[•]', highlight: 'yellow' }
     : typeof options.blanks === 'string'
       ? { text: options.blanks }
       : options.blanks
-  var markFilled = !!options.markFilled
-  var result = doc(
+  const markFilled = !!options.markFilled
+  const result = doc(
     smart ? smartify(form) : form,
     values, title, version, hash,
     centerTitle, leftAlignBody, numberStyle, indentMargins, a4Paper, after, blanks, markFilled,
     styles,
     smart
   )
-  var scaffold = require('./data/scaffold.json')
-  var clone = Object.assign({}, scaffold)
+  const scaffold = require('./data/scaffold.json')
+  const clone = Object.assign({}, scaffold)
   clone.word['document.xml'] = result.xml
   clone.word._rels['document.xml.rels'] = docRels(result.hrefs)
-  var zip = new JSZip()
+  const zip = new JSZip()
   zipObject(zip, clone)
   return zip
 }
 
 function zipObject (zip, object) {
   Object.keys(object).forEach(function (path) {
-    var content = object[path]
+    const content = object[path]
     // File
     if (typeof content === 'string') {
       zip.file(path, content.trim())

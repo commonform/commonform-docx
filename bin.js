@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-var docopt = require('@kemitchell/docopt').docopt
-var fs = require('fs')
-var has = require('has')
-var path = require('path')
+const docopt = require('@kemitchell/docopt').docopt
+const fs = require('fs')
+const has = require('has')
+const path = require('path')
 
 // Parse arguments and options.
 
-var usage = [
+const usage = [
   'Usage:',
   '  commonform-docx [options] <FILE>',
   '',
@@ -30,23 +30,23 @@ var usage = [
   '  -y JSON, --styles JSON              Render with custom styles.'
 ].join('\n')
 
-var parsed = docopt(usage, { version: require('./package.json').version })
+const parsed = docopt(usage, { version: require('./package.json').version })
 
 // Parse arguments and options.
 
-var form = readJSON(parsed['<FILE>'])
+const form = readJSON(parsed['<FILE>'])
 
-var values = parsed['--values'] ? readJSON(parsed['--values']) : {}
-var directions = parsed['--directions'] ? readJSON(parsed['--directions']) : []
-var blanks = require('commonform-prepare-blanks')(values, directions)
+const values = parsed['--values'] ? readJSON(parsed['--values']) : {}
+const directions = parsed['--directions'] ? readJSON(parsed['--directions']) : []
+const blanks = require('commonform-prepare-blanks')(values, directions)
 
-var options = {}
+const options = {}
 
 if (parsed['--title']) options.title = parsed['--title']
 
 if (parsed['--number']) {
-  var numberStyle = parsed['--number']
-  var supportedNumberingStyles = {
+  const numberStyle = parsed['--number']
+  const supportedNumberingStyles = {
     rse: 'resolutions-schedules-exhibits-numbering',
     ase: 'agreement-schedules-exhibits-numbering',
     pae: 'plan-addenda-exhibits-numbering',
@@ -104,6 +104,6 @@ function readJSON (file) {
 }
 
 // Render and print.
-var rendered = require('./')(form, blanks, options)
+const rendered = require('./')(form, blanks, options)
 
 rendered.generateNodeStream().pipe(process.stdout)

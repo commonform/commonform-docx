@@ -1,9 +1,9 @@
-var flatten = require('commonform-flatten')
-var hashRun = require('./hash')
-var titleRun = require('./title')
-var paragraph = require('./paragraph')
+const flatten = require('commonform-flatten')
+const hashRun = require('./hash')
+const titleRun = require('./title')
+const paragraph = require('./paragraph')
 
-var DOCUMENT_XMLNS = (
+const DOCUMENT_XMLNS = (
 /* jscs:disable maximumLineLength */
 /* jshint ignore: start */
   'xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" ' +
@@ -27,7 +27,7 @@ var DOCUMENT_XMLNS = (
 )
 
 function section (a4) {
-  var returned = '<w:sectPr>'
+  let returned = '<w:sectPr>'
   if (a4) {
     returned += '<w:pgSz w:w="11907" w:h="16839"/>'
   } else {
@@ -47,13 +47,13 @@ module.exports = function (
   // Hyperlinks in documents must refer to Relationships by rId.
   // Set up a running list of HREFs to turn into Relationships,
   // then pass a helper function that assigns rIds to HREFs.
-  var hrefs = []
+  const hrefs = []
   function rIdForHREF (url) {
-    var rId = 'rId' + (100 + (hrefs.length - 1))
-    hrefs.push({ rId: rId, url: url })
+    const rId = 'rId' + (100 + (hrefs.length - 1))
+    hrefs.push({ rId, url })
     return rId
   }
-  var paragraphs = flatten(form, values)
+  const paragraphs = flatten(form, values)
     .map(function (element) {
       if (leftAlignBody) element.alignment = 'left'
       return paragraph(
@@ -61,7 +61,7 @@ module.exports = function (
       )
     })
     .join('')
-  var xml = (
+  const xml = (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
@@ -74,5 +74,5 @@ module.exports = function (
       '</w:body>' +
     '</w:document>'
   )
-  return { xml: xml, hrefs: hrefs }
+  return { xml, hrefs }
 }

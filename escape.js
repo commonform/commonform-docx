@@ -1,5 +1,5 @@
 module.exports = function escape (string) {
-  var special = {
+  const special = {
     '&amp;': /&/g,
     '&apos;': /'/g,
     '&gt;': />/g,
