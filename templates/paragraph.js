@@ -86,7 +86,7 @@ module.exports = function (
     var returned = [makeRun('Incorporate ')]
     var rId = rIdForHREF(href)
     returned.push(
-      '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
+      '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:color w:val="0000EE"/><w:u w:val="single"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
     )
     var substitutions = component.substitutions
     var hasSubstitutions = (
