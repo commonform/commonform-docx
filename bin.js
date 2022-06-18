@@ -16,7 +16,7 @@ const usage = [
   '  -H, --hash                          Render form hash',
   '  -a, --a4-paper                      A4 paper',
   '  -b TEXT, --blank-text TEXT          Render blanks with custom text',
-  '  --component-style STYLE             Change component style [default: inline]',
+  '  --component-style STYLE             Change component style [default: redundant]',
   '  -d JSON --directions JSON           Use directions to fill in blanks',
   '  -e VERSION, --form-version VERSION  Form version to be rendered',
   '  -i, --indent-margins                Indent margins, commonwealth style',
