@@ -102,7 +102,7 @@ if (parsed['--blank-text']) options.blanks = parsed['--blank-text']
 
 if (parsed['--mark-filled']) options.markFilled = true
 
-options.componentStyle = parsed['--component-style']
+options.loadedComponentStyle = parsed['--component-style']
 if (parsed['--quote-component-text']) options.quoteComponentText = parsed['--quote-component-text']
 options.incorporateComponentText = parsed['--incorporate-component-text']
 
