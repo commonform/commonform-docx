@@ -14,8 +14,8 @@ const usage = [
   '  -h, --help                          Show this screen.',
   '  -v, --version                       Show version.',
   '  -H, --hash                          Render form hash',
-  '  -a, --a4-paper                      A4 paper.',
-  '  -b TEXT, --blank-text TEXT          Render blanks with custom text.',
+  '  -a, --a4-paper                      A4 paper',
+  '  -b TEXT, --blank-text TEXT          Render blanks with custom text',
   '  --component-style STYLE             Change component style [default: inline]',
   '  -d JSON --directions JSON           Use directions to fill in blanks',
   '  -e VERSION, --form-version VERSION  Form version to be rendered',
@@ -28,9 +28,9 @@ const usage = [
   '  -n STYLE, --number STYLE            Numbering style [default: decimal]',
   '  -r --left-align-body                Left-align body paragraphs.',
   '  -s PAGES, --signatures PAGES        Signature page data',
-  '  -t TITLE, --title TITLE             Render title as <h1>.',
+  '  -t TITLE, --title TITLE             Render title as <h1>',
   '  -v JSON --values JSON               Use values to fill in blanks',
-  '  -y JSON, --styles JSON              Render with custom styles.'
+  '  -y JSON, --styles JSON              Render with custom styles'
 ].join('\n')
 
 const parsed = docopt(usage, { version: require('./package.json').version })
