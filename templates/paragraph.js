@@ -73,7 +73,7 @@ module.exports = (element, options) => {
   if (hasComponent) {
     if (hasContent) {
       const style = options.loadedComponentStyle
-      if (style === 'redundant') {
+      if (style === 'both') {
         returned += componentReference(element.reference, element.component)
         returned += makeRun(' ' + options.quoteComponentText)
         returned += '</w:p><w:p>'
@@ -83,7 +83,7 @@ module.exports = (element, options) => {
           options.indentMargins
         )
         returned += childContent({ content: element.content })
-      } else if (style === 'inline') {
+      } else if (style === 'copy') {
         returned += childContent({ content: element.content })
       } else if (style === 'reference') {
         returned += componentReference(element.reference, element.component)
