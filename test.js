@@ -94,7 +94,7 @@ tape('handles components without headings', test => {
       {
         component: 'https://example.com/component',
         version: '1.0.0',
-        substitutions: { terms: {}, headings: {} }
+        substitutions: { terms: {}, headings: {}, blanks: {} }
       }
     ]
   }
@@ -112,7 +112,8 @@ tape('handles components with substitutions', test => {
         version: '1.0.0',
         substitutions: {
           terms: { A: 'B' },
-          headings: { C: 'D' }
+          headings: { C: 'D' },
+          blanks: {}
         }
       }
     ]
