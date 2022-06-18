@@ -16,9 +16,12 @@ const usage = [
   '  -H, --hash                          Render form hash',
   '  -a, --a4-paper                      A4 paper.',
   '  -b TEXT, --blank-text TEXT          Render blanks with custom text.',
+  '  --component-style STYLE             Change component style [default: inline]',
   '  -d JSON --directions JSON           Use directions to fill in blanks',
   '  -e VERSION, --form-version VERSION  Form version to be rendered',
   '  -i, --indent-margins                Indent margins, commonwealth style',
+  '  --incorporate-component-text TEXT   Verb for component references [default: Incorporate]',
+  '  --quote-component-text TEXT         Text for introducing quoted components',
   '  -l, --left-align-title              Align title flush to left margin',
   '  -m, --mark-filled                   Mark filled blanks',
   '  -p, --smart                         Render Unicode punctuation',
@@ -98,6 +101,10 @@ options.smart = !!parsed['--smart']
 if (parsed['--blank-text']) options.blanks = parsed['--blank-text']
 
 if (parsed['--mark-filled']) options.markFilled = true
+
+options.componentStyle = parsed['--component-style']
+if (parsed['--quote-component-text']) options.quoteComponentText = parsed['--quote-component-text']
+options.incorporateComponentText = parsed['--incorporate-component-text']
 
 function readJSON (file) {
   return JSON.parse(fs.readFileSync(path.resolve(file)))

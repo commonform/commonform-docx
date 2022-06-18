@@ -72,7 +72,7 @@ module.exports = (element, options) => {
         ? hasContent
           ? (
               referenceContent(element.reference, options.rIdForHREF) +
-            makeRun(' Quoting for convenience, with any conflicts resolved in favor of the standard:') +
+            makeRun(' ' + options.quoteComponentText) +
             '</w:p>' +
             '<w:p>' +
             properties(
@@ -100,7 +100,7 @@ module.exports = (element, options) => {
 
   function referenceContent (component, rIdForHREF) {
     const href = component.component + '/' + component.version
-    const returned = [makeRun('Incorporate ')]
+    const returned = [makeRun(options.incorporateComponentText + ' ')]
     const rId = rIdForHREF(href)
     returned.push(
       '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:color w:val="0000EE"/><w:u w:val="single"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
