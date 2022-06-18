@@ -1,5 +1,6 @@
 const escape = require('../escape')
 const has = require('has')
+const numberToWords = require('number-to-words-en')
 const run = require('./run')
 const tag = require('./tag')
 
@@ -55,37 +56,48 @@ module.exports = (element, options) => {
   const conspicuous = has(element, 'conspicuous')
   const hasComponent = has(element, 'component')
   const hasContent = has(element, 'content')
-  return tag('w:p',
-    properties(element, number, options.indentMargins) +
-    (number ? makeRun(number, false) + TAB : '') +
-    (
-      has(element, 'heading')
-        ? (
-            makeRun({ caption: element.heading }, conspicuous) +
-          (/\.$/.test(element.heading) ? '' : makeRun('.', false)) +
-          (((hasComponent && !hasContent) || element.content.length === 0) ? '' : makeRun(' ', false))
-          )
-        : ''
-    ) +
-    (
-      hasComponent
-        ? hasContent
-          ? (
-              referenceContent(element.reference, options.rIdForHREF) +
-            makeRun(' ' + options.quoteComponentText) +
-            '</w:p>' +
-            '<w:p>' +
-            properties(
-              Object.assign({}, element, { depth: element.depth + 1 }),
-              number,
-              options.indentMargins
-            ) +
-            childContent({ content: element.content })
-            )
-          : referenceContent(element, options.rIdForHREF)
-        : childContent(element)
-    )
-  )
+  let returned = '<w:p>'
+  returned += properties(element, number, options.indentMargins)
+  returned += number ? makeRun(number, false) + TAB : ''
+  if (has(element, 'heading')) {
+    returned += makeRun({ caption: element.heading }, conspicuous)
+    if (!/\.$/.test(element.heading)) {
+      returned += makeRun('.', false)
+    }
+    if ((hasComponent && !hasContent) || element.content.length === 0) {
+      // pass
+    } else {
+      returned += makeRun(' ', false)
+    }
+  }
+  if (hasComponent) {
+    if (hasContent) {
+      const style = options.loadedComponentStyle
+      if (style === 'redundant') {
+        returned += componentReference(element.reference, element.component)
+        returned += makeRun(' ' + options.quoteComponentText)
+        returned += '</w:p><w:p>'
+        returned += properties(
+          Object.assign({}, element, { depth: element.depth + 1 }),
+          number,
+          options.indentMargins
+        )
+        returned += childContent({ content: element.content })
+      } else if (style === 'inline') {
+        returned += childContent({ content: element.content })
+      } else if (style === 'reference') {
+        returned += componentReference(element.reference, element.component)
+      } else {
+        throw new Error('Uknown Loaded Component Style: ' + style)
+      }
+    } else {
+      returned += componentReference(element)
+    }
+  } else {
+    returned += childContent(element)
+  }
+  returned += '</w:p>'
+  return returned
 
   function childContent (element) {
     const conspicuous = has(element, 'conspicuous')
@@ -98,13 +110,20 @@ module.exports = (element, options) => {
     return run(element, conspicuous, options)
   }
 
-  function referenceContent (component, rIdForHREF) {
+  function componentReference (component, meta) {
     const href = component.component + '/' + component.version
     const returned = [makeRun(options.incorporateComponentText + ' ')]
-    const rId = rIdForHREF(href)
-    returned.push(
-      '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:color w:val="0000EE"/><w:u w:val="single"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
-    )
+    const rId = options.rIdForHREF(href)
+    const link = '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:color w:val="0000EE"/><w:u w:val="single"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
+    if (meta) {
+      returned.push(
+        makeRun(meta.publisher + ' ' + meta.name + ' version ' + meta.version + ' ('),
+        link,
+        makeRun(')')
+      )
+    } else {
+      returned.push(link)
+    }
     const substitutions = component.substitutions
     const hasSubstitutions = (
       Object.keys(substitutions.terms).length > 0 ||
@@ -115,11 +134,28 @@ module.exports = (element, options) => {
       const phrases = []
       Object.keys(substitutions.terms).forEach(from => {
         const to = substitutions.terms[from]
-        phrases.push(makeRun('the term ' + quote(to) + ' for the term ' + quote(from)))
+        phrases.push(
+          makeRun('the term ') +
+          makeRun({ use: to }) +
+          makeRun(' for the term ') +
+          makeRun({ use: from })
+        )
       })
       Object.keys(substitutions.headings).forEach(from => {
         const to = substitutions.headings[from]
-        phrases.push(makeRun('references to ' + quote(to) + ' for references to ' + quote(from)))
+        phrases.push(
+          makeRun('references to ') +
+          makeRun({ use: to }) +
+          makeRun(' for references to ') +
+          makeRun({ use: from })
+        )
+      })
+      Object.keys(substitutions.blanks).forEach(number => {
+        const value = substitutions.blanks[number]
+        phrases.push(
+          makeRun(quote(value)) +
+          makeRun(' for the ' + numberToWords.toWordsOrdinal(parseInt(number)) + ' blank')
+        )
       })
       const length = phrases.length
       if (length === 1) {
