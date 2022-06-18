@@ -117,7 +117,7 @@ module.exports = (element, options) => {
     const link = '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:color w:val="0000EE"/><w:u w:val="single"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
     if (meta) {
       returned.push(
-        makeRun(meta.publisher + ' ' + meta.name + ' version ' + meta.version + ' ('),
+        makeRun(meta.publisher + ' ' + meta.name + ' Version ' + meta.version + ' ('),
         link,
         makeRun(')')
       )
