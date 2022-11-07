@@ -25,7 +25,7 @@
     "run-series": "^1.1.8",
     "standard": "^17.0.0",
     "tape": "^5.0.1",
-    "textract": "^0.20.0"
+    "textract": "^2.5.0"
   },
   "keywords": [
     "Microsoft Office",
