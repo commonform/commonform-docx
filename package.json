@@ -43,8 +43,8 @@
     "lint": "standard",
     "precoverage": "npm run pretest && istanbul cover -- tape test.js",
     "coverage": "FORCE_COLOR=true istanbul check-coverage coverage/coverage.json",
-    "prepublish": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
-    "pretest": "npm run prepublish",
+    "prepublishOnly": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
+    "pretest": "npm run prepublishOnly",
     "test": "tape test.js"
   }
 }
