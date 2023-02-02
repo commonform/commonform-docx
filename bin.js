@@ -16,6 +16,7 @@ const usage = [
   '  -H, --hash                          Render form hash',
   '  -a, --a4-paper                      A4 paper',
   '  -b TEXT, --blank-text TEXT          Render blanks with custom text',
+  '  --complete                          Throw an error if any blank does not have a value.',
   '  --component-style STYLE             Change component style [default: both]',
   '  -d JSON --directions JSON           Use directions to fill in blanks',
   '  -e VERSION, --form-version VERSION  Form version to be rendered',
@@ -85,6 +86,8 @@ if (parsed['--styles']) {
 if (parsed['--title']) options.title = parsed['--title']
 
 if (parsed['--form-version']) options.version = parsed['--form-version']
+
+if (parsed['--complete']) options.complete = true
 
 if (parsed['--hash']) options.hash = true
 

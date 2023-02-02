@@ -50,6 +50,7 @@ module.exports = function run (element, conspicuous, options) {
       text = element.blank
       if (options.markFilled) Object.assign(properties, styles.filled)
     } else {
+      if (options.complete) throw new Error('no value for blank')
       text = options.blanks.text
       if (options.blanks.highlight) Object.assign(properties, styles.highlighted)
     }
