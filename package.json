@@ -18,7 +18,7 @@
     "ooxml-signature-pages": "^3.0.2",
     "outline-numbering": "^3.0.0",
     "plan-addenda-exhibits-numbering": "^3.0.0",
-    "resolutions-schedules-exhibits-numbering": "^1.0.0"
+    "resolutions-schedules-exhibits-numbering": "^2.0.0"
   },
   "devDependencies": {
     "istanbul": "^0.4.0",
