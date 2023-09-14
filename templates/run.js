@@ -83,6 +83,8 @@ module.exports = function run (element, conspicuous, options) {
         )
       )
     }
+  } else if (has(element, 'link')) {
+    text = element.link
   } else {
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2))
   }
