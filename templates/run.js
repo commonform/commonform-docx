@@ -1,5 +1,6 @@
 const escape = require('../escape')
 const has = require('has')
+const hyperlink = require('./hyperlink')
 const tag = require('./tag')
 
 const defaults = {
@@ -84,9 +85,7 @@ module.exports = function run (element, conspicuous, options) {
       )
     }
   } else if (has(element, 'link')) {
-    const url = element.link
-    const rId = options.rIdForHREF(url)
-    return '<w:hyperlink r:id="' + rId + '"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>' + escape(url) + '</w:t></w:r></w:hyperlink>'
+    return hyperlink(options, element.link)
   } else {
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2))
   }

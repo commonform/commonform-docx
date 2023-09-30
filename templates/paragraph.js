@@ -1,5 +1,6 @@
 const escape = require('../escape')
 const has = require('has')
+const hyperlink = require('./hyperlink')
 const numberToWords = require('number-to-words-en')
 const run = require('./run')
 const tag = require('./tag')
@@ -113,8 +114,7 @@ module.exports = (element, options) => {
   function componentReference (component, meta) {
     const href = component.component + '/' + component.version
     const returned = [makeRun(options.incorporateComponentText + ' ')]
-    const rId = options.rIdForHREF(href)
-    const link = '<w:hyperlink r:id="' + rId + '" w:history="1"><w:r><w:rPr><w:color w:val="0000EE"/><w:u w:val="single"/></w:rPr><w:t>' + escape(href) + '</w:t></w:r></w:hyperlink>'
+    const link = hyperlink(options, href)
     if (meta) {
       returned.push(
         makeRun(meta.publisher + ' ' + meta.name + ' Version ' + meta.version + ' ('),
