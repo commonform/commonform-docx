@@ -84,7 +84,9 @@ module.exports = function run (element, conspicuous, options) {
       )
     }
   } else if (has(element, 'link')) {
-    text = element.link
+    const url = element.link
+    const rId = options.rIdForHREF(url)
+    return '<w:hyperlink r:id="' + rId + '"><w:r><w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr><w:t>' + escape(url) + '</w:t></w:r></w:hyperlink>'
   } else {
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2))
   }
