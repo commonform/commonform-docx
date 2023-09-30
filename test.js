@@ -395,7 +395,7 @@ tape('throws for invalid content', test => {
     () => {
       docx(form, [], { numberStyle: decimal })
     },
-    /Invalid content/,
+    /Invalid type/,
     'throw an error')
   test.end()
 })
