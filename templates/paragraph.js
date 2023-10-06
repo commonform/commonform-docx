@@ -1,4 +1,3 @@
-const escape = require('../escape')
 const has = require('has')
 const hyperlink = require('./hyperlink')
 const numberToWords = require('number-to-words-en')
