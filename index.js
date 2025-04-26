@@ -25,10 +25,8 @@ function defaultStyles (smart) {
   }
 }
 
-module.exports = (
-  form,
-  values = [],
-  {
+module.exports = (form, values = [], options = {}) => {
+  let {
     a4 = false,
     after = '',
     blanks = { text: '[•]', highlight: 'yellow' },
@@ -45,9 +43,13 @@ module.exports = (
     smart,
     styles,
     title,
-    version
+    version,
+    ...rest
+  } = options
+  const extraKeys = Object.keys(rest)
+  if (extraKeys.length !== 0) {
+    throw new Error(`Unsupported Options: ${extraKeys.join(', ')}`)
   }
-) => {
   styles = styles
     ? Object.assign({}, defaultStyles(smart), styles)
     : defaultStyles(smart)

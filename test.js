@@ -325,12 +325,31 @@ tape('renders titles', test => {
   })
 })
 
-tape('renders centered titles', test => {
+tape('renders centered titles by default', test => {
+  const form = { content: ['Hello'] }
+  const options = {
+    numberStyle: decimal,
+    title: 'The Title!'
+  }
+  render(form, NO_BLANKS, options, (error, buffer) => {
+    test.ifError(error, 'no render error')
+    textOf(buffer, (error, text) => {
+      test.ifError(error, 'no textract error')
+      test.assert(
+        text.indexOf('The Title!') > -1,
+        'title appears in output'
+      )
+      test.end()
+    })
+  })
+})
+
+tape('accepts option for left-align title', test => {
   const form = { content: ['Hello'] }
   const options = {
     numberStyle: decimal,
     title: 'The Title!',
-    centerTitle: true
+    leftAlignTitle: true
   }
   render(form, NO_BLANKS, options, (error, buffer) => {
     test.ifError(error, 'no render error')
