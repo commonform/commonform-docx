@@ -4,6 +4,15 @@
   "version": "10.0.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "bin": "bin.js",
+  "files": [
+    "bin.js",
+    "data/scaffold.json",
+    "escape.js",
+    "index.js",
+    "LICENSE.md",
+    "README.md",
+    "templates"
+  ],
   "dependencies": {
     "@kemitchell/docopt": "^1.0.0",
     "agreement-schedules-exhibits-numbering": "^3.0.0",
