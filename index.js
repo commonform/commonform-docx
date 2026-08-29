@@ -96,6 +96,7 @@ module.exports = (form, values = [], options = {}) => {
       /<w:szCs w:val="[0-9]+"\/>/g,
       `<w:szCs w:val="${fontSizeInHalfPoints}"/>`
     )
+  // Set font family the same way.
   if (font !== 'Times New Roman') {
     clone.word['styles.xml'] = clone.word['styles.xml']
       .replaceAll(
