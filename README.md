@@ -24,4 +24,6 @@ It may contain:
 
 4. a `markFilled` property whose value is `true` or `false`
 
+5. other properties you can find in function exported from `index.js`
+
 The function returns a [JSZip](https://npmjs.com/packages/jszip) Object primed with `.docx` document data.

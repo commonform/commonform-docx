@@ -37,6 +37,7 @@ module.exports = (form, values = [], options = {}) => {
     leftAlignTitle = false,
     loadedComponentStyle = 'inline',
     markFilled = false,
+    fontSize = 12,
     complete = false,
     numberStyle = decimalNumbering,
     quoteComponentText = 'Quoting for convenience, with any conflicts resolved in favor of the standard:',
@@ -82,6 +83,18 @@ module.exports = (form, values = [], options = {}) => {
   const clone = Object.assign({}, scaffold)
   clone.word['document.xml'] = result.xml
   clone.word._rels['document.xml.rels'] = docRels(result.hrefs)
+  // Set default font size.  We need to replace <w:sz> and <w:szCs>
+  // elements both in <w:docDefaults> and in the default style.
+  const fontSizeInHalfPoints = Math.floor(fontSize * 2)
+  clone.word['styles.xml'] = clone.word['styles.xml']
+    .replaceAll(
+      /<w:sz w:val="[0-9]+"\/>/g,
+      `<w:sz w:val="${fontSizeInHalfPoints}"/>`
+    )
+    .replaceAll(
+      /<w:szCs w:val="[0-9]+"\/>/g,
+      `<w:szCs w:val="${fontSizeInHalfPoints}"/>`
+    )
   const zip = new JSZip()
   zipObject(zip, clone)
   return zip

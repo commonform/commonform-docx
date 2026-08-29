@@ -20,6 +20,7 @@ const usage = [
   '  --component-style STYLE             Change component style [default: both]',
   '  -d JSON --directions JSON           Use directions to fill in blanks',
   '  -e VERSION, --form-version VERSION  Form version to be rendered',
+  '  --font-size POINTS                  Default font size in points',
   '  -i, --indent-margins                Indent margins, commonwealth style',
   '  --incorporate-component-text TEXT   Verb for component references [default: Incorporate]',
   '  --quote-component-text TEXT         Text for introducing quoted components',
@@ -104,6 +105,8 @@ options.smart = !!parsed['--smart']
 if (parsed['--blank-text']) options.blanks = parsed['--blank-text']
 
 if (parsed['--mark-filled']) options.markFilled = true
+
+if (parsed['--font-size']) options.fontSize = parsed['--font-size']
 
 options.loadedComponentStyle = parsed['--component-style']
 if (parsed['--quote-component-text']) options.quoteComponentText = parsed['--quote-component-text']
