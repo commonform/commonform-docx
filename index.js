@@ -38,6 +38,7 @@ module.exports = (form, values = [], options = {}) => {
     loadedComponentStyle = 'inline',
     markFilled = false,
     fontSize = 12,
+    font = 'Times New Roman',
     complete = false,
     numberStyle = decimalNumbering,
     quoteComponentText = 'Quoting for convenience, with any conflicts resolved in favor of the standard:',
@@ -95,6 +96,13 @@ module.exports = (form, values = [], options = {}) => {
       /<w:szCs w:val="[0-9]+"\/>/g,
       `<w:szCs w:val="${fontSizeInHalfPoints}"/>`
     )
+  if (font !== 'Times New Roman') {
+    clone.word['styles.xml'] = clone.word['styles.xml']
+      .replaceAll(
+        '<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>',
+        `<w:rFonts w:ascii="${font}" w:hAnsi="${font}"/>`
+      )
+  }
   const zip = new JSZip()
   zipObject(zip, clone)
   return zip
