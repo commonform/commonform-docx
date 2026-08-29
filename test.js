@@ -2,6 +2,7 @@ const decimal = require('decimal-numbering')
 const docx = require('./')
 const tape = require('tape')
 const textract = require('textract')
+const JSZip = require('jszip')
 
 let NO_BLANKS, NO_OPTIONS
 
@@ -361,6 +362,29 @@ tape('accepts option for left-align title', test => {
       )
       test.end()
     })
+  })
+})
+
+tape('accepts font and font size options', test => {
+  const form = { content: ['Hello'] }
+  const options = { font: 'Arial', fontSize: 18 }
+  render(form, NO_BLANKS, options, (error, buffer) => {
+    test.ifError(error, 'no render error')
+    JSZip.loadAsync(buffer)
+      .then(zip => {
+        return zip.file('word/styles.xml').async('string')
+      })
+      .then(styles => {
+        test.assert(
+          styles.indexOf(options.font) !== -1,
+          'font appears in styles.xml'
+        )
+        test.assert(
+          styles.indexOf(`w:val="${options.fontSize * 2}"`) !== -1,
+          'font size in half-points apopears in styles.xml'
+        )
+        test.end()
+      })
   })
 })
 
