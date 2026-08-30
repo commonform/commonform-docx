@@ -12,7 +12,7 @@ The exported function takes three arguments:
 
 The options object must contain:
 
-1. a `numbering` property whose value is an [abstract numbering](https://npmjs.com/packages/abstract-numbering)
+1. a `numbering` property whose value is an [abstract numbering](https://npmjs.com/package/abstract-numbering)
 
 It may contain:
 
@@ -26,7 +26,7 @@ It may contain:
 
 5. other properties you can find in function exported from `index.js`
 
-The function returns a [JSZip](https://npmjs.com/packages/jszip) Object primed with `.docx` document data.
+The function returns a [JSZip](https://npmjs.com/package/jszip) Object primed with `.docx` document data.
 
 For example:
 
