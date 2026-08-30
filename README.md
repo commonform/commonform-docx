@@ -27,3 +27,16 @@ It may contain:
 5. other properties you can find in function exported from `index.js`
 
 The function returns a [JSZip](https://npmjs.com/packages/jszip) Object primed with `.docx` document data.
+
+For example:
+
+```javascript
+const zip = docx(form, {
+  title: 'Example Document',
+  version: 'Version 1.0.0'
+})
+await writeFile(
+  'example.docx',
+  await zip.generateAsync({ type: 'nodebuffer' })
+)
+```
