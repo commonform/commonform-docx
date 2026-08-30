@@ -104,6 +104,43 @@ module.exports = (form, values = [], options = {}) => {
         `<w:rFonts w:ascii="${font}" w:hAnsi="${font}"/>`
       )
   }
+  // Set styles for comment bubble text to match main body.
+  clone.word['styles.xml'] = clone.word['styles.xml']
+    .replace(
+      '</w:styles>',
+      [
+        '<w:style w:type="paragraph" w:styleId="BalloonText">',
+        '<w:name w:val="Balloon Text"/>',
+        '<w:basedOn w:val="Normal"/>',
+        '<w:link w:val="BalloonTextChar"/>',
+        '<w:uiPriority w:val="99"/>',
+        '<w:semiHidden/>',
+        '<w:unhideWhenUsed/>',
+        '<w:rsid w:val="009714CB"/>',
+        '<w:pPr>',
+        '<w:spacing w:before="0" w:after="0"/>',
+        '</w:pPr>',
+        '<w:rPr>',
+        `<w:rFonts w:cs="${font}"/>`,
+        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        '</w:rPr>',
+        '</w:style>',
+        '<w:style w:type="character" w:customStyle="1" w:styleId="BalloonTextChar">',
+        '<w:name w:val="Balloon Text Char"/>',
+        '<w:basedOn w:val="DefaultParagraphFont"/>',
+        '<w:link w:val="BalloonText"/>',
+        '<w:uiPriority w:val="99"/>',
+        '<w:semiHidden/>',
+        '<w:rsid w:val="009714CB"/>',
+        '<w:rPr>',
+        `<w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}"/>`,
+        `<w:sz w:val="${fontSizeInHalfPoints}"/>`,
+        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        '</w:rPr>',
+        '</w:style>',
+        '</w:styles>'
+      ].join('')
+    )
   const zip = new JSZip()
   zipObject(zip, clone)
   return zip
