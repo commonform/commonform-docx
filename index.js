@@ -106,6 +106,7 @@ module.exports = (form, values = [], options = {}) => {
   }
   // Set styles for comment bubble text to match main body.
   const rsid = '009714CB'
+  const fontAndSizeTags = `<w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}"/><w:sz w:val="${fontSizeInHalfPoints}"/><w:szCs w:val="${fontSizeInHalfPoints}"/>`
   clone.word['styles.xml'] = clone.word['styles.xml']
     .replace(
       '</w:styles>',
@@ -123,8 +124,7 @@ module.exports = (form, values = [], options = {}) => {
         '<w:spacing w:before="0" w:after="0"/>',
         '</w:pPr>',
         '<w:rPr>',
-        `<w:rFonts w:cs="${font}"/>`,
-        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
         // BalloonTextChar
@@ -136,9 +136,7 @@ module.exports = (form, values = [], options = {}) => {
         '<w:semiHidden/>',
         `<w:rsid w:val="${rsid}"/>`,
         '<w:rPr>',
-        `<w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}"/>`,
-        `<w:sz w:val="${fontSizeInHalfPoints}"/>`,
-        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
         // Comment Text
@@ -146,8 +144,7 @@ module.exports = (form, values = [], options = {}) => {
         '<w:name w:val="Comment Text"/>',
         `<w:rsid w:val="${rsid}"/>`,
         '<w:rPr>',
-        `<w:rFonts w:cs="${font}"/>`,
-        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
         // Comment Subject
@@ -155,9 +152,8 @@ module.exports = (form, values = [], options = {}) => {
         '<w:name w:val="Comment Subject"/>',
         `<w:rsid w:val="${rsid}"/>`,
         '<w:rPr>',
-        '<w:b/>',
-        `<w:rFonts w:cs="${font}"/>`,
-        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        '<w:b/>', // Bold
+        fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
         // Comment Reference
@@ -165,9 +161,7 @@ module.exports = (form, values = [], options = {}) => {
         '<w:name w:val="Comment Reference"/>',
         `<w:rsid w:val="${rsid}"/>`,
         '<w:rPr>',
-        '<w:b/>',
-        `<w:rFonts w:cs="${font}"/>`,
-        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
         '</w:styles>'
