@@ -101,17 +101,17 @@ module.exports = (form, values = [], options = {}) => {
     clone.word['styles.xml'] = clone.word['styles.xml']
       .replaceAll(
         '<w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>',
-        `<w:rFonts w:ascii="${font}" w:hAnsi="${font}"/>`
+        `<w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}"/>`
       )
   }
   // Set styles for comment bubble text to match main body.
-  const rsid = '009714CB'
+  const rsid = '<w:rsid w:val="009714CB"/>'
   const fontAndSizeTags = `<w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}"/><w:sz w:val="${fontSizeInHalfPoints}"/><w:szCs w:val="${fontSizeInHalfPoints}"/>`
   clone.word['styles.xml'] = clone.word['styles.xml']
     .replace(
       '</w:styles>',
       [
-        // BalloonText
+        // Balloon Text
         '<w:style w:type="paragraph" w:styleId="BalloonText">',
         '<w:name w:val="Balloon Text"/>',
         '<w:basedOn w:val="Normal"/>',
@@ -119,51 +119,97 @@ module.exports = (form, values = [], options = {}) => {
         '<w:uiPriority w:val="99"/>',
         '<w:semiHidden/>',
         '<w:unhideWhenUsed/>',
-        `<w:rsid w:val="${rsid}"/>`,
-        '<w:pPr>',
-        '<w:spacing w:before="0" w:after="0"/>',
-        '</w:pPr>',
+        rsid,
+        '<w:pPr><w:spacing w:before="0" w:after="0"/></w:pPr>',
         '<w:rPr>',
         fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
-        // BalloonTextChar
+
+        // Balloon Text Char
         '<w:style w:type="character" w:customStyle="1" w:styleId="BalloonTextChar">',
         '<w:name w:val="Balloon Text Char"/>',
         '<w:basedOn w:val="DefaultParagraphFont"/>',
         '<w:link w:val="BalloonText"/>',
         '<w:uiPriority w:val="99"/>',
         '<w:semiHidden/>',
-        `<w:rsid w:val="${rsid}"/>`,
+        rsid,
         '<w:rPr>',
         fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
-        // Comment Text
-        '<w:style w:type="character" w:styleId="Comment Text">',
-        '<w:name w:val="Comment Text"/>',
-        `<w:rsid w:val="${rsid}"/>`,
-        '<w:rPr>',
-        fontAndSizeTags,
-        '</w:rPr>',
-        '</w:style>',
-        // Comment Subject
-        '<w:style w:type="character" w:styleId="Comment Subject">',
-        '<w:name w:val="Comment Subject"/>',
-        `<w:rsid w:val="${rsid}"/>`,
-        '<w:rPr>',
-        '<w:b/>', // Bold
-        fontAndSizeTags,
-        '</w:rPr>',
-        '</w:style>',
+
         // Comment Reference
-        '<w:style w:type="character" w:styleId="Comment Reference">',
-        '<w:name w:val="Comment Reference"/>',
-        `<w:rsid w:val="${rsid}"/>`,
+        '<w:style w:type="character" w:styleId="CommentReference">',
+        '<w:name w:val="annotation reference"/>',
+        '<w:basedOn w:val="DefaultParagraphFont"/>',
+        '<w:uiPriority w:val="99"/>',
+        '<w:semiHidden/>',
+        '<w:unhideWhenUsed/>',
+        rsid,
         '<w:rPr>',
         fontAndSizeTags,
         '</w:rPr>',
         '</w:style>',
+
+        // Comment Text
+        '<w:style w:type="paragraph" w:styleId="CommentText">',
+        '<w:name w:val="annotation text"/>',
+        '<w:basedOn w:val="Normal"/>',
+        '<w:link w:val="CommentTextChar"/>',
+        '<w:uiPriority w:val="99"/>',
+        '<w:semiHidden/>',
+        '<w:unhideWhenUsed/>',
+        rsid,
+        '<w:pPr><w:spacing w:line="240" w:lineRule="auto"/></w:pPr>',
+        '<w:rPr>',
+        fontAndSizeTags,
+        '</w:rPr>',
+        '</w:style>',
+
+        // Comment Text Char
+        '<w:style w:type="character" w:customStyle="1" w:styleId="CommentTextChar">',
+        '<w:name w:val="Comment Text Char"/>',
+        '<w:basedOn w:val="DefaultParagraphFont"/>',
+        '<w:link w:val="CommentText"/>',
+        '<w:uiPriority w:val="99"/>',
+        '<w:semiHidden/>',
+        rsid,
+        '<w:rPr>',
+        fontAndSizeTags,
+        '</w:rPr>',
+        '</w:style>',
+
+        // Comment Subject
+        '<w:style w:type="paragraph" w:styleId="CommentSubject">',
+        '<w:name w:val="annotation subject"/>',
+        '<w:basedOn w:val="CommentText"/>',
+        '<w:next w:val="CommentText"/>',
+        '<w:link w:val="CommentSubjectChar"/>',
+        '<w:uiPriority w:val="99"/>',
+        '<w:semiHidden/>',
+        '<w:unhideWhenUsed/>',
+        rsid,
+        '<w:rPr>',
+        '<w:b/><w:bCs/>',
+        fontAndSizeTags,
+        '</w:rPr>',
+        '</w:style>',
+
+        // Comment Subject Char
+        '<w:style w:type="character" w:customStyle="1" w:styleId="CommentSubjectChar">',
+        '<w:name w:val="Comment Subject Char"/>',
+        '<w:basedOn w:val="CommentTextChar"/>',
+        '<w:link w:val="CommentSubject"/>',
+        '<w:uiPriority w:val="99"/>',
+        '<w:semiHidden/>',
+        rsid,
+        '<w:rPr>',
+        '<w:b/><w:bCs/>',
+        fontAndSizeTags,
+        '</w:rPr>',
+        '</w:style>',
+
         '</w:styles>'
       ].join('')
     )
