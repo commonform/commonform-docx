@@ -105,6 +105,10 @@ module.exports = (form, values = [], options = {}) => {
       )
   }
   // Set styles for comment bubble text to match main body.
+  // It's not exactly clear what each of these styles apply to.  It at
+  // least appears that some versions of Word, like 365 and For Mac, use
+  // primarily or exclusively the "Balloon" styles, while Word for
+  // Windows seems to use primarily the "Comment" styles.
   const rsid = '<w:rsid w:val="009714CB"/>'
   const fontAndSizeTags = `<w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}"/><w:sz w:val="${fontSizeInHalfPoints}"/><w:szCs w:val="${fontSizeInHalfPoints}"/>`
   clone.word['styles.xml'] = clone.word['styles.xml']
