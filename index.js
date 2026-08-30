@@ -105,10 +105,12 @@ module.exports = (form, values = [], options = {}) => {
       )
   }
   // Set styles for comment bubble text to match main body.
+  const rsid = '009714CB'
   clone.word['styles.xml'] = clone.word['styles.xml']
     .replace(
       '</w:styles>',
       [
+        // BalloonText
         '<w:style w:type="paragraph" w:styleId="BalloonText">',
         '<w:name w:val="Balloon Text"/>',
         '<w:basedOn w:val="Normal"/>',
@@ -116,7 +118,7 @@ module.exports = (form, values = [], options = {}) => {
         '<w:uiPriority w:val="99"/>',
         '<w:semiHidden/>',
         '<w:unhideWhenUsed/>',
-        '<w:rsid w:val="009714CB"/>',
+        `<w:rsid w:val="${rsid}"/>`,
         '<w:pPr>',
         '<w:spacing w:before="0" w:after="0"/>',
         '</w:pPr>',
@@ -125,16 +127,46 @@ module.exports = (form, values = [], options = {}) => {
         `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
         '</w:rPr>',
         '</w:style>',
+        // BalloonTextChar
         '<w:style w:type="character" w:customStyle="1" w:styleId="BalloonTextChar">',
         '<w:name w:val="Balloon Text Char"/>',
         '<w:basedOn w:val="DefaultParagraphFont"/>',
         '<w:link w:val="BalloonText"/>',
         '<w:uiPriority w:val="99"/>',
         '<w:semiHidden/>',
-        '<w:rsid w:val="009714CB"/>',
+        `<w:rsid w:val="${rsid}"/>`,
         '<w:rPr>',
         `<w:rFonts w:ascii="${font}" w:hAnsi="${font}" w:cs="${font}"/>`,
         `<w:sz w:val="${fontSizeInHalfPoints}"/>`,
+        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        '</w:rPr>',
+        '</w:style>',
+        // Comment Text
+        '<w:style w:type="character" w:styleId="Comment Text">',
+        '<w:name w:val="Comment Text"/>',
+        `<w:rsid w:val="${rsid}"/>`,
+        '<w:rPr>',
+        `<w:rFonts w:cs="${font}"/>`,
+        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        '</w:rPr>',
+        '</w:style>',
+        // Comment Subject
+        '<w:style w:type="character" w:styleId="Comment Subject">',
+        '<w:name w:val="Comment Subject"/>',
+        `<w:rsid w:val="${rsid}"/>`,
+        '<w:rPr>',
+        '<w:b/>',
+        `<w:rFonts w:cs="${font}"/>`,
+        `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
+        '</w:rPr>',
+        '</w:style>',
+        // Comment Reference
+        '<w:style w:type="character" w:styleId="Comment Reference">',
+        '<w:name w:val="Comment Reference"/>',
+        `<w:rsid w:val="${rsid}"/>`,
+        '<w:rPr>',
+        '<w:b/>',
+        `<w:rFonts w:cs="${font}"/>`,
         `<w:szCs w:val="${fontSizeInHalfPoints}"/>`,
         '</w:rPr>',
         '</w:style>',
