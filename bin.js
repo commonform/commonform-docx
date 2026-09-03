@@ -14,7 +14,7 @@ const usage = [
   '  -h, --help                          Show this screen.',
   '  -v, --version                       Show version.',
   '  -H, --hash                          Render form hash',
-  '  -a, --a4-paper                      A4 paper',
+  '  -a, --a4-paper                      Set paper size to A4',
   '  -b TEXT, --blank-text TEXT          Render blanks with custom text',
   '  --complete                          Throw an error if any blank does not have a value.',
   '  --component-style STYLE             Change component style [default: both]',
@@ -32,7 +32,7 @@ const usage = [
   '  -r --left-align-body                Left-align body paragraphs.',
   '  -s PAGES, --signatures PAGES        Signature page data',
   '  -t TITLE, --title TITLE             Render title as <h1>',
-  '  -v JSON --values JSON               Use values to fill in blanks',
+  '  --values JSON                       Use values to fill in blanks',
   '  -y JSON, --styles JSON              Render with custom styles'
 ].join('\n')
 
