@@ -81,7 +81,7 @@ module.exports = (form, values = [], options = {}) => {
     }
   )
   const scaffold = require('./data/scaffold.json')
-  const clone = Object.assign({}, scaffold)
+  const clone = structuredClone(scaffold)
   clone.word['document.xml'] = result.xml
   clone.word._rels['document.xml.rels'] = docRels(result.hrefs)
   // Set default font size.  We need to replace <w:sz> and <w:szCs>
