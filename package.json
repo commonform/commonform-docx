@@ -29,7 +29,6 @@
   },
   "devDependencies": {
     "run-series": "^1.1.8",
-    "standard": "^17.0.0",
     "tape": "^5.0.1",
     "textract": "^2.5.0"
   },
@@ -46,7 +45,6 @@
   "license": "BlueOak-1.0.0",
   "repository": "commonform/commonform-docx",
   "scripts": {
-    "lint": "standard",
     "precoverage": "npm run build",
     "coverage": "node --experimental-test-coverage --test test.js",
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
