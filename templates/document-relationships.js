@@ -1,7 +1,8 @@
-const escape = require('../escape')
+import escape from '../escape.js'
+import scaffold from '../data/scaffold.json' with { type: 'json' }
 
-module.exports = array => {
-  const scaffolded = require('../data/scaffold.json').word._rels['document.xml.rels']
+export default array => {
+  const scaffolded = scaffold.word._rels['document.xml.rels']
   if (array.length === 0) return scaffolded
   const appended = []
   for (let index = 0; index < array.length; index++) {

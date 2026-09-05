@@ -1,8 +1,8 @@
-const decimal = require('decimal-numbering')
-const docx = require('./')
-const tape = require('tape')
-const textract = require('textract')
-const JSZip = require('jszip')
+import decimal from 'decimal-numbering'
+import docx from './index.js'
+import tape from 'tape'
+import textract from 'textract'
+import JSZip from 'jszip'
 
 let NO_BLANKS, NO_OPTIONS
 

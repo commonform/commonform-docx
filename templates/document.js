@@ -1,7 +1,7 @@
-const flatten = require('commonform-flatten')
-const hashRun = require('./hash')
-const titleRun = require('./title')
-const paragraph = require('./paragraph')
+import flatten from 'commonform-flatten'
+import hashRun from './hash.js'
+import titleRun from './title.js'
+import paragraph from './paragraph.js'
 
 const DOCUMENT_XMLNS = (
 /* jscs:disable maximumLineLength */
@@ -40,7 +40,7 @@ function section (a4) {
   return returned
 }
 
-module.exports = (form, values, options) => {
+export default (form, values, options) => {
   // Hyperlinks in documents must refer to Relationships by rId.
   // Set up a running list of HREFs to turn into Relationships,
   // then pass a helper function that assigns rIds to HREFs.

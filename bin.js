@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const docopt = require('@kemitchell/docopt').docopt
-const fs = require('fs')
-const has = require('has')
-const path = require('path')
+import meta from './package.json' with { type: 'json' }
+import { docopt } from '@kemitchell/docopt'
+import { readFileSync } from 'fs'
+import { resolve } from 'path'
 
 // Parse arguments and options.
 
@@ -36,7 +36,7 @@ const usage = [
   '  -y JSON, --styles JSON              Render with custom styles'
 ].join('\n')
 
-const parsed = docopt(usage, { version: require('./package.json').version })
+const parsed = docopt(usage, { version: meta.version })
 
 // Parse arguments and options.
 
@@ -59,7 +59,7 @@ if (parsed['--number']) {
     decimal: 'decimal-numbering',
     outline: 'outline-numbering'
   }
-  if (!has(supportedNumberingStyles, numberStyle)) {
+  if (!Object.hasOwn(supportedNumberingStyles, numberStyle)) {
     process.stderr.write([
       `"${numberStyle}" is not a valid numbering style.`,
       'Valid styles are ' +
@@ -77,12 +77,12 @@ if (parsed['--number']) {
 
 if (parsed['--signatures']) {
   options.after = require('ooxml-signature-pages')(
-    JSON.parse(fs.readFileSync(parsed['--signatures']))
+    JSON.parse(readFileSync(parsed['--signatures']))
   )
 }
 
 if (parsed['--styles']) {
-  options.styles = JSON.parse(fs.readFileSync(parsed['--styles']))
+  options.styles = JSON.parse(readFileSync(parsed['--styles']))
 }
 
 if (parsed['--title']) options.title = parsed['--title']
@@ -115,7 +115,7 @@ if (parsed['--quote-component-text']) options.quoteComponentText = parsed['--quo
 options.incorporateComponentText = parsed['--incorporate-component-text']
 
 function readJSON (file) {
-  return JSON.parse(fs.readFileSync(path.resolve(file)))
+  return JSON.parse(readFileSync(resolve(file)))
 }
 
 // Render and print.

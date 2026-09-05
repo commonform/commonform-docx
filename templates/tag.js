@@ -1,3 +1,3 @@
-module.exports = (name, content) => {
+export default (name, content) => {
   return `<${name}>${content}</${name}>`
 }

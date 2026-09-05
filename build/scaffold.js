@@ -1,7 +1,6 @@
-const JSZip = require('jszip')
-const fs = require('fs')
-const has = require('has')
-const runSeries = require('run-series')
+import JSZip from 'jszip'
+import fs from 'fs'
+import runSeries from 'run-series'
 
 const INPUT = process.argv[2]
 
@@ -13,7 +12,7 @@ fs.readFile(INPUT, (error, data) => {
 function arbitrarilyDeepFolder (directories, object) {
   let returned = object
   directories.forEach(dir => {
-    if (has(returned, dir)) {
+    if (Object.hasOwn(returned, dir)) {
       returned = returned[dir]
     } else {
       returned = returned[dir] = {}

@@ -1,7 +1,6 @@
-const escape = require('../escape')
-const has = require('has')
-const hyperlink = require('./hyperlink')
-const tag = require('./tag')
+import escape from '../escape.js'
+import hyperlink from './hyperlink.js'
+import tag from './tag.js'
 
 const defaults = {
   highlight: false,
@@ -10,7 +9,7 @@ const defaults = {
   underline: false
 }
 
-module.exports = function run (element, conspicuous, options) {
+export default function run (element, conspicuous, options) {
   const { styles } = options
   const properties = Object.assign({}, defaults)
   if (conspicuous === true) {
@@ -21,16 +20,16 @@ module.exports = function run (element, conspicuous, options) {
   if (typeof element === 'string') {
     Object.assign(properties, styles.text)
     text = element
-  } else if (has(element, 'caption')) {
+  } else if (Object.hasOwn(element, 'caption')) {
     Object.assign(properties, styles.heading)
     text = element.caption
-  } else if (has(element, 'title')) {
+  } else if (Object.hasOwn(element, 'title')) {
     Object.assign(properties, styles.title)
     text = element.title
-  } else if (has(element, 'monospaced')) {
+  } else if (Object.hasOwn(element, 'monospaced')) {
     Object.assign(properties, styles.monospaced)
     text = element.monospaced
-  } else if (has(element, 'definition')) {
+  } else if (Object.hasOwn(element, 'definition')) {
     const term = element.definition
     return (
       (
@@ -45,7 +44,7 @@ module.exports = function run (element, conspicuous, options) {
           : ''
       )
     )
-  } else if (has(element, 'blank')) {
+  } else if (Object.hasOwn(element, 'blank')) {
     Object.assign(properties, styles.text)
     if (element.blank !== undefined) {
       text = element.blank
@@ -55,15 +54,15 @@ module.exports = function run (element, conspicuous, options) {
       text = options.blanks.text
       if (options.blanks.highlight) Object.assign(properties, styles.highlighted)
     }
-  } else if (has(element, 'use')) {
+  } else if (Object.hasOwn(element, 'use')) {
     Object.assign(properties, styles.use)
     text = element.use
-  } else if (has(element, 'heading')) {
+  } else if (Object.hasOwn(element, 'heading')) {
     const numbering = element.numbering
     const heading = element.heading
     if (
-      has(element, 'broken') ||
-      has(element, 'ambiguous')
+      Object.hasOwn(element, 'broken') ||
+      Object.hasOwn(element, 'ambiguous')
     ) {
       Object.assign(properties, styles.broken)
       text = '[Broken Cross-Reference to "' + heading + '"]'
@@ -84,7 +83,7 @@ module.exports = function run (element, conspicuous, options) {
         )
       )
     }
-  } else if (has(element, 'link')) {
+  } else if (Object.hasOwn(element, 'link')) {
     return hyperlink(options, element.link)
   } else {
     throw new Error('Invalid type: ' + JSON.stringify(element, null, 2))

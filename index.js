@@ -1,10 +1,11 @@
-const JSZip = require('jszip')
-const commonformHash = require('commonform-hash')
-const decimalNumbering = require('decimal-numbering')
-const smartify = require('commonform-smartify')
+import JSZip from 'jszip'
+import commonformHash from 'commonform-hash'
+import decimalNumbering from 'decimal-numbering'
+import smartify from 'commonform-smartify'
+import scaffold from './data/scaffold.json' with { type: 'json' }
 
-const doc = require('./templates/document')
-const docRels = require('./templates/document-relationships')
+import doc from './templates/document.js'
+import docRels from './templates/document-relationships.js'
 
 function defaultStyles (smart) {
   return {
@@ -25,7 +26,7 @@ function defaultStyles (smart) {
   }
 }
 
-module.exports = (form, values = [], options = {}) => {
+export default (form, values = [], options = {}) => {
   let {
     a4 = false,
     after = '',
@@ -80,7 +81,6 @@ module.exports = (form, values = [], options = {}) => {
       version
     }
   )
-  const scaffold = require('./data/scaffold.json')
   const clone = structuredClone(scaffold)
   clone.word['document.xml'] = result.xml
   clone.word._rels['document.xml.rels'] = docRels(result.hrefs)

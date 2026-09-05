@@ -1,4 +1,4 @@
-module.exports = string => {
+export default string => {
   const special = {
     '&amp;': /&/g,
     '&apos;': /'/g,

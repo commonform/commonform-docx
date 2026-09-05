@@ -1,8 +1,7 @@
-const has = require('has')
-const hyperlink = require('./hyperlink')
-const numberToWords = require('number-to-words-en')
-const run = require('./run')
-const tag = require('./tag')
+import hyperlink from './hyperlink.js'
+import numberToWords from 'number-to-words-en'
+import run from './run.js'
+import tag from './tag.js'
 
 // Half an inch in twentieths of a point
 const HALF_INCH = 720
@@ -46,20 +45,20 @@ function properties (o, number, indentMargins) {
 
 const TAB = '<w:r><w:tab/></w:r>'
 
-module.exports = (element, options) => {
-  if (!has(element, 'alignment')) {
+export default (element, options) => {
+  if (!Object.hasOwn(element, 'alignment')) {
     element.alignment = options.styles.alignment || 'justify'
   }
-  const number = has(element, 'numbering')
+  const number = Object.hasOwn(element, 'numbering')
     ? options.numberStyle(element.numbering, true)
     : ''
-  const conspicuous = has(element, 'conspicuous')
-  const hasComponent = has(element, 'component')
-  const hasContent = has(element, 'content')
+  const conspicuous = Object.hasOwn(element, 'conspicuous')
+  const hasComponent = Object.hasOwn(element, 'component')
+  const hasContent = Object.hasOwn(element, 'content')
   let returned = '<w:p>'
   returned += properties(element, number, options.indentMargins)
   returned += number ? makeRun(number, false) + TAB : ''
-  if (has(element, 'heading')) {
+  if (Object.hasOwn(element, 'heading')) {
     returned += makeRun({ caption: element.heading }, conspicuous)
     if (!/\.$/.test(element.heading)) {
       returned += makeRun('.', false)
@@ -100,7 +99,7 @@ module.exports = (element, options) => {
   return returned
 
   function childContent (element) {
-    const conspicuous = has(element, 'conspicuous')
+    const conspicuous = Object.hasOwn(element, 'conspicuous')
     return element.content
       .map(element => makeRun(element, conspicuous, options))
       .join('')

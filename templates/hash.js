@@ -1,6 +1,6 @@
-const paragraph = require('./paragraph')
+import paragraph from './paragraph.js'
 
-module.exports = (string, options) => {
+export default (string, options) => {
   return paragraph({
     title: true,
     alignment: options.leftAlignTitle ? 'left' : 'center',

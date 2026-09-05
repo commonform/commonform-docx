@@ -4,13 +4,11 @@
   "version": "10.1.2",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (http://kemitchell.com)",
   "bin": "bin.js",
+  "type": "module",
+  "main": "index.js",
   "files": [
-    "bin.js",
     "data/scaffold.json",
     "escape.js",
-    "index.js",
-    "LICENSE.md",
-    "README.md",
     "templates"
   ],
   "dependencies": {
