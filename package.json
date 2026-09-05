@@ -47,9 +47,11 @@
   "repository": "commonform/commonform-docx",
   "scripts": {
     "lint": "standard",
+    "precoverage": "npm run build",
     "coverage": "node --experimental-test-coverage --test test.js",
-    "prepublishOnly": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
-    "pretest": "npm run prepublishOnly",
+    "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
+    "prepublishOnly": "npm run build",
+    "pretest": "npm run build",
     "test": "tape test.js"
   }
 }
