@@ -28,7 +28,6 @@
     "resolutions-schedules-exhibits-numbering": "^2.0.0"
   },
   "devDependencies": {
-    "istanbul": "^0.4.0",
     "run-series": "^1.1.8",
     "standard": "^17.0.0",
     "tape": "^5.0.1",
@@ -48,8 +47,7 @@
   "repository": "commonform/commonform-docx",
   "scripts": {
     "lint": "standard",
-    "precoverage": "npm run pretest && istanbul cover -- tape test.js",
-    "coverage": "FORCE_COLOR=true istanbul check-coverage coverage/coverage.json",
+    "coverage": "node --experimental-test-coverage --test test.js",
     "prepublishOnly": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "pretest": "npm run prepublishOnly",
     "test": "tape test.js"
