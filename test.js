@@ -1,69 +1,70 @@
 import decimal from 'decimal-numbering'
 import docx from './index.js'
-import tape from 'tape'
+import test from 'node:test'
+import assert from 'node:assert'
 import textract from 'textract'
 import JSZip from 'jszip'
 
 let NO_BLANKS, NO_OPTIONS
 
-tape('renders text', test => {
+test('renders text', (t, done) => {
   render(
     { content: ['Hello!'] },
     NO_BLANKS,
     NO_OPTIONS,
     (error, buffer) => {
-      test.ifError(error, 'no render error')
+      assert.ifError(error, 'no render error')
       textOf(buffer, (error, text) => {
-        test.ifError(error, 'no textract error')
-        test.assert(
+        assert.ifError(error, 'no textract error')
+        assert(
           text.indexOf('Hello') > -1,
           'text appears in output'
         )
-        test.end()
+        done()
       })
     }
   )
 })
 
-tape('renders definitions', test => {
+test('renders definitions', (t, done) => {
   render(
     { content: [{ definition: 'Agreement' }] },
     NO_BLANKS,
     NO_OPTIONS,
     (error, buffer) => {
-      test.ifError(error, 'no render error')
+      assert.ifError(error, 'no render error')
       textOf(buffer, (error, text) => {
-        test.ifError(error, 'no textract error')
-        test.assert(
+        assert.ifError(error, 'no textract error')
+        assert(
           text.indexOf('Agreement') > -1,
           'defined term appears in output'
         )
-        test.end()
+        done()
       })
     }
   )
 })
 
-tape('renders uses', test => {
+test('renders uses', (t, done) => {
   render(
     { content: [{ use: 'Agreement' }] },
     NO_BLANKS,
     NO_OPTIONS,
     (error, buffer) => {
-      test.ifError(error, 'no render error')
+      assert.ifError(error, 'no render error')
       textOf(buffer, (error, text) => {
-        test.ifError(error, 'no textract error')
-        test.assert(
+        assert.ifError(error, 'no textract error')
+        assert(
           text.indexOf('Agreement') > -1,
           'term appears in output'
         )
-        test.end()
+        done()
       })
     }
   )
 })
 
-tape('renders references', test => {
+test('renders references', (t, done) => {
   const form = {
     content: [
       {
@@ -77,19 +78,19 @@ tape('renders references', test => {
     ]
   }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('(B)') > -1,
         'reference appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('handles components without headings', test => {
+test('handles components without headings', (t, done) => {
   const form = {
     content: [
       {
@@ -100,12 +101,12 @@ tape('handles components without headings', test => {
     ]
   }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
-    test.end()
+    assert.ifError(error, 'no render error')
+    done()
   })
 })
 
-tape('handles components with substitutions', test => {
+test('handles components with substitutions', (t, done) => {
   const form = {
     content: [
       {
@@ -120,12 +121,12 @@ tape('handles components with substitutions', test => {
     ]
   }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
-    test.end()
+    assert.ifError(error, 'no render error')
+    done()
   })
 })
 
-tape('omits period after heading ending w/ period', test => {
+test('omits period after heading ending w/ period', (t, done) => {
   const form = {
     content: [
       {
@@ -135,19 +136,19 @@ tape('omits period after heading ending w/ period', test => {
     ]
   }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('.. ') === -1,
         'double period does not appear in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('adds space between heading and defined term', test => {
+test('adds space between heading and defined term', (t, done) => {
   const form = {
     content: [
       {
@@ -161,19 +162,19 @@ tape('adds space between heading and defined term', test => {
     ]
   }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.includes('Heading. "Term"'),
         'space between heading and term'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('adds space between heading and text', test => {
+test('adds space between heading and text', (t, done) => {
   const form = {
     content: [
       {
@@ -183,18 +184,19 @@ tape('adds space between heading and text', test => {
     ]
   }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.includes('Heading. text'),
         'space between heading and text'
       )
-      test.end()
+      done()
     })
   })
 })
-tape('renders broken references', test => {
+
+test('renders broken references', (t, done) => {
   const form = {
     content: [
       {
@@ -204,148 +206,148 @@ tape('renders broken references', test => {
     ]
   }
   render(form, NO_BLANKS, NO_BLANKS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('Broken Cross') > -1,
         'reference appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('fills blanks', test => {
+test('fills blanks', (t, done) => {
   const form = { content: [{ blank: '' }] }
   const blanks = [{ blank: ['content', 0], value: 'Hello' }]
   render(form, blanks, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('Hello') > -1,
         'value appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('custom blank text', test => {
+test('custom blank text', (t, done) => {
   const form = { content: [{ blank: '' }] }
   const options = { blanks: 'XXX', numberStyle: decimal }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('XXX') > -1,
         'value appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('renders empty blank placeholders', test => {
+test('renders empty blank placeholders', (t, done) => {
   const form = { content: ['A ', { blank: '' }, ' B'] }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('[') > -1,
         'placeholder appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('renders custom empty blank placeholders', test => {
+test('renders custom empty blank placeholders', (t, done) => {
   const form = { content: ['A ', { blank: '' }, ' B'] }
   const options = { blanks: { text: '________' } }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('________') > -1,
         'placeholder appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('renders custom empty blank placeholders', test => {
+test('renders custom empty blank placeholders', (t, done) => {
   const form = { content: ['A ', { blank: '' }, ' B'] }
   const options = { blanks: '________' }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('________') > -1,
         'placeholder appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('renders conspicuous text', test => {
+test('renders conspicuous text', (t, done) => {
   const form = { conspicuous: 'yes', content: ['Hello'] }
   render(form, NO_BLANKS, NO_OPTIONS, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('Hello') > -1,
         'conspicuous text appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('renders titles', test => {
+test('renders titles', (t, done) => {
   const form = { content: ['Hello'] }
   const options = { numberStyle: decimal, title: 'The Title!' }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('The Title!') > -1,
         'title appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('renders centered titles by default', test => {
+test('renders centered titles by default', (t, done) => {
   const form = { content: ['Hello'] }
   const options = {
     numberStyle: decimal,
     title: 'The Title!'
   }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('The Title!') > -1,
         'title appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('accepts option for left-align title', test => {
+test('accepts option for left-align title', (t, done) => {
   const form = { content: ['Hello'] }
   const options = {
     numberStyle: decimal,
@@ -353,42 +355,42 @@ tape('accepts option for left-align title', test => {
     leftAlignTitle: true
   }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('The Title!') > -1,
         'title appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('accepts font and font size options', test => {
+test('accepts font and font size options', (t, done) => {
   const form = { content: ['Hello'] }
   const options = { font: 'Arial', fontSize: 18 }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     JSZip.loadAsync(buffer)
       .then(zip => {
         return zip.file('word/styles.xml').async('string')
       })
       .then(styles => {
-        test.assert(
+        assert(
           styles.indexOf(options.font) !== -1,
           'font appears in styles.xml'
         )
-        test.assert(
+        assert(
           styles.indexOf(`w:val="${options.fontSize * 2}"`) !== -1,
           'font size in half-points apopears in styles.xml'
         )
-        test.end()
+        done()
       })
   })
 })
 
-tape('renders versions', test => {
+test('renders versions', (t, done) => {
   const form = { content: ['Hello'] }
   const options = {
     numberStyle: decimal,
@@ -396,19 +398,19 @@ tape('renders versions', test => {
     version: '1.0.0'
   }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf('1.0.0') > -1,
         'version appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('renders hashes', test => {
+test('renders hashes', (t, done) => {
   const hash = (
     '5a5e1027b2e2ca0a97f97b3239484dae' +
     'f047e0fdd0f652067254227096207032'
@@ -420,27 +422,28 @@ tape('renders hashes', test => {
     hash: true
   }
   render(form, NO_BLANKS, options, (error, buffer) => {
-    test.ifError(error, 'no render error')
+    assert.ifError(error, 'no render error')
     textOf(buffer, (error, text) => {
-      test.ifError(error, 'no textract error')
-      test.assert(
+      assert.ifError(error, 'no textract error')
+      assert(
         text.indexOf(hash) > -1,
         'hash symbol appears in output'
       )
-      test.end()
+      done()
     })
   })
 })
 
-tape('throws for invalid content', test => {
+test('throws for invalid content', (t, done) => {
   const form = { content: [{ nonsense: 'here' }] }
-  test.throws(
+  assert.throws(
     () => {
       docx(form, [], { numberStyle: decimal })
     },
     /Invalid type/,
-    'throw an error')
-  test.end()
+    'throw an error'
+  )
+  done()
 })
 
 function textOf (buffer, callback) {

@@ -46,10 +46,10 @@
   "repository": "commonform/commonform-docx",
   "scripts": {
     "precoverage": "npm run build",
-    "coverage": "node --experimental-test-coverage --test test.js",
+    "coverage": "node --experimental-test-coverage --test --test-concurrency=1 test.js",
     "build": "node build/scaffold.js data/scaffold.docx > data/scaffold.json",
     "prepublishOnly": "npm run build",
     "pretest": "npm run build",
-    "test": "tape test.js"
+    "test": "node --test --test-concurrency=1 test.js"
   }
 }
