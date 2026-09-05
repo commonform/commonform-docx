@@ -19,7 +19,6 @@
     "commonform-prepare-blanks": "^2.0.0",
     "commonform-smartify": "^2.0.0",
     "decimal-numbering": "^4.0.0",
-    "has": "^1.0.3",
     "jszip": "^3.2.1",
     "number-to-words-en": "^1.2.5",
     "ooxml-signature-pages": "^3.0.2",
