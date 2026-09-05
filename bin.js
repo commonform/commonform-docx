@@ -2,7 +2,15 @@
 import meta from './package.json' with { type: 'json' }
 import { docopt } from '@kemitchell/docopt'
 import { readFileSync } from 'fs'
+import ooxmlSignaturePages from 'ooxml-signature-pages'
 import { resolve } from 'path'
+import docx from './index.js'
+
+import rse from 'resolutions-schedules-exhibits-numbering',
+import ase from 'agreement-schedules-exhibits-numbering',
+import pae from 'plan-addenda-exhibits-numbering',
+import decimal from 'decimal-numbering',
+import outline from 'outline-numbering'
 
 // Parse arguments and options.
 
@@ -53,11 +61,11 @@ if (parsed['--title']) options.title = parsed['--title']
 if (parsed['--number']) {
   const numberStyle = parsed['--number']
   const supportedNumberingStyles = {
-    rse: 'resolutions-schedules-exhibits-numbering',
-    ase: 'agreement-schedules-exhibits-numbering',
-    pae: 'plan-addenda-exhibits-numbering',
-    decimal: 'decimal-numbering',
-    outline: 'outline-numbering'
+    rse,
+    ase,
+    pae,
+    decimal,
+    outline,
   }
   if (!Object.hasOwn(supportedNumberingStyles, numberStyle)) {
     process.stderr.write([
@@ -69,14 +77,14 @@ if (parsed['--number']) {
     ].join('\n') + '\n')
     process.exit(1)
   } else {
-    options.numberStyle = require(supportedNumberingStyles[numberStyle])
+    options.numberStyle = supportedNumberingStyles[numberStyle]
   }
 } else {
-  options.numberStyle = require('decimal-numbering')
+  options.numberStyle = decimal
 }
 
 if (parsed['--signatures']) {
-  options.after = require('ooxml-signature-pages')(
+  options.after = ooxmlSignaturePages(
     JSON.parse(readFileSync(parsed['--signatures']))
   )
 }
@@ -119,6 +127,6 @@ function readJSON (file) {
 }
 
 // Render and print.
-const rendered = require('./')(form, blanks, options)
+const rendered = docs(form, blanks, options)
 
 rendered.generateNodeStream().pipe(process.stdout)
