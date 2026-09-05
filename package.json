@@ -17,7 +17,7 @@
     "commonform-flatten": "^3.0.0",
     "commonform-hash": "^2.0.0",
     "commonform-prepare-blanks": "^2.0.0",
-    "commonform-smartify": "^1.0.1",
+    "commonform-smartify": "^2.0.0",
     "decimal-numbering": "^4.0.0",
     "has": "^1.0.3",
     "jszip": "^3.2.1",
