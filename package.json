@@ -14,7 +14,7 @@
   "dependencies": {
     "@kemitchell/docopt": "^1.0.0",
     "agreement-schedules-exhibits-numbering": "^3.0.0",
-    "commonform-flatten": "^3.0.0",
+    "commonform-flatten": "^4.0.0",
     "commonform-hash": "^2.0.0",
     "commonform-prepare-blanks": "^2.0.0",
     "commonform-smartify": "^2.0.0",
