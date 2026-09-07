@@ -22,7 +22,7 @@
     "jszip": "^3.2.1",
     "number-to-words-en": "^1.2.5",
     "ooxml-signature-pages": "^4.0.0",
-    "outline-numbering": "^3.0.0",
+    "outline-numbering": "^4.0.1",
     "plan-addenda-exhibits-numbering": "^3.0.0",
     "resolutions-schedules-exhibits-numbering": "^2.0.0"
   },
