@@ -30,6 +30,7 @@ export default (form, values = [], options = {}) => {
   let {
     a4 = false,
     after = '',
+    before = '',
     blanks = { text: '[•]', highlight: 'yellow' },
     hash = false,
     incorporateComponentText = 'Incorporate',
@@ -64,6 +65,7 @@ export default (form, values = [], options = {}) => {
     {
       a4,
       after,
+      before,
       blanks,
       hash,
       incorporateComponentText,

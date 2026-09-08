@@ -434,6 +434,44 @@ test('renders hashes', (t, done) => {
   })
 })
 
+test('includes before', (t, done) => {
+  const form = { content: ['test'] }
+  const magic = 'cumquat'
+  const options = {
+    before: `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:t>${magic}</w:t></w:r></w:p>`
+  }
+  render(form, NO_BLANKS, options, (error, buffer) => {
+    assert.ifError(error, 'no render error')
+    textOf(buffer, (error, text) => {
+      assert.ifError(error, 'no textract error')
+      assert(
+        text.indexOf(magic) > -1,
+        'text output contains before text'
+      )
+      done()
+    })
+  })
+})
+
+test('includes after', (t, done) => {
+  const form = { content: ['test'] }
+  const magic = 'persimmon'
+  const options = {
+    after: `<w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:t>${magic}</w:t></w:r></w:p>`
+  }
+  render(form, NO_BLANKS, options, (error, buffer) => {
+    assert.ifError(error, 'no render error')
+    textOf(buffer, (error, text) => {
+      assert.ifError(error, 'no textract error')
+      assert(
+        text.indexOf(magic) > -1,
+        'text output contains after text'
+      )
+      done()
+    })
+  })
+})
+
 test('throws for invalid content', (t, done) => {
   const form = { content: [{ nonsense: 'here' }] }
   assert.throws(

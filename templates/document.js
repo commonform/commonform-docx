@@ -56,11 +56,12 @@ export default (form, values, options) => {
       return paragraph(element, options)
     })
     .join('')
-  const { title, version, hash, after, a4 } = options
+  const { title, version, hash, before, after, a4 } = options
   const xml = (
     '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
     '<w:document ' + DOCUMENT_XMLNS + '>' +
       '<w:body>' +
+        before +
         (title ? titleRun(title, options) : '') +
         (version ? titleRun(version, options) : '') +
         (hash ? hashRun(hash, options) : '') +
