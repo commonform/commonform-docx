@@ -14,7 +14,7 @@ const alignments = {
   distribute: 'distribute'
 }
 
-function properties (o, number, indentMargins) {
+function properties (o, number, indentMargins, keepNext = false) {
   if (o.title) {
     // Titles don't have margins or indentation.
     return tag('w:pPr', `<w:jc w:val="${alignments[o.alignment]}" />`)
@@ -24,6 +24,7 @@ function properties (o, number, indentMargins) {
     : o.depth + 1
   // CAVEAT: The order of properties is important.
   return tag('w:pPr',
+    (keepNext ? '<w:keepNext/>' : '') +
     '<w:ind' +
     (
       indentMargins
@@ -49,28 +50,34 @@ export default (element, options) => {
   if (!Object.hasOwn(element, 'alignment')) {
     element.alignment = options.styles.alignment || 'justify'
   }
-  const number = Object.hasOwn(element, 'numbering')
+  const hasNumbering = Object.hasOwn(element, 'numbering')
+  const number = hasNumbering
     ? options.numberStyle(element.numbering, true)
     : ''
   const conspicuous = Object.hasOwn(element, 'conspicuous')
   const hasComponent = Object.hasOwn(element, 'component')
-  const hasContent = Object.hasOwn(element, 'content')
+  const hasContentArray = Object.hasOwn(element, 'content')
   let returned = '<w:p>'
-  returned += properties(element, number, options.indentMargins)
+  // If a flattened paragraph has a numbering and an empty content array,
+  // it is the start of a form whose first content element is a sub-form.
+  // It may or may not have a heading.  Either way, mark it
+  // keep-with-next so the page doesn't break immediately after it.
+  const keepNext = hasNumbering && hasContentArray && element.content.length === 0
+  returned += properties(element, number, options.indentMargins, keepNext)
   returned += number ? makeRun(number, false) + TAB : ''
   if (Object.hasOwn(element, 'heading')) {
     returned += makeRun({ caption: element.heading }, conspicuous)
     if (!/\.$/.test(element.heading)) {
       returned += makeRun('.', false)
     }
-    if ((hasComponent && !hasContent) || element.content.length === 0) {
+    if ((hasComponent && !hasContentArray) || element.content.length === 0) {
       // pass
     } else {
       returned += makeRun(' ', false)
     }
   }
   if (hasComponent) {
-    if (hasContent) {
+    if (hasContentArray) {
       const style = options.loadedComponentStyle
       if (style === 'both') {
         returned += componentReference(element.reference, element.component)
