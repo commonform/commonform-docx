@@ -5,11 +5,12 @@ import { readFileSync } from 'fs'
 import ooxmlSignaturePages from 'ooxml-signature-pages'
 import { resolve } from 'path'
 import docx from './index.js'
+import prepareBlanks from 'commonform-prepare-blanks'
 
-import rse from 'resolutions-schedules-exhibits-numbering',
-import ase from 'agreement-schedules-exhibits-numbering',
-import pae from 'plan-addenda-exhibits-numbering',
-import decimal from 'decimal-numbering',
+import rse from 'resolutions-schedules-exhibits-numbering'
+import ase from 'agreement-schedules-exhibits-numbering'
+import pae from 'plan-addenda-exhibits-numbering'
+import decimal from 'decimal-numbering'
 import outline from 'outline-numbering'
 
 // Parse arguments and options.
@@ -52,7 +53,7 @@ const form = readJSON(parsed['<FILE>'])
 
 const values = parsed['--values'] ? readJSON(parsed['--values']) : {}
 const directions = parsed['--directions'] ? readJSON(parsed['--directions']) : []
-const blanks = require('commonform-prepare-blanks')(values, directions)
+const blanks = prepareBlanks(values, directions)
 
 const options = {}
 
@@ -127,6 +128,6 @@ function readJSON (file) {
 }
 
 // Render and print.
-const rendered = docs(form, blanks, options)
+const rendered = docx(form, blanks, options)
 
 rendered.generateNodeStream().pipe(process.stdout)
